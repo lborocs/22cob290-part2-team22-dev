@@ -1,0 +1,59 @@
+html{
+    font-size: calc(15px + 0.390625vw);
+}
+.login-container{
+   margin-top: 10vh;
+   min-height: 100vh;
+   height: 100vh;
+
+}
+.form-jumbo{
+    margin: auto;
+    padding:1.5% 2% 1.5% 2% !important;
+    width:calc(200px + 10vw) !important;
+    border-radius: 5vw !important;
+    border-style: solid !important;
+    border-color: darkgray !important;
+    border-width:1.5px !important;
+    
+}
+
+p{
+    font-size: calc(15px + 0.1vw) !important;
+}
+
+.register-jumbo{
+    margin: auto;
+    width:calc(200px + 10vw) !important;
+    padding: 0.5vw 2vw 0.5vw 2vw !important;
+    height:6vh !important;
+    background-color: white !important;
+    border-radius: 5vw !important;
+    border-style: solid !important;
+    border-color: black !important;
+    border-width:1.5px !important;
+}
+.btn-success{
+    width: 100% !important;
+    border-radius: 20px !important;
+}
+
+.form-control{
+    border-radius: 20px !important;
+}
+
+
+
+.center{
+    display: block;
+    text-align: center;
+}
+
+.group{
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+
+
