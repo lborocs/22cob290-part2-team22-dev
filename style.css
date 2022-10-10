@@ -41,6 +41,11 @@ p{
     border-radius: 20px !important;
 }
 
+.btn-primary{
+    width: 100% !important;
+    border-radius: 20px !important;
+}
+
 .form-control{
     border-radius: 20px !important;
 }
