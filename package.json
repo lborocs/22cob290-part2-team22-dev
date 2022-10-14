@@ -1,0 +1,27 @@
+{
+  "name": "team-project-lboro-2022-23",
+  "version": "1.0.0",
+  "description": "Repo for team project",
+  "main": "form.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kodoh/Team-Project-Lboro-2022-23.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kodoh/Team-Project-Lboro-2022-23/issues"
+  },
+  "homepage": "https://github.com/Kodoh/Team-Project-Lboro-2022-23#readme",
+  "dependencies": {
+    "D": "^1.0.0",
+    "jest": "^29.2.0"
+  },
+  "devDependencies": {
+    "jest-environment-jsdom": "^29.2.0"
+  }
+}
