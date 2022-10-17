@@ -37,12 +37,62 @@
     <div class="jumbotron register-jumbo">
       <div class="group">
         <p>Got an auth code?</p>
-        <a href="http://">Register here</a>
+        <button id = 'authCodeButton' type="button" data-toggle="modal" data-target="#exampleModal"><a>Register here</a></button>
       </div>
 
     </div>
-</div>
-</div>
     
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Auth Code Validation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <form id = "AuthForm">
+          <div id="error-group" class="form-group"></div>
+          <label class="Auth" for="AuthInput">Enter Auth Code -</label>
+          <input type="text" class="form-control" id="AuthInput">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Confirm</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+          $("#AuthForm").submit(function (event) {
+            var AuthCode = $("#AuthInput").val();
+            $(".form-group").removeClass("has-error");
+            $(".help-block").remove();
+            if (AuthCode === 'ABCDEF') {
+              location.href = 'register.html';
+            }
+
+            else {
+              if (AuthCode.length == 0) {
+                $("#error-group").addClass("has-error");
+                $("#error-group").append(
+                  '<div class="help-block">Enter an AuthCode</div>'
+          )}
+              else if (AuthCode !== 'ABCDEF') {
+                $("#error-group").addClass("has-error");
+                $("#error-group").append(
+                  '<div class="help-block">invalid Auth Code</div>'
+                );
+              } 
+            }
+            event.preventDefault(); 
+        });
+      });
+      </script>
+</div>
+</div>    
 </body>
 </html>
