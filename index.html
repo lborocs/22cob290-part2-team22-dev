@@ -53,7 +53,8 @@
             </button>
           </div>
           <div class="modal-body">
-          <form action="authCheck.php" method="post">
+          <form id = "AuthForm">
+          <div id="error-group" class="form-group"></div>
           <label class="Auth" for="AuthInput">Enter Auth Code -</label>
           <input type="text" class="form-control" id="AuthInput">
           </div>
@@ -64,8 +65,34 @@
         </div>
       </div>
     </div>
+    <script>
+      $(document).ready(function () {
+          $("#AuthForm").submit(function (event) {
+            var AuthCode = $("#AuthInput").val();
+            $(".form-group").removeClass("has-error");
+            $(".help-block").remove();
+            if (AuthCode === 'ABCDEF') {
+              location.href = 'register.html';
+            }
+
+            else {
+              if (AuthCode.length == 0) {
+                $("#error-group").addClass("has-error");
+                $("#error-group").append(
+                  '<div class="help-block">Enter an AuthCode</div>'
+          )}
+              else if (AuthCode !== 'ABCDEF') {
+                $("#error-group").addClass("has-error");
+                $("#error-group").append(
+                  '<div class="help-block">invalid Auth Code</div>'
+                );
+              } 
+            }
+            event.preventDefault(); 
+        });
+      });
+      </script>
 </div>
-</div>
-    
+</div>    
 </body>
 </html>
