@@ -1,6 +1,7 @@
 
 html{
     font-size: calc(15px + 0.390625vw);
+    overflow: hidden;
 }
 .login-container{
    margin-top: 10vh;
@@ -68,3 +69,91 @@ p{
     margin-bottom: 20px;
 }
 
+.text-dark{
+    font-weight: 600 !important;
+}
+
+.nav-link.selected{
+    background-color: #F5F5F5 !important;
+    border-radius:5px;
+    border:0;
+}
+.btn-alert{
+    color:red !important;
+    border-style:solid !important;
+    border-width: 1px !important;
+    font-weight: 600 !important;
+}
+.full-height{
+    text-align: center;
+    height: 80vh !important;
+    background-color: lightgrey;
+    border-radius: 8px;
+    margin:5vh 2vw 2vh 2vw;
+    width:20vw !important;
+    
+}
+.navbar{
+    margin-bottom: 2vh;
+}
+
+.bd-footer{
+    height:10vh !important;
+}
+
+
+.offcanvas{
+    width:20vw !important;
+}
+
+.entryBox{
+    background-color:white;
+    height:10%;
+    border-radius: 4px;
+    padding: 0;
+}
+
+.avatar {
+    /* Rounded border */
+    border-radius: 50%;
+
+    /* Center the content */
+    display: flex;
+    align-content: center;
+
+    /* Size */
+    height: 2vh;
+    aspect-ratio: 1;
+    margin:0 3vw 0 1vw !important;
+}
+
+.avatar__image {
+    /* Size */
+    height: 50%;
+    width: 50%;
+}
+
+.entryFooter{
+  display: flex;
+  align-items:flex-end ;
+  justify-content: space-between;
+ 
+  
+
+}
+
+.entryTitle{
+    font-size: large;
+    font-weight: 600;
+}
+
+.subjectText{
+   width:50%;
+   background-color: lightblue !important;
+    font-size: small !important;
+    padding: 0 !important;
+    margin-top: 2vh;
+    margin-left: 1vw;
+    
+    
+}
