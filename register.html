@@ -16,7 +16,7 @@
     <h3 class="center title">Register as User</h3>
     <div class="jumbotron form-jumbo">
       <div id = 'banner'></div>
-        <form name = 'Register-Form' onsubmit="return validateForm()" action = '' id = "form2" method = 'POST'>
+        <form name = 'Register-Form' onsubmit="return validateForm()" action = 'registerNewUserProcess.php' id = "form2" method = 'POST'>
             <div class="form-group">
               <label for="emailInput">Email Address</label>
               <input type="email" class="form-control" id="emailInput" name = "emailInput"  placeholder="youremail@make-it-all.com">
@@ -27,7 +27,7 @@
               <label class="pass" for="passInp">Password</label>
             </div>
               
-              <input type="password" class="form-control" id="passwordInput">
+              <input type="password" class="form-control" id="passwordInput" name = "passwordInput">
             
               <br>
               <span id="StrengthDisp" class="badge displayBadge"></span>
