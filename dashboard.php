@@ -36,9 +36,9 @@
 
 
     <!--Footer-->
-    <footer class="bd-footer text-muted bg-light">
+    <footer class="navbar fixed-bottom text-muted bg-light">
 
-        <p style="text-align:center;">Designed by <b>Team 22</b>.</p>
+        <p style="text-align:center; margin: 0 auto; padding: 10px;">Designed by <b>Team 22</b>.</p>
     </footer>
     <!--Footer-->
 
