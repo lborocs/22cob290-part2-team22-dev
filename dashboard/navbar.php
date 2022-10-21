@@ -45,7 +45,7 @@
                         <a id="dashboardlink" class="nav-link text-dark" href="/dashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item" style="text-align:center;">
-                        <a id="projectlink" class="nav-link text-dark" href="/projects.php">Projects</a>
+                        <a id="projectlink" class="nav-link text-dark" href="../productivity/projects.php">Projects</a>
                     </li>
                     <li class="nav-item " style="text-align:center;">
                         <a id="knowledgelink" class="nav-link text-dark" href="/knowledge.php">Knowledge Forum</a>
