@@ -18,7 +18,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../style.css">
 
 
 <nav class="navbar navbar-dark" style="background-color: #FFB800;">

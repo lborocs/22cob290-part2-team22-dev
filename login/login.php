@@ -3,7 +3,7 @@ $emailInput = $_POST['emailInput'];
 $passwordInput = $_POST['passwordInput'];
 
 //Open Users text file and initialise users array
-$file = fopen("users.txt", "r") or die("Unable to find file!");
+$file = fopen("../users.txt", "r") or die("Unable to find file!");
 $users_array = array();
 //////////////////////////////////////////////////
 
