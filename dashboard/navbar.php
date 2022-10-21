@@ -1,25 +1,8 @@
-<script>
-    function toggleClicked() {
-        var canSee = $("#offcanvasNavbar").is(":visible");
-        if (canSee) {
-            const cont = document.getElementById('adjustablecontainer');
-            cont.style.setProperty('width', 'calc(100vw - 20vw)');
-            cont.style.margin = "0";
-        }
-    }
-
-    function navShut() {
-        const cont = document.getElementById('adjustablecontainer');
-        cont.style.width = "100%";
-        cont.style.margin = "0";
-    }
-</script>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" href="../style.css">
-
+<script src = 'navbar.js'></script>
 
 <nav class="navbar navbar-dark" style="background-color: #FFB800;">
     <div class="container-fluid">
