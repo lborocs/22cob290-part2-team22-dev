@@ -1,24 +1,8 @@
-<script>
-    function changeSelected(name) {
-        if (name == "dashboard") {
-            document.getElementById("dashboardlink").classList.add('selected');
-            document.getElementById("projectlink").classList.remove('selected');
-            document.getElementById("knowledgelink").classList.remove('selected');
-        } else if (name == "project") {
-            document.getElementById("projectlink").classList.add('selected');
-            document.getElementById("dashboardlink").classList.remove('selected');
-            document.getElementById("knowledgelink").classList.remove('selected');
-        } else {
-            document.getElementById("knowledgelink").classList.add('selected');
-            document.getElementById("projectlink").classList.remove('selected');
-            document.getElementById("knowledgelink").classList.remove('selected');
-        }
-    }
-</script>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <script src="projects.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +10,7 @@
 </head>
 
 <body>
-    <?php include("navbar.php"); ?>
+    <?php include("../dashboard/navbar.php"); ?>
     <div onclick="navShut()" id="adjustablecontainer" class="container-fluid">
         <div class="row">
 
