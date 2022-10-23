@@ -10,6 +10,8 @@
             Make-It-All
         </a>
 
+        <button type="button" class="btn btn-primary btn-sm">Add Task</button>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" onclick="toggleClicked()">
             <span class="navbar-toggler-icon"></span>
         </button>

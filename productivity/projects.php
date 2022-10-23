@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <?php include("../dashboard/navbar.php"); ?>
+    <?php include("productivitynavbar.php"); ?>
     <div onclick="navShut()" id="adjustablecontainer" class="container-fluid">
         <div class="row">
 
