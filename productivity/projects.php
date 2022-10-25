@@ -27,8 +27,7 @@
                     type:"POST",
                     data: {taskName: taskName, taskStatus: taskStatus, linkedEpic: linkedEpic, assignee:assignee},
                     success: function(){
-                        window.alert("Task Added");
-                        $('#addTaskModal').modal('hide');
+                        location.reload();
                     },
                     error: function(e){
                         window.alert("Error Occurred! Please refer to console.");
@@ -55,14 +54,14 @@
                     <form id="addTaskForm">
                         <div class="form-group">
                             <label for="taskName">Input Task Name:</label>
-                            <input type="text" class="form-control" id="taskName" name="taskName">
+                            <input type="text" class="form-control" id="taskName" name="taskName" required>
                         </div>
                         <label for="taskStatus">Current Task Status:</label>
-                        <select multiple class="form-control" name="taskStatus" id="taskStatus">
-                            <option value="toDo">To Do</option>
-                            <option value="selected4Dev">Selected for Development</option>
-                            <option value="inProgress">In Progress</option>
-                            <option value="done">Done</option>
+                        <select multiple class="form-control" name="taskStatus" id="taskStatus" required>
+                            <option value="0">To Do</option>
+                            <option value="1">Selected for Development</option>
+                            <option value="2">In Progress</option>
+                            <option value="3">Done</option>
                         </select>
                         <br>
                         <div class="form-group">
@@ -132,6 +131,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <!--Bootstrap-->
+    
+    <?php include("generateTaskCards.php");?>
 
     <script type="text/javascript">
         changeSelected("project");
@@ -141,6 +142,37 @@
         myOffcanvas.addEventListener('hidden.bs.offcanvas', function() {
             navShut()
         })
+
+        $.ajax({
+            url:"retrieveTaskCards.php",
+            success: function(responseData){
+                let temp = JSON.parse(responseData);
+                for(let i = 0; i < temp.length; i++){
+                    let taskName = temp[i][0];
+                    let taskStatus = parseInt(temp[i][1]);
+                    let linkedEpic = temp[i][2];
+                    let assignee = temp[i][3];
+
+                    switch (taskStatus){
+                        case 0:
+                            document.getElementById("todo").innerHTML += "<div class=\"todoEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+linkedEpic+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
+                            break;
+                        case 1:
+                            document.getElementById("development").innerHTML += "<div class=\"developementEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+linkedEpic+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
+                            break;
+                        case 2:
+                            document.getElementById("progress").innerHTML += "<div class=\"progressEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+linkedEpic+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
+                            break;
+                        case 3:
+                            document.getElementById("done").innerHTML += "<div class=\"doneEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+linkedEpic+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
+                            break;
+                    }
+                }
+            },
+            error: function(e){
+                console.log(e.message);
+            }
+        });
     </script>
 </body>
 
