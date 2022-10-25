@@ -23,8 +23,8 @@ for ($i = 0; $i < count($users_array); $i++){
 
     //If yes, redirect to dashboard
     if(password_verify($passwordInput, $password) and $emailInput === $email){
-        echo "<script>window.alert(\"Correct Credentials\")</script>";
-        header("Location: /dashboard.php");
+        //echo "<script>window.alert(\"Correct Credentials\")</script>";
+        header("Location: ../dashboard/navbar.php");
         die();
     }
     ///////////////////////////////
@@ -32,8 +32,8 @@ for ($i = 0; $i < count($users_array); $i++){
 /////////////////////////////////////////////////////////////////
 
 //If no matching user, redirect to sign in page
-echo "<script>window.alert(\"Incorrect Credentials\")</script>";
-header("Location: /index.html");
+//echo "<script>window.alert(\"Incorrect Credentials\")</script>";
+header("Location: ../login/index.html");
 die(); 
 ///////////////////////////////////////////////
 ?>
