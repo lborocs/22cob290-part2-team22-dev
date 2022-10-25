@@ -4,8 +4,7 @@
     <title>Dashboard</title>
 </head>
 <body>
-   
-    <script src = 'dashboard.js'></script>
+     
     
     
 
