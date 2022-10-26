@@ -1,10 +1,18 @@
 <?php
-    $taskName = $_POST["taskName"];
-    $taskStatus = $_POST["taskStatus"];
-    $linkedEpic = $_POST["linkedEpic"];
-    $assignee = $_POST["assignee"];
+    $add = fileWriteAppend();
+    file_put_contents('testProject.json', $add);
 
-    $file = fopen("testProject.txt", "a") or die("Unable to find file!");
-    fwrite($file, $taskName."\n".$taskStatus."\n".$linkedEpic."\n".$assignee."\n");
-    fclose($file);
+
+    function fileWriteAppend(){
+        $taskName = $_POST["taskName"];
+        $taskStatus = $_POST["taskStatus"];
+        $linkedEpic = $_POST["linkedEpic"];
+        $assignee = $_POST["assignee"];
+		$current_data = file_get_contents('testProject.json');
+		$array_data = json_decode($current_data, true);
+        $new = array('taskName' => $taskName, 'taskStatus' => $taskStatus, 'linkedEpic' => $linkedEpic, 'assignee' => $assignee);
+		$array_data[] = $new;
+		$final_data = json_encode($array_data);
+		return $final_data;
+}
 ?>

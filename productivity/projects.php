@@ -80,7 +80,7 @@
             </div>
         </div>
     </div>
-    
+
     <div onclick="navShut()" id="adjustablecontainer" class="container-fluid">
         <div class="row">
             <div id="options" class="col full-height">
@@ -165,11 +165,10 @@
             success: function(responseData){
                 let temp = JSON.parse(responseData);
                 for(let i = 0; i < temp.length; i++){
-                    let taskName = temp[i][0];
-                    let taskStatus = parseInt(temp[i][1]);
-                    let linkedEpic = temp[i][2];
-                    let assignee = temp[i][3];
-
+                    let taskName = temp[i].taskName;
+                    let taskStatus = parseInt(temp[i].taskStatus);
+                    let linkedEpic = temp[i].linkedEpic;
+                    let assignee = temp[i].assignee;
                     switch (taskStatus){
                         case 0:
                             document.getElementById("todo").innerHTML += "<div class=\"todoEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+linkedEpic+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
