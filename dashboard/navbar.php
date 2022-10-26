@@ -16,14 +16,14 @@
 <body>
 <nav class="navbar navbar-dark" style="background-color: #FFB800;">
     <div class="container-fluid">
-        <a href="../dashboard/dashboard.php" class="navbar-brand">
+        <a href="../dashboard/navbar.php" class="navbar-brand">
             Make-It-All
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"  aria-controls="offcanvasNavbar" onclick="toggleClicked()">
             <span class="navbar-toggler-icon"></span>
         </button>
-
+    </div>
         <!-- Offcanvas Navbar-->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel"  data-bs-scroll="true" data-bs-backdrop="false" >
             <div class="offcanvas-header" style="background-color: #FFB800; height:3.5rem;">
