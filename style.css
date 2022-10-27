@@ -73,15 +73,18 @@ p{
 .text-dark{
     font-weight: 600 !important;
 }
-
-.nav-link.selected{
-    background-color: #F5F5F5 !important;
+.nav-link{
+    margin-bottom: 1vh;
     border-radius:5px;
     border:0;
 }
+.nav-link.selected{
+    background-color: 	#DCDCDC !important;
+    
+}
 
 .nav-link:hover{
-    background-color: #F6F6F6 !important;
+    background-color: 	#DCDCDC !important;
     cursor: pointer;
 }
 .btn-alert{
