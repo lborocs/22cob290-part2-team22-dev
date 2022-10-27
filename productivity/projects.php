@@ -37,6 +37,25 @@
                     }
                 });
             });
+            $("#filterTaskForm").submit(function(event){
+                let memberName = $("#memberName option:selected").val();;
+                var developmentDivs = document.getElementsByClassName("developementEntry");
+                var progressDivs = document.getElementsByClassName("progressEntry");
+                var doneDivs  = document.getElementsByClassName("doneEntry");
+                var todoDivs = document.getElementsByClassName('todoEntry');
+                var divs = [todoDivs,developmentDivs,progressDivs,doneDivs];
+                for(var j = 0; j<4;j++) {
+                    for(var i = 0; i < divs[j].length; i++){
+                        divs[j][i].style.display = 'block'; 
+                        if ((divs[j][i].getElementsByTagName('button')[0].innerHTML != memberName)) {
+                            if (memberName != 'None') {
+                                divs[j][i].style.display = 'None'; 
+                            }
+                        }
+                    }
+                }
+                $("#filterTaskModal").modal('hide');
+            });
         });
     </script>
 </head>
@@ -81,6 +100,29 @@
         </div>
     </div>
 
+
+    <div class="modal" id="filterTaskModal" tabindex="-1" role="dialog" aria-labelledby="filterTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterTaskModalLabel">Add a Task</h5>
+                </div>
+
+                <div class="modal-body" onsubmit="return false">
+                    <form id="filterTaskForm">
+                        <div class="form-group">
+                            <label for="memberName">Team member to filter by:</label>
+                            <select multiple class="form-control" name="memberName" id="memberName" required>
+                                <option value = "None">None</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div onclick="navShut()" id="adjustablecontainer" class="container-fluid">
         <div class="row">
             <div id="options" class="col full-height">
@@ -89,6 +131,9 @@
                 <div>
                     <button id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTaskModal" aria-controls="addTaskModal">Add Task</button>
                 </div>
+                <div>
+                    <button style="margin-top:27px;" id='filterTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#filterTaskModal" aria-controls="filterTaskModal">Filter Tasks</button>
+                </div>  
             </div>
             <div id="todo" class="col full-height">TO-DO
 
@@ -151,45 +196,50 @@
     
     <?php include("generateTaskCards.php");?>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         changeSelected("project");
-    </script>
+    </script> -->
     <script>
         var myOffcanvas = document.getElementById('offcanvasNavbar')
         myOffcanvas.addEventListener('hidden.bs.offcanvas', function() {
             navShut()
         })
-
         $.ajax({
             url:"retrieveTaskCards.php",
             success: function(responseData){
                 let temp = JSON.parse(responseData);
+                names = []
                 for(let i = 0; i < temp.length; i++){
                     let taskName = temp[i].taskName;
                     let taskStatus = parseInt(temp[i].taskStatus);
                     let linkedEpic = temp[i].linkedEpic;
                     let assignee = temp[i].assignee;
+                    if (names.includes(assignee) == false) {
+                        document.getElementById("memberName").innerHTML += '<option value='+assignee+'>'+assignee+'</option>';
+                        names.push(assignee);
+                    }
                     switch (taskStatus){
                         case 0:
-                            document.getElementById("todo").innerHTML += "<div class=\"todoEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+linkedEpic+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
+                            document.getElementById("todo").innerHTML += "<div class=\"todoEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
                             break;
                         case 1:
-                            document.getElementById("development").innerHTML += "<div class=\"developementEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+linkedEpic+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
+                            document.getElementById("development").innerHTML += "<div class=\"developementEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
                             break;
                         case 2:
-                            document.getElementById("progress").innerHTML += "<div class=\"progressEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+linkedEpic+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
+                            document.getElementById("progress").innerHTML += "<div class=\"progressEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
                             break;
                         case 3:
-                            document.getElementById("done").innerHTML += "<div class=\"doneEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+linkedEpic+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
+                            document.getElementById("done").innerHTML += "<div class=\"doneEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
                             break;
                     }
                 }
+
             },
             error: function(e){
                 console.log(e.message);
             }
         });
-    </script>
+</script>
 </body>
 
 </html>
