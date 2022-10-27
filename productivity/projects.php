@@ -43,8 +43,6 @@
 
 <body>
 
-    <?php include("productivitynavbar.php");?>
-
     <div class="modal" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="addTaskModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
