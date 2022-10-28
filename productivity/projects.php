@@ -9,15 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Document</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../style.css">
+    
 
     <script>
         $(document).ready(function(){
             $("#addTaskForm").submit(function(event){
-                event.preventDefault();
+                
 
                 let taskName = $("#taskName").val();
                 let taskStatus = $("#taskStatus option:selected").val();
@@ -25,23 +23,29 @@
                 let assignee = $("#assignee").val();
 
                 $.ajax({
-                    url:"processAddTaskForm.php",
+                    url:"../productivity/processAddTaskForm.php",
                     type:"POST",
                     data: {taskName: taskName, taskStatus: taskStatus, linkedEpic: linkedEpic, assignee:assignee},
                     success: function(){
-                        location.reload();
+                        $('#addTaskModal').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                        navclick("../productivity/projects.php");
                     },
                     error: function(e){
                         window.alert("Error Occurred! Please refer to console.");
                         console.log(e.message);
                     }
                 });
+                event.preventDefault();
             });
         });
     </script>
 </head>
 
 <body>
+
+    
 
     <div class="modal" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="addTaskModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -134,10 +138,7 @@
 
     
     <!--Footer-->
-    <footer class="navbar fixed-bottom text-muted bg-light">
-
-        <p style="text-align:center; margin: 0 auto; padding: 10px;">Designed by <b>Team 22</b>.</p>
-    </footer>
+   
     <!--Footer-->
 
     <!--Bootstrap-->
@@ -159,7 +160,7 @@
         })
 
         $.ajax({
-            url:"retrieveTaskCards.php",
+            url:"../productivity/retrieveTaskCards.php",
             success: function(responseData){
                 let temp = JSON.parse(responseData);
                 for(let i = 0; i < temp.length; i++){
@@ -186,7 +187,9 @@
             error: function(e){
                 console.log(e.message);
             }
+            
         });
+        
     </script>
 </body>
 
