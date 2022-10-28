@@ -1,4 +1,5 @@
 <?php
+session_start();
 $authCodeInput = $_POST['AuthCode'];
 
 //Open AuthCodes text file and initialise array
@@ -26,6 +27,7 @@ for ($i = 0; $i < count($authCode_array); $i++){
             fwrite($file, $temp."\n");
         }
         fclose($file);
+        $_SESSION['authcode'] = $authCode;
         echo "true";
         die();
     }

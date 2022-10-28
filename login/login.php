@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $emailInput = $_POST['emailInput'];
 $passwordInput = $_POST['passwordInput'];
 
@@ -23,6 +25,7 @@ for ($i = 0; $i < count($users_array); $i++){
 
     //If yes, redirect to dashboard
     if(password_verify($passwordInput, $password) and $emailInput === $email){
+        $_SESSION['email'] = $email;
         echo "<script>window.alert(\"Correct Credentials\")</script>";
         header("Location: ../navbar.php");
 
@@ -35,7 +38,7 @@ for ($i = 0; $i < count($users_array); $i++){
 //If no matching user, redirect to sign in page
 
 //echo "<script>window.alert(\"Incorrect Credentials\")</script>";
-header("Location: /login/index.html");
+header("Location: index.php");
 
 die(); 
 ///////////////////////////////////////////////
