@@ -1,3 +1,8 @@
+<?php
+session_start();
+session_destroy();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,7 +83,7 @@
                 data: {AuthCode: AuthCode},
                 success: function(responseData){
                   if (responseData === "true"){
-                    location.href = '../register/register.html';
+                    location.href = '../register/register.php';
                   } else {
                     $("#error-group").addClass("has-error");
                     $("#error-group").append('<div class="help-block">invalid Auth Code</div>');

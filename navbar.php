@@ -1,4 +1,9 @@
+<?php
+session_start();
 
+if (isset($_SESSION['email'])){
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +54,7 @@
 
             </div>
             <div class="offcanvas-footer" style="text-align:center">
-                <a href="../login/index.html" class="btn btn-alert">Sign Out</a>
+                <a href="login/index.php" class="btn btn-alert">Sign Out</a>
             </div>
         </div>
         <!--Offcanvas Navbar-->
@@ -70,3 +75,10 @@
 
 </body>
 </html>
+<?php
+
+} else {
+    header("Location: /login/index.php");
+    die();
+}
+?>
