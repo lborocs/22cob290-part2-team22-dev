@@ -63,28 +63,34 @@
     <script>
       $(document).ready(function () {
           $("#AuthForm").submit(function (event) {
+            event.preventDefault(); 
             var AuthCode = $("#AuthInput").val();
             $(".form-group").removeClass("has-error");
             $(".help-block").remove();
-            if (AuthCode === 'ABCDEF') {
-              location.href = '../register/register.html';
-            }
 
-            else {
-              if (AuthCode.length == 0) {
+            if (AuthCode.length == 0) {
                 $("#error-group").addClass("has-error");
-                $("#error-group").append(
-                  '<div class="help-block">Enter an AuthCode</div>'
-          )}
-              else if (AuthCode !== 'ABCDEF') {
-                $("#error-group").addClass("has-error");
-                $("#error-group").append(
-                  '<div class="help-block">invalid Auth Code</div>'
-                );
-              } 
+                $("#error-group").append('<div class="help-block">Enter an AuthCode</div>');
+            } else {
+              $.ajax({
+                url:"checkAuthCode.php",
+                type:"POST",
+                data: {AuthCode: AuthCode},
+                success: function(responseData){
+                  if (responseData === "true"){
+                    location.href = '../register/register.html';
+                  } else {
+                    $("#error-group").addClass("has-error");
+                    $("#error-group").append('<div class="help-block">invalid Auth Code</div>');
+                  }
+                },
+                error: function(e){
+                    window.alert("Error Occurred! Please refer to console.");
+                    console.log(e.message);
+                }
+              });
             }
-            event.preventDefault(); 
-        });
+          });
       });
       </script>
 </div>

@@ -3,7 +3,7 @@ $emailInput = $_POST['emailInput'];
 $passwordInput = $_POST['passwordInput'];
 
 //Open Users text file and initialise users array
-$file = fopen("../users.txt", "r") or die("Unable to find file!");
+$file = fopen("../generalFiles/users.txt", "r") or die("Unable to find file!");
 $users_array = array();
 //////////////////////////////////////////////////
 
@@ -23,8 +23,8 @@ for ($i = 0; $i < count($users_array); $i++){
 
     //If yes, redirect to dashboard
     if(password_verify($passwordInput, $password) and $emailInput === $email){
-        //echo "<script>window.alert(\"Correct Credentials\")</script>";
-        header("Location: ../dashboard/navbar.php");
+        echo "<script>window.alert(\"Correct Credentials\")</script>";
+        header("Location: ../navbar.php");
 
         die();
     }
