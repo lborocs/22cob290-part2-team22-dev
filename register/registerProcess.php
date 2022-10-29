@@ -1,12 +1,20 @@
 <?php
+
 $emailInput = $_POST['emailInput'];
 $passwordInput = $_POST['passwordInput'];
 $hash = password_hash($passwordInput, PASSWORD_DEFAULT);
 
-$file = fopen("../generalFiles/users.txt", "a") or die("Unable to find file!");
-fwrite($file,"\n".$emailInput."\n");
-fwrite($file, $hash);
-fclose($file);
+$newUser = array("email"=>$emailInput, "passwordHash"=>$hash, "isAdmin"=>false);
+
+//Grabbing the json users array and appending the new user to it
+$file = file_get_contents("../generalFiles/users.json") or die("Unable to find file!");
+$json = json_decode($file,true);
+array_push($json, $newUser);
+
+//Writing to the json file
+$temp = fopen("../generalFiles/users.json","w");
+fwrite($temp,json_encode($json));
+fclose($temp);
 
 header("Location: ../navbar.php");
 die();

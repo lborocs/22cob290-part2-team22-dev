@@ -5,27 +5,20 @@ $emailInput = $_POST['emailInput'];
 $passwordInput = $_POST['passwordInput'];
 
 //Open Users text file and initialise users array
-$file = fopen("../generalFiles/users.txt", "r") or die("Unable to find file!");
-$users_array = array();
+$file = file_get_contents("../generalFiles/users.json") or die("Unable to find file!");
+$json = json_decode($file,true);
 //////////////////////////////////////////////////
 
-//Getting all user details from users.txt
-while(!feof($file)) {
-    $email = trim(fgets($file));
-    $password = trim(fgets($file));
-    array_push($users_array, array($email, $password));
-}
-//////////////////////////////////////////
-
-
 //Searching if there is a user with matching email and password
-for ($i = 0; $i < count($users_array); $i++){
-    $email = $users_array[$i][0];
-    $password = $users_array[$i][1];
+foreach ($json as $user){
+    $email = $user['email'];
+    $password = $user['passwordHash'];
+    $isAdmin = $user['isAdmin'];
 
     //If yes, redirect to dashboard
     if(password_verify($passwordInput, $password) and $emailInput === $email){
         $_SESSION['email'] = $email;
+        $_SESSION['isAdmin'] = $isAdmin;
         echo "<script>window.alert(\"Correct Credentials\")</script>";
         header("Location: ../navbar.php");
 

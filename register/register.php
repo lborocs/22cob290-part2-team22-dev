@@ -24,7 +24,7 @@ if(isset($_SESSION['authcode'])){
     <h3 class="center title">Register as User</h3>
     <div class="jumbotron form-jumbo">
       <div id = 'banner'></div>
-        <form name = 'Register-Form' onsubmit="return validateForm()" action = 'register.php' id = "form2" method = 'POST'>
+        <form name = 'Register-Form' onsubmit="return validateForm()" action = 'registerProcess.php' id = "form2" method = 'POST'>
             <div class="form-group">
               <label for="emailInput">Email Address</label>
               <input type="email" class="form-control" id="emailInput" name = "emailInput"  placeholder="youremail@make-it-all.com">
