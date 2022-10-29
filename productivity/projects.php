@@ -56,20 +56,26 @@
                         }
                     }
                 }
-                $(".filterTaskModal").modal('toggle');
+                $('#filterTaskModal').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
                 return false;
             });
         });
         function editTask(id) {
             $('#EditTaskModal').modal('show');
             $("#EditTaskModal").submit(function(event){
-                let taskStatus = $("#taskStatus option:selected").val();
+                let taskStatus = $("#EdittaskStatus option:selected").val();
+                console.log(taskStatus);
                 $.ajax({
                     url:"../productivity/editTaskStatus.php",
                     type:"POST",
                     data: {id: id, taskStatus: taskStatus},
                     success: function(){
-                        // TODO
+                        $('#EditTaskModal').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                        navclick("../productivity/projects.php");
                     },
                     error: function(e){
                         window.alert("Error Occurred! Please refer to console.");
