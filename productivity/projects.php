@@ -13,7 +13,7 @@
     
 
     <script>
-        $(document).ready(function(){
+        $(function(){
             $("#addTaskForm").submit(function(event){
                 
 
@@ -40,7 +40,7 @@
                 event.preventDefault();
             });
             $("#filterTaskForm").submit(function(event){
-                let memberName = $("#memberName option:selected").val();;
+                let memberName = $("#memberName option:selected").val();
                 var developmentDivs = document.getElementsByClassName("developementEntry");
                 var progressDivs = document.getElementsByClassName("progressEntry");
                 var doneDivs  = document.getElementsByClassName("doneEntry");
@@ -56,9 +56,35 @@
                         }
                     }
                 }
-                $("#filterTaskModal").modal('hide');
+                $('#filterTaskModal').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                return false;
             });
         });
+        function editTask(id) {
+            $('#EditTaskModal').modal('show');
+            $("#EditTaskModal").submit(function(event){
+                let taskStatus = $("#EdittaskStatus option:selected").val();
+                console.log(taskStatus);
+                $.ajax({
+                    url:"../productivity/editTaskStatus.php",
+                    type:"POST",
+                    data: {id: id, taskStatus: taskStatus},
+                    success: function(){
+                        $('#EditTaskModal').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                        navclick("../productivity/projects.php");
+                    },
+                    error: function(e){
+                        window.alert("Error Occurred! Please refer to console.");
+                        console.log(e.message);
+                    }
+                });
+                event.preventDefault();
+            });
+        }
     </script>
 </head>
 
@@ -103,6 +129,31 @@
     </div>
 
 
+    <div class="modal" id="EditTaskModal" tabindex="-1" role="dialog" aria-labelledby="EditTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="EditTaskModalLabel">Edit a Task</h5>
+                </div>
+
+                <div class="modal-body">
+                    <form id="EditTaskForm">
+                        <label for="taskStatus">Change Task Status:</label>
+                        <select multiple class="form-control" name="EdittaskStatus" id="EdittaskStatus" required>
+                            <option value="0">To Do</option>
+                            <option value="1">Selected for Development</option>
+                            <option value="2">In Progress</option>
+                            <option value="3">Done</option>
+                        </select>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="modal" id="filterTaskModal" tabindex="-1" role="dialog" aria-labelledby="filterTaskModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -110,7 +161,7 @@
                     <h5 class="modal-title" id="filterTaskModalLabel">Add a Task</h5>
                 </div>
 
-                <div class="modal-body" onsubmit="return false">
+                <div class="modal-body">
                     <form id="filterTaskForm">
                         <div class="form-group">
                             <label for="memberName">Team member to filter by:</label>
@@ -207,8 +258,10 @@
             url:"../productivity/retrieveTaskCards.php",
             success: function(responseData){
                 let temp = JSON.parse(responseData);
+                console.log(temp);
                 names = []
                 for(let i = 0; i < temp.length; i++){
+                    let id = temp[i].id;
                     let taskName = temp[i].taskName;
                     let taskStatus = parseInt(temp[i].taskStatus);
                     let linkedEpic = temp[i].linkedEpic;
@@ -219,16 +272,16 @@
                     }
                     switch (taskStatus){
                         case 0:
-                            document.getElementById("todo").innerHTML += "<div class=\"todoEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
+                            document.getElementById("todo").innerHTML += "<div class=\"todoEntry\" style=\"margin-top: 5px;\" onclick=\"editTask("+id+")\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
                             break;
                         case 1:
-                            document.getElementById("development").innerHTML += "<div class=\"developementEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
+                            document.getElementById("development").innerHTML += "<div class=\"developementEntry\" style=\"margin-top: 5px;\" onclick=\"editTask("+id+")\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
                             break;
                         case 2:
-                            document.getElementById("progress").innerHTML += "<div class=\"progressEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
+                            document.getElementById("progress").innerHTML += "<div class=\"progressEntry\" style=\"margin-top: 5px;\" onclick=\"editTask("+id+")\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
                             break;
                         case 3:
-                            document.getElementById("done").innerHTML += "<div class=\"doneEntry\" style=\"margin-top: 5px;\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
+                            document.getElementById("done").innerHTML += "<div class=\"doneEntry\" style=\"margin-top: 5px;\" onclick=\"editTask("+id+")\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
                             break;
                     }
                 }
