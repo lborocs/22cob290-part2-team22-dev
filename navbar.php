@@ -42,7 +42,7 @@ if (isset($_SESSION['email'])){
                 <hr class="my-4">
                 <ul class="nav flex-column">
                     <li class="nav-item " style="text-align:center;">
-                        <a id="dashboardlink" class="nav-link text-dark" onclick="navclick('dashboard/dashboard.php')">Dashboard</a>
+                        <a id="dashboardlink" class="nav-link text-dark" onclick="<?php if ($_SESSION['isAdmin']==true) {echo "navclick('dashboard/adminDashboard.php')";} else {echo"navclick('dashboard/dashboard.php')";}?>">Dashboard</a>
                     </li>
                     <li class="nav-item" style="text-align:center;">
                         <a id="projectlink" class="nav-link text-dark" onclick="navclick('productivity/projects.php')">Projects</a>
@@ -69,7 +69,11 @@ if (isset($_SESSION['email'])){
 
 <div id="DIVID">
     <?php
-        include('dashboard/dashboard.php');
+        if($_SESSION['isAdmin'] == true){
+            include('dashboard/adminDashboard.php');
+        } else {
+            include('dashboard/dashboard.php');
+        }
     ?>
 </div>
 
