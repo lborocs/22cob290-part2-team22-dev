@@ -77,6 +77,12 @@ if (isset($_SESSION['email'])){
     ?>
 </div>
 
+<!--Footer-->
+<footer class="navbar fixed-bottom text-muted bg-light">
+    <p style="text-align:center; margin: 0 auto; padding: 10px;">Signed in as: <b><?php echo $_SESSION['email']?></b><br>Designed by <b>Team 22</b>.</p>
+</footer>
+<!--Footer-->
+
 </body>
 </html>
 <?php
