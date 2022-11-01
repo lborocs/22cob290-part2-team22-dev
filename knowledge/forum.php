@@ -32,7 +32,7 @@
       <button type="button" class="btn btn-primary" style = 'margin-top: 100%;'>Add New Post</button>
   </div>
 </section>
-<table class="table table-bordered" style = 'border:1px solid black; width: 75%; margin-right: 3%;'>
+<table class="table table-bordered" style = 'border:1px solid black; width: 75%; margin-right: 3%; overflow-y:scroll; height: 600px; display:block;'>
     <thead class="thead-dark">
       <tr class="bg-secondary text-white">
         <th scope="col" class="col-md-5">Topic</th>
