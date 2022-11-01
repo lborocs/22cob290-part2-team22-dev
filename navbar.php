@@ -48,7 +48,7 @@ if (isset($_SESSION['email'])){
                         <a id="projectlink" class="nav-link text-dark" onclick="navclick('productivity/projects.php')">Projects</a>
                     </li>
                     <li class="nav-item " style="text-align:center;">
-                        <a id="knowledgelink" class="nav-link text-dark" href="/knowledge.php">Knowledge Forum</a>
+                        <a id="knowledgelink" class="nav-link text-dark" onclick ="navclick('knowledge/forum.php')">Knowledge Forum</a>
                     </li>
                 </ul>
 
