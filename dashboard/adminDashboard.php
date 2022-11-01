@@ -21,6 +21,20 @@
                     }
                 });
         }
+
+        $.ajax({
+            url: "dashboard/grabUserCards.php",
+            success: function(responseData){
+                let temp = JSON.parse(responseData);
+                for(let user of temp){
+                    if (user['isAdmin'] === true){
+                        document.getElementById("test").innerHTML += "<div class=\"card\" style=\"margin-top:5px;\"><div class=\"card-body\"><h5 class=\"card-title text-center\"><b>Admin: </b>"+user['email']+"</h5></div></div>";
+                    } else {
+                        document.getElementById("test").innerHTML += "<div class=\"card\" style=\"margin-top:5px;\"><div class=\"card-body\"><h5 class=\"card-title text-center\"><b>User: </b>"+user['email']+"</h5></div></div>";
+                    }
+                }
+            }
+        })
     </script>
 </head>
 <body>
@@ -60,9 +74,7 @@
 
             <h5>Active Employees:</h5>
             <div class="row">
-                <div class="col" style="margin-left: 5px;">
-                    <div class="card" style="margin-top:5px;"><div class="card-body"><h5 class="card-title text-center">user@make-it-all.com</h5></div></div>
-                    <div class="card" style="margin-top:5px;"><div class="card-body"><h5 class="card-title text-center">user2@make-it-all.com</h5></div></div>
+                <div id="test" class="col" style="margin-left: 5px;">
                 </div>
                 <div class="col">
                 </div>

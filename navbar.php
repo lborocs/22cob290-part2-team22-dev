@@ -23,7 +23,7 @@ if (isset($_SESSION['email'])){
 <body>
 <nav class="navbar navbar-dark" style="background-color: #FFB800;">
     <div class="container-fluid">
-        <a href="../dashboard/navbar.php" class="navbar-brand">
+        <a href="navbar.php" class="navbar-brand">
             Make-It-All
         </a>
 
