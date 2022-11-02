@@ -11,6 +11,20 @@
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+    <script>
+      function tagFilter() {
+        let x = $("#tagSelect option:selected").val();
+        var posts = document.getElementsByClassName("table-active");
+          for(var j = 0; j<posts.length;j++) {
+            posts[j].style.display = '';
+            if ((posts[j].getElementsByClassName('badge')[0].innerHTML != x)) {
+              if (x != 'None') {
+                posts[j].style.display = 'None'; 
+            }
+          }
+        }
+      } 
+    </script>
 </head>
 <div class = 'flex-master'>
 <section class="jumbotron jumbotron-fluid col full-height" style = 'margin-top: 0px;'>
@@ -20,12 +34,14 @@
       <div class="forumSearch">
           <input type="text" placeholder='Search...' style = 'width :99%'/>
       </div>
-      <label for="memberName" style = 'text-align: left;'>Filter Tags:</label>
+      <label for="filterTags" style = 'text-align: left;'>Filter Tags:</label>
       <br>
-      <select class="forumSearch" style = 'width :100%'>
+      <select class="forumSearch" id = 'tagSelect' style = 'width :100%' onchange = 'tagFilter()'>
           <option value = "None">None</option>
+          <option value = "Technical">Technical</option>
+          <option value = "Non-Technical">Non-Technical</option>
       </select>
-      <label for="memberName" style = 'text-align: left;'>Post Age:</label>
+      <label for="postAge" style = 'text-align: left;'>Post Age:</label>
       <br>
       <input type="range" class="form-range" id="customRange1">
       <h6>0 days</h6>
