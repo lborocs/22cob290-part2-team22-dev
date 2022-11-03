@@ -12,20 +12,6 @@
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <script>
-      function tagFilter() {
-        let x = $("#tagSelect option:selected").val();
-        var posts = document.getElementsByClassName("table-active");
-          for(var j = 0; j<posts.length;j++) {
-            posts[j].style.display = '';
-            if ((posts[j].getElementsByClassName('badge')[0].innerHTML != x)) {
-              if (x != 'None') {
-                posts[j].style.display = 'None'; 
-            }
-          }
-        }
-      } 
-    </script>
 
 <script>
     $(function(){
@@ -57,6 +43,23 @@
                 
             });
           });
+    function tagFilter() {
+      let x = $("#tagSelect option:selected").val();
+      console.log(x);
+      var posts = document.getElementsByClassName("table-active");
+        for(var j = 0; j<posts.length;j++) {
+          posts[j].style.display = '';
+          var found = false;
+          for(var i = 0;i<posts[j].getElementsByClassName('badge').length;i++) {
+            if (posts[j].getElementsByClassName('badge')[i].innerHTML === x) {
+              found = true;
+          }
+        }
+          if (x != 'None' && found === false) {
+                posts[j].style.display = 'None'; 
+            }
+      }
+    } 
 </script>
 </head>
 <body>
@@ -104,6 +107,7 @@
           <option value = "None">None</option>
           <option value = "Technical">Technical</option>
           <option value = "Non-Technical">Non-Technical</option>
+          <option value="News">News</option>
       </select>
       <label for="postAge" style = 'text-align: left;'>Post Age:</label>
       <br>
@@ -112,7 +116,7 @@
       <button id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addPostModal" aria-controls="addPostModal">Create Post</button>
   </div>
 </section>
-<div id="contentDiv">
+<div id="contentDiv" style = 'width:80%;'>
 <table id="postTable"  class="table table-bordered" style = 'border:1px solid black; width: 95%; margin-right: 3%; overflow-y:scroll; height: 600px; display:block;'>
     <thead class="thead-dark">
       <tr class="bg-secondary text-white">
@@ -123,30 +127,6 @@
       </tr>
     </thead>
     <tbody id="tablebody">
-      <tr class="table-active">
-        <th scope="row">[Placeholder Text]<br>From:[Placeholder Text]</th>
-        <td>DD/MM/YYYY HH:MM <br>From:[Placeholder Text]</td>
-        <td>From:[Placeholder Text]</td>
-        <td><span class="badge rounded-pill text-bg-primary">Non-Technical</span></td>
-      </tr>
-      <tr class="table-active">
-        <th scope="row">[Placeholder Text]<br>From:[Placeholder Text]</th>
-        <td>DD/MM/YYYY HH:MM <br>From:[Placeholder Text]</td>
-        <td>From:[Placeholder Text]</td>
-        <td><span class="badge rounded-pill text-bg-danger">Technical</span></td>
-      </tr>
-      <tr class="table-active">
-        <th scope="row">[Placeholder Text]<br>From:[Placeholder Text]</th>
-        <td>DD/MM/YYYY HH:MM <br>From:[Placeholder Text]</td>
-        <td>From:[Placeholder Text]</td>
-        <td><span class="badge rounded-pill text-bg-primary">Non-Technical</span></td>
-      </tr>
-      <tr class="table-active">
-        <th scope="row">[Placeholder Text]<br>From:[Placeholder Text]</th>
-        <td>DD/MM/YYYY HH:MM <br>From:[Placeholder Text]</td>
-        <td>From:[Placeholder Text]</td>
-        <td><span class="badge rounded-pill text-bg-danger">Technical</span></td>
-      </tr>
       <tr class="table-active">
         <th scope="row">[Placeholder Text]<br>From:[Placeholder Text]</th>
         <td>DD/MM/YYYY HH:MM <br>From:[Placeholder Text]</td>
