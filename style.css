@@ -224,3 +224,44 @@ p{
     background-color: red !important;
     color: white !important;
 }
+
+th{
+    cursor: pointer;
+}
+
+.card-text{
+    font-size: 0.8rem !important;
+}
+.card-title{
+    font-size: 1rem !important;
+}
+.card-subtitle{
+    font-size: 0.8rem !important;
+}
+.card{
+    margin-bottom: 1vh !important;
+    border-radius: 5px !important;
+    box-shadow: 1.8px 3.5px 3.5px hsl(0deg 0% 0% / 0.45);
+    transition: 0.3s;
+    background-color: #F5F5F5 !important;
+    overflow-y: auto;
+    max-height: 20vh;
+}
+#backButton{
+    margin-bottom: 1vh;
+    border-radius:5px;
+    border:0;
+    background-color: grey!important;
+    box-shadow: 1.8px 3.5px 3.5px hsl(0deg 0% 0% / 0.45);
+    transition: 0.3s;
+    width: 50% !important;
+    align-self: center;
+}
+#backButton:hover{
+    background-color: #DCDCDC !important;
+    cursor: pointer;
+}
+#postDiv{
+    text-align: center;
+    
+}

@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form id="addPostForm" method="POST">
+                    <form id="addPostForm">
                         <div class="form-group">
                             <input hidden type="text" id="user" value="<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'], "@"));?>">
                             <label for="title">Title</label>
@@ -75,10 +75,10 @@
     </div>
 
 
-
-<div class = 'flex-master'>
+<div id="knowledgeDiv">
+<div id="mainDiv" class = 'flex-master'>
 <section class="jumbotron jumbotron-fluid col full-height" style = 'margin-top: 0px;'>
-  <div id="Options">
+  <div style="width:100%" id="Options">
       <h5 style="padding-top:27px;">Options</h5>
       <hr class="my-4">
       <div class="forumSearch">
@@ -96,7 +96,8 @@
       <button id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addPostModal" aria-controls="addPostModal">Create Post</button>
   </div>
 </section>
-<table  class="table table-bordered" style = 'border:1px solid black; width: 75%; margin-right: 3%; overflow-y:scroll; height: 600px; display:block;'>
+<div id="contentDiv">
+<table id="postTable"  class="table table-bordered" style = 'border:1px solid black; width: 95%; margin-right: 3%; overflow-y:scroll; height: 600px; display:block;'>
     <thead class="thead-dark">
       <tr class="bg-secondary text-white">
         <th scope="col" class="col-md-5">Topic</th>
@@ -112,10 +113,12 @@
         <td>From:[Placeholder Text]</td>
         <td><span class="badge rounded-pill text-bg-primary">Non-Technical</span></td>
       </tr>
-      
     </tbody>
   </table>
+  </div>
 </div>
+</div>
+<div id="postDiv" style="margin:auto !important; "></div>
 <!--Bootstrap-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -123,10 +126,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <!--Bootstrap-->
 <script>
+  
    $(document).ready(function(){
         
             localStorage.setItem("currentPage", "knowledge/forum.php");
-        
+            
             
         
     });
@@ -148,7 +152,7 @@
                     let comments = post.comments;
 
                     
-                    document.getElementById("tablebody").innerHTML += "<tr class='table-active'><th scope='row'>"+title+"</th><td>"+lastUpdated+"<br>From:"+lastUpdatedBy+"</td><td>"+from+"</td><td id='tagblock"+j+"'>";
+                    document.getElementById("tablebody").innerHTML += "<tr onclick='displayPost("+id+")' id='"+id+"'class='table-active'><th scope='row'>"+title+"</th><td>"+lastUpdated+"<br>From:"+lastUpdatedBy+"</td><td>"+from+"</td><td id='tagblock"+j+"'>";
                     for(let i = 0; i < post.tags.length; i++){
                       document.getElementById("tagblock"+j).innerHTML += "<span class='badge rounded-pill "+post.tags[i] +"'>"+post.tags[i]+"</span>";
                     }
@@ -162,6 +166,59 @@
             }
             
         });
+  function displayTable(){
+    const myNode = document.getElementById("postDiv");
+    myNode.innerHTML = '';
+    document.getElementById("mainDiv").style.display = "flex";
+    document.getElementById("postDiv").style.display = "none";
+    document.getElementById("knowledgeDiv").style.display = "block";
+    
+  }
+  function displayPost(id){
+    var table = document.getElementById("mainDiv");
+    table.style.display = "none";
+    
+    $.ajax({
+            url:"../knowledge/retrievePosts.php",
+            success: function(responseData){
+                let temp = JSON.parse(responseData);
+                for(let j = 0; j < temp.length; j++){
+                  
+                  let post = temp[j];
+                  if(post.id == id){
+                
+                    let id = post.id;
+                    let title = post.title;
+                    let body = post.body;
+                    let from = post.from;
+                    
+                    
+                    
+                    let comments = post.comments;
+                    document.getElementById("postDiv").style.display = "block";
+                    document.getElementById("postDiv").innerHTML = `
+                    <button class="btn btn-primary" id='backButton' onclick='displayTable()' type="button">Back</button>
+                    <div class="card" style="width:95%;margin:auto !important;" id='postCard'>
+                    <div class="card-body">
+                      <h1 class="card-title">`+title+`</h1>
+                      <h6 class="card-subtitle">From: `+from+`</h6>
+                    
+                      <p class="card-text">`+body+`</p>
+                      
+                    </div>
+                    </div>
+                    <div id='postFooter'>
+                    <h6>Comments:</h6>
+                    <div id='commentDiv'></div><button id='addTaskButton' type='button' data-bs-toggle='modal' data-bs-target='#addCommentModal' aria-controls='addCommentModal'>Add Comment</button></div></div>`;
+                   
+                  }}}
+                ,
+                error: function(e){
+                console.log(e.message);
+            }
+            
+        });
+  }
 </script>
 </body>
 </html>
