@@ -210,3 +210,17 @@ p{
     to   { opacity: 1; }
 }
 
+.News{
+    background-color: green !important;
+    color: white !important;
+}
+
+.Technical{
+    background-color: blue !important;
+    color: white !important;
+}
+
+.Non-Technical{
+    background-color: red !important;
+    color: white !important;
+}

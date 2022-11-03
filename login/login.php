@@ -19,7 +19,7 @@ foreach ($json as $user){
     if(password_verify($passwordInput, $password) and $emailInput === $email){
         $_SESSION['email'] = $email;
         $_SESSION['isAdmin'] = $isAdmin;
-        echo "<script>window.alert(\"Correct Credentials\")</script>";
+        //echo "<script>window.alert(\"Correct Credentials\")</script>";
         header("Location: ../navbar.php");
 
         die();
