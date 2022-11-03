@@ -21,6 +21,7 @@ function navShut() {
 }
 function changeSelected(name) {
     if (name == "dashboard") {
+        
         document.getElementById("dashboardlink").classList.add('selected');
         document.getElementById("projectlink").classList.remove('selected');
         document.getElementById("knowledgelink").classList.remove('selected');

@@ -4,7 +4,7 @@
 
 <head>
 
-    <script src="../dashboard/navbar.js"></script>
+    <script src="../navbar.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,21 +16,21 @@
 <script>
     $(function(){
             $("#addPostForm").submit(function(event){
+              event.preventDefault();
                 
-
                 let title = $("#title").val();
                 let content = $("#content").val();
                 let user = $("#user").val();
                 let tags = $("#tags").val();
-                let Date = new Date();
-                let currentDate = Date.toLocaleString("en-GB");
-
+                let date = new Date();
+                let currentDate = date.toLocaleString("en-GB");
+                
                 $.ajax({
                     url:"../knowledge/addPost.php",
                     type:"POST",
-                    data: {title: title, content: content, user: user, currentDate: currentDate},
+                    data: {title: title, content: content, user: user,tags:tags, currentDate: currentDate},
                     success: function(){
-                        $('#addPostModal').modal('hide');
+                        $('#addPostModal').hide()
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
                         navclick("../knowledge/forum.php");
@@ -40,12 +40,12 @@
                         console.log(e.message);
                     }
                 });
-                event.preventDefault();
+                
             });
           });
 </script>
 </head>
-
+<body>
 <div class="modal" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="addPostModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -54,13 +54,13 @@
                 </div>
 
                 <div class="modal-body">
-                    <form id="addPostForm">
+                    <form id="addPostForm" method="POST">
                         <div class="form-group">
                             <input hidden type="text" id="user" value="<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'], "@"));?>">
                             <label for="title">Title</label>
                             <input type="text" class="form-control" id="title" name="title" placeholder="Title">
                             <label for="tags">Choose subject(s) <span style="font-size:0.5rem;">CTRL Click for multiple</span></label>
-                            <select class="form-control" style="height:3rem; margin-bottom:1rem;" id="tags" name="tags" multiple>
+                            <select class="form-control" style="height:3rem; margin-bottom:1rem;" id="tags" name="tags[]" multiple>
                                 <option value="News">News</option>
                                 <option value="Technical">Technical</option>
                                 <option value="Non-Technical">Non-Technical</option>
@@ -75,7 +75,7 @@
     </div>
 
 
-<body>
+
 <div class = 'flex-master'>
 <section class="jumbotron jumbotron-fluid col full-height" style = 'margin-top: 0px;'>
   <div id="Options">
@@ -123,6 +123,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <!--Bootstrap-->
 <script>
+   $(document).ready(function(){
+        
+            localStorage.setItem("currentPage", "knowledge/forum.php");
+        
+            
+        
+    });
   $.ajax({
             url:"../knowledge/retrievePosts.php",
             success: function(responseData){

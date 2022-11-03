@@ -17,7 +17,7 @@
         else {
             $id = $array_data[count($array_data)-1]['id'] + 1;
         }
-        $new = array('id' => $id,'title' => $title, 'body' => $content, 'from'=>$user,'tags'=>array($tags), 'lastUpdated' => $currentDate, 'lastUpdatedBy' => $user, 'comments' => array());
+        $new = array('id' => $id,'title' => $title, 'body' => $content, 'from'=>$user,'tags'=>$tags, 'lastUpdated' => $currentDate, 'lastUpdatedBy' => $user, 'comments' => array());
 		$array_data[] = $new;
 		$final_data = json_encode($array_data);
 		return $final_data;
