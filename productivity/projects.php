@@ -13,6 +13,13 @@
     
 
     <script>
+         $(document).ready(function(){
+        
+            localStorage.setItem("currentPage", "/productivity/projects.php");
+        
+            
+        
+    });
         $(function(){
             $("#addTaskForm").submit(function(event){
                 
