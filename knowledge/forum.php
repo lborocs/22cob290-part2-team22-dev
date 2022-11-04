@@ -43,6 +43,23 @@
                 
             });
           });
+    function tagFilter() {
+      let x = $("#tagSelect option:selected").val();
+      console.log(x);
+      var posts = document.getElementsByClassName("table-active");
+        for(var j = 0; j<posts.length;j++) {
+          posts[j].style.display = '';
+          var found = false;
+          for(var i = 0;i<posts[j].getElementsByClassName('badge').length;i++) {
+            if (posts[j].getElementsByClassName('badge')[i].innerHTML === x) {
+              found = true;
+          }
+        }
+          if (x != 'None' && found === false) {
+                posts[j].style.display = 'None'; 
+            }
+      }
+    } 
 </script>
 </head>
 <body>
@@ -84,19 +101,22 @@
       <div class="forumSearch">
           <input type="text" placeholder='Search...' style = 'width :99%'/>
       </div>
-      <label for="memberName" style = 'text-align: left;'>Filter Tags:</label>
+      <label for="filterTags" style = 'text-align: left;'>Filter Tags:</label>
       <br>
-      <select class="forumSearch" style = 'width :100%'>
+      <select class="forumSearch" id = 'tagSelect' style = 'width :100%' onchange = 'tagFilter()'>
           <option value = "None">None</option>
+          <option value = "Technical">Technical</option>
+          <option value = "Non-Technical">Non-Technical</option>
+          <option value="News">News</option>
       </select>
-      <label for="memberName" style = 'text-align: left;'>Post Age:</label>
+      <label for="postAge" style = 'text-align: left;'>Post Age:</label>
       <br>
       <input type="range" class="form-range" id="customRange1">
       <h6>0 days</h6>
       <button id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addPostModal" aria-controls="addPostModal">Create Post</button>
   </div>
 </section>
-<div id="contentDiv">
+<div id="contentDiv" style = 'width:80%;'>
 <table id="postTable"  class="table table-bordered" style = 'border:1px solid black; width: 95%; margin-right: 3%; overflow-y:scroll; height: 600px; display:block;'>
     <thead class="thead-dark">
       <tr class="bg-secondary text-white">
