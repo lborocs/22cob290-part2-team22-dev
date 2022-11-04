@@ -15,34 +15,34 @@
 
 <script>
     $(function(){
-            $("#addPostForm").submit(function(event){
-              event.preventDefault();
-                
-                let title = $("#title").val();
-                let content = $("#content").val();
-                let user = $("#user").val();
-                let tags = $("#tags").val();
-                let date = new Date();
-                let currentDate = date.toLocaleString("en-GB");
-                
-                $.ajax({
-                    url:"../knowledge/addPost.php",
-                    type:"POST",
-                    data: {title: title, content: content, user: user,tags:tags, currentDate: currentDate},
-                    success: function(){
-                        $('#addPostModal').hide()
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-                        navclick("../knowledge/forum.php");
-                    },
-                    error: function(e){
-                        window.alert("Error Occurred! Please refer to console.");
-                        console.log(e.message);
-                    }
-                });
-                
-            });
+      $("#addPostForm").submit(function(event){
+        event.preventDefault();
+          console.log('hello');
+          let title = $("#title").val();
+          let content = $("#content").val();
+          let user = $("#user").val();
+          let tags = $("#tags").val();
+          let date = new Date();
+          let currentDate = date.toLocaleString("en-GB");
+          
+          $.ajax({
+              url:"../knowledge/addPost.php",
+              type:"POST",
+              data: {title: title, content: content, user: user,tags:tags, currentDate: currentDate},
+              success: function(){
+                  $('#addPostModal').hide();
+                  $('body').removeClass('modal-open');
+                  $('.modal-backdrop').remove();
+                  navclick("../knowledge/forum.php");
+              },
+              error: function(e){
+                  window.alert("Error Occurred! Please refer to console.");
+                  console.log(e.message);
+              }
           });
+          
+      });
+    });
     function tagFilter() {
       let x = $("#tagSelect option:selected").val();
       console.log(x);
@@ -81,6 +81,7 @@
                                 <option value="News">News</option>
                                 <option value="Technical">Technical</option>
                                 <option value="Non-Technical">Non-Technical</option>
+                            </select>
                             <label for="content">Content</label>
                             <textarea style="margin-bottom:1rem; resize:none;" class="form-control" id="content" name="content" rows="3"></textarea>
                         </div>
@@ -114,6 +115,7 @@
       <input type="range" class="form-range" id="customRange1">
       <h6>0 days</h6>
       <button id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addPostModal" aria-controls="addPostModal">Create Post</button>
+      <button id='FAQButton' type="button" onclick="navclick('/knowledge/faq.php')">FAQ</button>
   </div>
 </section>
 <div id="contentDiv" style = 'width:80%;'>
@@ -227,9 +229,10 @@
                       
                     </div>
                     </div>
+                    <br>
                     <div id='postFooter'>
-                    <h6>Comments:</h6>
-                    <div id='commentDiv'></div><button id='addTaskButton' type='button' data-bs-toggle='modal' data-bs-target='#addCommentModal' aria-controls='addCommentModal'>Add Comment</button></div></div>`;
+                    <h6>Not what you were looking for ? Try our Frequently Asked Questions -</h6>
+                    <div id='FAQDiv'></div><button id='FAQButton' type='button' onclick='navclick("knowledge/faq.php")'>FAQ</button></div></div>`;
                    
                   }}}
                 ,

@@ -2,6 +2,10 @@
 html{
     font-size: calc(15px + 0.390625vw);
     overflow: hidden;
+    overflow-y: scroll;
+}
+body { 
+    position: absolute; 
 }
 .login-container{
    margin-top: 10vh;
@@ -254,7 +258,7 @@ th{
     background-color: grey!important;
     box-shadow: 1.8px 3.5px 3.5px hsl(0deg 0% 0% / 0.45);
     transition: 0.3s;
-    width: 50% !important;
+    width: 10% !important;
     align-self: center;
 }
 #backButton:hover{
