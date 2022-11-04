@@ -25,8 +25,6 @@ if (isset($_SESSION['email'])){
         if(localStorage.getItem("currentPage") != null){
             navclick(localStorage.getItem("currentPage"));
         }
-            
-            
     
 });
 
