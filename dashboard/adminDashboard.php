@@ -44,7 +44,7 @@
         })
     </script>
 </head>
-<body>
+<body style="width:100% !important;">
     <main class="bd-content p-5" id="content" role="main">
         <section class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
             <h1 class="display-4" style="text-align: center;">Admin Dashboard</h1>

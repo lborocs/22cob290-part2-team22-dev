@@ -15,7 +15,7 @@ session_destroy();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Make-It-All</title>
 </head>
-<body>
+<body style="width:100% !important;">
 <div class="container-fluid login-container">
 
     <h3 class="center title">Sign in to Dashboard</h3>
