@@ -5,8 +5,9 @@
     <title> Contact - Make-It-All</title>
     <link rel="stylesheet" href="contactstyle.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap" rel="stylesheet">
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
 </head>
 <body>
     <div class="container">
@@ -17,16 +18,16 @@
                 <div class="contact-left">
                         <h3>Send your query</h3>
 
-                        <form> 
+                        <form id="contact-left" method="post" action="contact.php"> 
                           
                             <div class="input-row">
                                 <div class="input-group">
                                     <label>Name</label>
-                                    <input type="text">
+                                    <input type="text" name= "name" required>
                                 </div>
                                     <div class="input-group">
                                     <label>Email</label>
-                                    <input type="email" placeholder="youremail@make-it-all.com"> 
+                                    <input type="email" name="email" placeholder="youremail@make-it-all.com" required> 
                                     </div>
 
                             </div>
@@ -37,15 +38,15 @@
                                 </div>
                                 <div class="input-group">
                                     <label>Subject</label>
-                                    <input type="text">
-                                </div>
+                                    <input type="text" name ="subject" required>
+                                  </div>
                             </div>
 
-                        </form>
                             <label>Message</label>
-                            <textarea rows="5" placeholder="Write your message here..."></textarea>"
+                            <textarea row="5" name="message" placeholder="Write your message here..." required></textarea>"
 
                             <button type="submit">Submit</button>
+                        </form>
                         </div>
                 <div class="contact-right">
                     <h3>Reach us directly</h3>
