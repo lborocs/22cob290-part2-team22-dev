@@ -240,5 +240,7 @@
         });
   }
 </script>
+<input type="button" onclick="contactadmin.html" value="Contact Us" />
+
 </body>
 </html>
