@@ -32,8 +32,38 @@
 </head>
 <body>
     <main class="bd-content p-5" id="content" role="main">
-        <section class="jumbotron jumbotron-fluid" style="border-radius: 15px;">
+        <section class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
+
             <h1 class="display-4" style="text-align: center;">Dashboard</h1>
+
+            <hr class="my-4">
+
+            <h5>Your Projects:</h5>
+
+            <div class="row">
+                <div class="card" style="width: 20rem; margin-left: 10px; margin-right: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">[Project Name]</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">[Subject]</h6>
+                        <a onclick="navclick('productivity/projects.php')" class="card-link">Go to Project</a>
+                    </div>
+                </div>
+                <div class="card" style="width: 20rem; margin-left: 10px; margin-right: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">[Project Name]</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">[Subject]</h6>
+                        <a onclick="navclick('productivity/projects.php')" class="card-link">Go to Project</a>
+                    </div>
+                </div>
+                <div class="card" style="width: 20rem; margin-left: 10px; margin-right: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">[Project Name]</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">[Subject]</h6>
+                        <a onclick="navclick('productivity/projects.php')" class="card-link">Go to Project</a>
+                    </div>
+                </div>
+            </div>
+
             <hr class="my-4">
 
             <div class="jumbotron form-jumbo">
@@ -41,18 +71,10 @@
                 <button class="btn btn-primary" style="margin-top:10px;" type="button" onclick="generateAuthCode()">Create an Auth Code</button>
                 <div class="jumbotron jumbotron-fluid" id="result" style="display:none"></div>
             </div>
+
+            <hr class="my-4">
         </section>
     </main>
-
-
-
-
-    <!--Footer-->
-    <footer class="navbar fixed-bottom text-muted bg-light">
-
-        <p style="text-align:center; margin: 0 auto; padding: 10px;">Designed by <b>Team 22</b>.</p>
-    </footer>
-    <!--Footer-->
 
     <script type="text/javascript">
         changeSelected("dashboard");

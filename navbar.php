@@ -9,7 +9,7 @@ if (isset($_SESSION['email'])){
 <html lang="en">
 
 <head>
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="style.css">
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,10 +36,10 @@ if (isset($_SESSION['email'])){
 <body>
 <nav class="navbar navbar-dark" style="background-color: #FFB800;">
     <div class="container-fluid">
-        <a href="../dashboard/navbar.php" class="navbar-brand">
+        <a href="navbar.php" class="navbar-brand">
             Make-It-All
         </a>
-
+        <div class="navbar-brand">Signed in as: <?php echo $_SESSION['email']?>.</div>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"  aria-controls="offcanvasNavbar" onclick="toggleClicked()">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -90,6 +90,7 @@ if (isset($_SESSION['email'])){
         }
     ?>
 </div>
+
 
 </body>
 </html>
