@@ -6,6 +6,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="dashboard/dashboard.js"></script>
+    <script>
+        $.ajax({
+            url: "dashboard/grabUserCards.php",
+            success: function(responseData){
+                let temp = JSON.parse(responseData);
+                for(let user of temp){
+                    if (user['isAdmin'] === true){
+                        document.getElementById("test").innerHTML += "<div class=\"card\" style=\"margin-top:5px;\"><div class=\"card-body\"><h5 class=\"card-title text-center\"><b>Admin: </b>"+user['email']+"</h5></div></div>";
+                    } else {
+                        document.getElementById("test").innerHTML += "<div class=\"card\" style=\"margin-top:5px;\"><div class=\"card-body\"><h5 class=\"card-title text-center\"><b>User: </b>"+user['email']+"</h5></div></div>";
+                    }
+                }
+            }
+        })
+    </script>
 </head>
 <body>
     <main class="bd-content p-5" id="content" role="main">
