@@ -157,12 +157,10 @@
           <option value = "Non-Technical">Non-Technical</option>
           <option value="News">News</option>
       </select>
-      <label for="postAge" style = 'text-align: left;'>Post Age:</label>
-      <br>
-      <input type="range" class="form-range" id="customRange1">
-      <h6>0 days</h6>
+    <div style = 'margin-top: 20px;'>
       <button id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addPostModal" aria-controls="addPostModal">Create Post</button>
       <button id='FAQButton' type="button" onclick="navclick('/knowledge/faq.php')">FAQ</button>
+  </div>
     </div>
 </section>
 
