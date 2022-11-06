@@ -15,51 +15,99 @@
 
 <script>
     $(function(){
-      $("#addPostForm").submit(function(event){
-        event.preventDefault();
-          console.log('hello');
-          let title = $("#title").val();
-          let content = $("#content").val();
-          let user = $("#user").val();
-          let tags = $("#tags").val();
-          let date = new Date();
-          let currentDate = date.toLocaleString("en-GB");
-          
-          $.ajax({
-              url:"../knowledge/addPost.php",
-              type:"POST",
-              data: {title: title, content: content, user: user,tags:tags, currentDate: currentDate},
-              success: function(){
-                  $('#addPostModal').hide();
-                  $('body').removeClass('modal-open');
-                  $('.modal-backdrop').remove();
-                  navclick("../knowledge/forum.php");
-              },
-              error: function(e){
-                  window.alert("Error Occurred! Please refer to console.");
-                  console.log(e.message);
-              }
+            $("#addPostForm").submit(function(event){
+              event.preventDefault();
+                let title = $("#title").val();
+                let content = $("#content").val();
+                let user = $("#user").val();
+                let tags = $("#tags").val();
+                let date = new Date();
+                let currentDate = date.toLocaleString("en-GB");
+                
+                $.ajax({
+                    url:"../knowledge/addPost.php",
+                    type:"POST",
+                    data: {title: title, content: content, user: user,tags:tags, currentDate: currentDate},
+                    success: function(){
+                        $('#addPostModal').hide();
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                        navclick("../knowledge/forum.php");
+                    },
+                    error: function(e){
+                        window.alert("Error Occurred! Please refer to console.");
+                        console.log(e.message);
+                    }
+                });
+                
+            });
           });
-          
-      });
-    });
+    
     function tagFilter() {
       let x = $("#tagSelect option:selected").val();
-      console.log(x);
       var posts = document.getElementsByClassName("table-active");
-        for(var j = 0; j<posts.length;j++) {
-          posts[j].style.display = '';
-          var found = false;
-          for(var i = 0;i<posts[j].getElementsByClassName('badge').length;i++) {
-            if (posts[j].getElementsByClassName('badge')[i].innerHTML === x) {
-              found = true;
-          }
-        }
-          if (x != 'None' && found === false) {
-                posts[j].style.display = 'None'; 
-            }
+      var header = document.getElementsByClassName("bg-secondary");
+      var nothing = false;
+      if (x === 'None') {
+        nothing = true;
       }
-    } 
+      for(var j = 0; j<posts.length;j++) {
+        posts[j].style.display = '';
+        var found = false;
+        for(var i = 0;i<posts[j].getElementsByClassName('badge').length;i++) {
+          if (posts[j].getElementsByClassName('badge')[i].innerHTML === x) {
+            found = true;
+        }
+      }
+        if (x != 'None' && found === false) {
+              posts[j].style.display = 'None'; 
+          }
+      
+      nothing = nothing || found;
+        
+      }
+      
+        if (nothing === false) {
+          document.getElementById("postTable").style.display = 'None';
+            document.getElementById("contentDiv").innerHTML += "<div style = 'text-align: center; padding: 20% 0;'>Couldn't find what you were looking for.</div>";
+
+        }
+        else {
+          document.getElementById("postTable").style.display = 'block';
+        }
+
+    }
+    
+    function searchFilter(x) {
+        console.log(x);
+        var posts = document.getElementsByClassName("table-active");
+        var header = document.getElementsByClassName("bg-secondary");
+        var nothing = false;
+        for(var j = 0; j<posts.length;j++) {
+            posts[j].style.display = '';
+            var found = false;
+            var textInside = posts[j].getElementsByTagName("th")[0].innerHTML.toLowerCase();
+            if (textInside.includes(x.toLowerCase().trim())) {
+                found = true;
+            }
+            
+            if (x != "" && found === false) {
+                posts[j].style.display = 'None';
+            }
+            
+            nothing = nothing || found;
+        }
+        
+        if (nothing === false) {
+            document.getElementById("postTable").style.display = 'None';
+            document.getElementById("contentDiv").innerHTML += "<div style = 'text-align: center; padding: 20% 0;'>Couldn't find what you were looking for.</div>";
+        }
+        else {
+          document.getElementById("postTable").style.display = 'block';
+        }
+        
+    }
+    
 </script>
 </head>
 <body>
@@ -81,7 +129,6 @@
                                 <option value="News">News</option>
                                 <option value="Technical">Technical</option>
                                 <option value="Non-Technical">Non-Technical</option>
-                            </select>
                             <label for="content">Content</label>
                             <textarea style="margin-bottom:1rem; resize:none;" class="form-control" id="content" name="content" rows="3"></textarea>
                         </div>
@@ -100,7 +147,7 @@
       <h5 style="padding-top:27px;">Options</h5>
       <hr class="my-4">
       <div class="forumSearch">
-          <input type="text" placeholder='Search...' style = 'width :99%'/>
+          <input type="text" value = "" placeholder="Search..." style="width :99%" id="wordSelect" onchange="searchFilter(this.value)">
       </div>
       <label for="filterTags" style = 'text-align: left;'>Filter Tags:</label>
       <br>
@@ -116,8 +163,11 @@
       <h6>0 days</h6>
       <button id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addPostModal" aria-controls="addPostModal">Create Post</button>
       <button id='FAQButton' type="button" onclick="navclick('/knowledge/faq.php')">FAQ</button>
-  </div>
+    </div>
 </section>
+
+<p id ="nomatches"></p>
+
 <div id="contentDiv" style = 'width:80%;'>
 <table id="postTable"  class="table table-bordered" style = 'border:1px solid black; width: 95%; margin-right: 3%; overflow-y:scroll; height: 600px; display:block;'>
     <thead class="thead-dark">
@@ -130,7 +180,7 @@
     </thead>
     <tbody id="tablebody">
       <tr class="table-active">
-        <th scope="row">[Placeholder Text]<br>From:[Placeholder Text]</th>
+        <th scope="row"> [Placeholder Text]<br>From:[Placeholder Text]</th>
         <td>DD/MM/YYYY HH:MM <br>From:[Placeholder Text]</td>
         <td>From:[Placeholder Text]</td>
         <td><span class="badge rounded-pill text-bg-primary">Non-Technical</span></td>
