@@ -1,0 +1,20 @@
+{
+  "name": "lboro-team-proj",
+  "version": "1.0.0",
+  "description": "Team project year 2 semester 1.",
+  "main": "navbar.php",
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kodoh/Team-Project-Lboro-2022-23.git"
+  },
+  "author": "Jake Anderson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kodoh/Team-Project-Lboro-2022-23/issues"
+  },
+  "homepage": "https://github.com/Kodoh/Team-Project-Lboro-2022-23#readme"
+}
