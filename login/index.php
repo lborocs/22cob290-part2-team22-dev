@@ -20,7 +20,7 @@ session_destroy();
 
     <h3 class="center title">Sign in to Dashboard</h3>
     <div class="jumbotron form-jumbo">
-        <form action="login.php" method="post">
+        <form id="loginForm">
             <div class="form-group">
               <label for="emailInput">Email Address</label>
               <input type="email" class="form-control" id="emailInput" name="emailInput">
@@ -95,6 +95,31 @@ session_destroy();
                 }
               });
             }
+          });
+
+          $("#loginForm").submit(function(event){
+            event.preventDefault();
+            
+            var email = $("#emailInput").val();
+            var password = $("#passwordInput").val();
+
+            $.ajax({
+              url:"loginDB.php",
+              type:"POST",
+              data: {emailInput: email, passwordInput: password},
+              success: function(responseData){
+                console.log(responseData);
+                if (responseData === "true"){
+                  location.href = "../navbar.php";
+                } else {
+                  window.alert("Incorrect Credentials");
+                }
+              },
+              error: function(e){
+                  window.alert("Error Occurred! Please refer to console.");
+                  console.log(e.message);
+              }
+            });
           });
       });
       </script>
