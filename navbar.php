@@ -59,6 +59,11 @@ if (isset($_SESSION['email'])){
                     <li class="nav-item " style="text-align:center;">
                         <a id="knowledgelink" class="nav-link text-dark" onclick ="navclick('knowledge/forum.php')">Knowledge Forum</a>
                     </li>
+                    <?php if($_SESSION['isAdmin'] == true) { echo(
+                        "<li class='nav-item ' style='text-align:center;'>
+                            <a id='knowledgelink' class='nav-link text-dark' onclick =\"navclick('adminStuff/viewUsers.php')\">View All Users</a>
+                        </li>"
+                    );}?>
                 </ul>
 
             </div>
