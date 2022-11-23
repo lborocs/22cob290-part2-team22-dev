@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="dashboard/dashboard.js"></script>
     <script>
         $.ajax({
             url: "dashboard/grabUserCards.php",
@@ -71,16 +70,6 @@
                 </div>
             </div>
 
-            <hr class="my-4">
-
-            <div class="jumbotron form-jumbo">
-                <p>Please enter a recipient's email and click on the button below to generate an invite code:</p>
-                <div class="form-group">
-                    <input type="email" class="form-control" id="emailInput" placeholder="Enter email">
-                </div>
-                <button class="btn btn-primary" style="margin-top:10px;" type="button" onclick="generateAuthCode()">Create an Auth Code</button>
-                <div class="jumbotron jumbotron-fluid" id="result" style="display:none"></div>
-            </div>
         </section>
     </main>
 

@@ -1,4 +1,5 @@
 <?php
+session_start();
 function generateAuthCode() {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
@@ -9,11 +10,35 @@ function generateAuthCode() {
     return $authCode;
 }
 
+$servername = "sci-project";
+$username = "colmt";
+$password = "Gn63O4FwYP";
+$dbname = "colmt";
+
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+if (!$conn) {
+	die("Connection failed: " . mysqli_connect_error());
+}
+
 $authCode = generateAuthCode();
 
-$file = fopen("../generalFiles/AuthCodes.txt","a") or die("Unable to find file!");
-fwrite($file, $authCode."\n");
-fclose($file);
+$issueDate = date("Y-m-d");
 
-echo(json_encode($authCode));
+$time = time();
+$expiryDate = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) +3 ,date("Y", $time)));
+
+$recipientEmail = $_POST['recipientEmail'];
+
+$senderEmail = $_SESSION['email'];
+
+$sql = "INSERT INTO invites VALUES ('$authCode', '$recipientEmail', '$senderEmail', '$issueDate', '$expiryDate')";
+$result = mysqli_query($conn, $sql);
+
+if ($result == false){
+    echo "false";
+} else {
+    echo $authCode;
+}
+
 ?>

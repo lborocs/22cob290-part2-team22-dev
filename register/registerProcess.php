@@ -1,60 +1,39 @@
 <?php
 
-$emailInput = $_POST['emailInput'];
-$passwordInput = $_POST['passwordInput'];
+$emailInput = trim($_POST['emailInput']);
+$passwordInput = trim($_POST['passwordInput']);
 $hash = password_hash($passwordInput, PASSWORD_DEFAULT);
-
-$newUser = array("email"=>$emailInput, "passwordHash"=>$hash, "isAdmin"=>false);
-
-//Grabbing the json users array and appending the new user to it
-$file = file_get_contents("../generalFiles/users.json") or die("Unable to find file!");
-$json = json_decode($file,true);
-array_push($json, $newUser);
-
-//Writing to the json file
-$temp = fopen("../generalFiles/users.json","w");
-fwrite($temp,json_encode($json));
-fclose($temp);
-
-header("Location: ../navbar.php");
-die();
 
 // WHEN WE START TO USE THE DB REPLACE WITH - 
 
-// $servername = "sci-mysql";
-// $username = "team22";
-// $password = "O6AMcu4rDq";
-// $dbname = "team22";
+$servername = "sci-project";
+$username = "colmt";
+$password = "Gn63O4FwYP";
+$dbname = "colmt";
 
-// $conn = mysqli_connect($servername, $username, $password, $dbname);
+$conn = mysqli_connect($servername, $username, $password, $dbname);
 
-// //Checking connection
-// if (!$conn) {
-// 	die("The connection has failed: " . mysqli_connect_error());
-	
-// }
+//Checking connection
+if (!$conn) {
+	die("The connection has failed: " . mysqli_connect_error());
+}
 
-// //Values from register.html
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-// 	$email = trim($_POST["emailInput"]);
-// 	$pwdInput = trim($_POST["passInp"]);
-// }
+$sql = "INSERT INTO users VALUES ('$emailInput', '$hash', 0)";
 
 
-// $hashedPwd = password_hash($pwdInput, PASSWORD_DEFAULT);
+if (mysqli_query($conn, $sql)) {
+	echo "New record created successfully";
 
+    $inviteCode = trim($_POST['inviteCode']);
+    $sql = "DELETE FROM invites WHERE inviteCode = '$inviteCode'";
+    mysqli_query($conn, $sql);
 
-// $sql = "INSERT INTO Users (email, passwordHash) VALUES ($email, $hashedPwd)";
+    mysqli_close($conn);
+    header("Location: ../navbar.php");
+    die();
+} else {
+	echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 
-
-// if (mysqli_query(&conn, &sql)) {
-// 	echo "New record created successfully";
-// } else {
-// 	echo "Error: " . $sql . "<br>" . mysqli_error(%conn);
-
-
-
-// mysqli_close($conn);
- 
+}
 
 ?>
