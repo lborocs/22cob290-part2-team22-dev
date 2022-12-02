@@ -30,6 +30,7 @@ if(isset($_GET['inviteCode'])){
     header("Location: /login/index.php");
     die();
   }
+}
 ?>
 
 <!DOCTYPE html>

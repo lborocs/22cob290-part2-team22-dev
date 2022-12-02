@@ -18,23 +18,19 @@ session_destroy();
 <body style="width:100% !important;">
 <div class="container-fluid login-container">
 
-    <h3 class="center title">Sign in to Dashboard</h3>
+    <h3 class="center title">Forgotten Password</h3>
     <div class="jumbotron form-jumbo">
-        <form id="loginForm">
+    <div id = 'banner'></div>
+        <form id="forgotForm">
             <div class="form-group">
               <label for="emailInput">Email Address</label>
               <input type="email" class="form-control" id="emailInput" name="emailInput">
               
             </div>
-            <div class="form-group">
-                <div class="group">
-              <label class="pass" for="passwordInput">Password</label>
-              <a style=" font-size: smaller" href="forgotPassword.php">Forgot Password?</a>
-            </div>
-              
-              <input type="password" class="form-control" id="passwordInput" name="passwordInput">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
+            <button type="submit" class="btn btn-success">Continue</button>
+            <br>
+            <br>
+            <a class="center title" style=" font-size: smaller;" href="index.php">Return to login</a>
         </form>
 
 
@@ -42,22 +38,25 @@ session_destroy();
     <script>
       $(document).ready(function () {
 
-          $("#loginForm").submit(function(event){
+          $("#forgotForm").submit(function(event){
             event.preventDefault();
             
             var email = $("#emailInput").val();
-            var password = $("#passwordInput").val();
 
             $.ajax({
-              url:"loginDB.php",
+              url:"emailFinder.php",
               type:"POST",
-              data: {emailInput: email, passwordInput: password},
+              data: {emailInput: email},
               success: function(responseData){
                 console.log(responseData);
                 if (responseData === "true"){
-                  location.href = "../navbar.php";
+                  $( "#emailInput" ).prop( "disabled", true );
+                  $(".btn").css("display","None");
+                  document.getElementById('banner').innerHTML = `<div class="alert alert-success" role="alert">An email has been sent to you!</div>`;
+
+                  
                 } else {
-                  window.alert("Incorrect Credentials");
+                  window.alert("Invalid email try again");
                 }
               },
               error: function(e){
