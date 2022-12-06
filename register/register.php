@@ -2,10 +2,7 @@
 session_start();
 
 function checkInviteCode($inviteCode){
-  $servername = "sci-project";
-  $username = "colmt";
-  $password = "Gn63O4FwYP";
-  $dbname = "colmt";
+  include("../DBCredentials.php");
 
   $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -30,7 +27,7 @@ if(isset($_GET['inviteCode'])){
     header("Location: /login/index.php");
     die();
   }
-}
+
 ?>
 
 <!DOCTYPE html>

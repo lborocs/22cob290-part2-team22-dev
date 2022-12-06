@@ -5,10 +5,7 @@ $hash = password_hash($passwordInput, PASSWORD_DEFAULT);
 
 // WHEN WE START TO USE THE DB REPLACE WITH - 
 
-$servername = "sci-project";
-$username = "colmt";
-$password = "Gn63O4FwYP";
-$dbname = "colmt";
+include("../DBCredentials.php");
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
