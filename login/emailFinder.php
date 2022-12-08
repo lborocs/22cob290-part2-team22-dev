@@ -2,10 +2,7 @@
 session_start();
 
 
-$servername = "sci-project";
-$username = "colmt";
-$password = "Gn63O4FwYP";
-$dbname = "colmt";
+include("../DBCredentials.php");
 
 $emailInput = $_POST['emailInput'];
 
