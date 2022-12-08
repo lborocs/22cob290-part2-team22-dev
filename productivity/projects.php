@@ -197,35 +197,6 @@
                 </div>  
             </div>
             <div id="todo" class="col full-height">TO-DO
-
-                <div class="todoEntry">
-                    <div class="entryBox">
-                        <div class="entryTitle">Placeholder Text</div>
-                        <div class="entryFooter">
-                            <button class="btn subjectText">Subject</button>
-                            <div id="av1" class="avatar" style="background-color:green;">
-                                <div id="av2" class="avatar" style="background-color:blue;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="todoEntry">
-                    <div class="entryBox">
-                        <div class="entryTitle">Placeholder Text</div>
-                        <div class="entryFooter">
-                            <button class="btn subjectText">Subject</button>
-                            <div id="av1" class="avatar" style="background-color:green;">
-                                <div id="av2" class="avatar" style="background-color:blue;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
             </div>
             <div id="development" class="col full-height">SELECTED FOR DEVELOPMENT</div>
 
