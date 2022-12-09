@@ -30,7 +30,7 @@ if (isset($_SESSION['email'])){
 
 </head>
 <body>
-<nav class="navbar navbar-dark" style="background-color: #FFB800;">
+<nav class="navbar navbar-dark" style="background-color: #FFB800; margin:0; border-radius:0;">
     <div class="container-fluid">
         <a href="navbar.php" class="navbar-brand">
             Make-It-All

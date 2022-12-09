@@ -21,7 +21,7 @@
             </div>
 
         </section>
-        
+
         <div class="row">
             <section class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
                 <h5>Create a New Project:</h5>

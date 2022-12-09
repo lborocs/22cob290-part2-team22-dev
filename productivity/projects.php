@@ -12,7 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+    <script src="productivity/projects.js"></script>
     <script>
          $(document).ready(function(){
         
@@ -94,11 +94,113 @@
             });
         }
     </script>
+    <style>
+        .tasks > .row {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .tasks > .row > .card {
+            display: inline-block;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-1 border-right full-height mx-auto" id="options" style="border-radius: 0;">
+                <h5 id="selectedProject">No Project Selected.</h5>
+                <hr class="my-4">
+                <button class="btn btn-primary" style="margin-bottom:2%;" id="changeProjectButton" type="button" data-bs-toggle="modal" data-bs-target="#changeProjectModal" aria-controls="changeProjectModal">Change Selected Project</button>
+                <button class="btn btn-success" style="margin-bottom:2%;" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTaskModal" aria-controls="addTaskModal">Add Task</button>
+                <button class="btn btn-primary" style="margin-bottom:2%;" id='filterTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#filterTaskModal" aria-controls="filterTaskModal">Filter Tasks</button>
+            </div>
 
-    
+            <div class="col-sm full-height mx-auto" style="border-radius: 0;">
+                <h5>To Do</h5>
+                <div class="tasks">
+                    <div id="toDo" class="row" style="margin:2%;">
+                        <div class="card" style="width: 18rem; margin-right:1%;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+                
+                <h5>Selected for Development</h5>
+                <div class="tasks">
+                    <div id="dev" class="row" style="margin:2%;">
+                        <div class="card" style="width: 18rem; margin-right:1%;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <h5>In Progress</h5>
+                <div class="tasks">
+                    <div id="progress" class="row" style="margin:2%;">
+                        <div class="card" style="width: 18rem; margin-right:1%;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <h5>Done</h5>
+                <div class="tasks">
+                    <div id="done" class="row" style="margin:2%;">
+                        <div class="card" style="width: 18rem; margin-right:1%;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="changeProjectModal" tabindex="-1" role="dialog" aria-labelledby="changeProjectModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changeProjectModalLabel">Select Which Project to View:</h5>
+                </div>
+
+                <div class="modal-body mx-auto">
+                    <form id="changeProjectForm">
+                        <label for="ProjectNameField">Project Name:</label><br>
+                        <select class="form-control" id="ProjectNameField" name="ProjectNameField"></select><br>
+
+                        <button type="submit" class="btn btn-success">Choose this Project</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="addTaskModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -183,83 +285,15 @@
             </div>
         </div>
     </div>
-    
-    <div onclick="navShut()" id="adjustablecontainer" class="container-fluid">
-        <div class="row">
-            <div id="options" class="col full-height">
-                <h5 style="padding-top:27px;">Options</h5>
-                <hr class="my-4">
-                <div>
-                    <button id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTaskModal" aria-controls="addTaskModal">Add Task</button>
-                </div>
-                <div>
-                    <button style="margin-top:27px;" id='filterTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#filterTaskModal" aria-controls="filterTaskModal">Filter Tasks</button>
-                </div>  
-            </div>
-            <div id="todo" class="col full-height">TO-DO
-            </div>
-            <div id="development" class="col full-height">SELECTED FOR DEVELOPMENT</div>
-
-
-            <div id="progress" class="col full-height">IN PROGRESS</div>
-
-
-            <div id="done" class="col full-height">DONE</div>
-
-
-        </div>
-
-    </div>
-
 
     <script type="text/javascript">
         changeSelected("project");
-    </script>
-    <script>
         var myOffcanvas = document.getElementById('offcanvasNavbar')
         myOffcanvas.addEventListener('hidden.bs.offcanvas', function() {
             navShut()
         })
-        $.ajax({
-            url:"../productivity/retrieveTaskCards.php",
-            success: function(responseData){
-                let temp = JSON.parse(responseData);
-                console.log(temp);
-                names = []
-                for(let i = 0; i < temp.length; i++){
-                    let id = temp[i].id;
-                    let taskName = temp[i].taskName;
-                    let taskStatus = parseInt(temp[i].taskStatus);
-                    let linkedEpic = temp[i].linkedEpic;
-                    let assignee = temp[i].assignee;
-                    if (names.includes(assignee) == false) {
-                        document.getElementById("memberName").innerHTML += '<option value='+assignee+'>'+assignee+'</option>';
-                        names.push(assignee);
-                    }
-                    switch (taskStatus){
-                        case 0:
-                            document.getElementById("todo").innerHTML += "<div class=\"todoEntry\" style=\"margin-top: 5px;\" onclick=\"editTask("+id+")\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
-                            break;
-                        case 1:
-                            document.getElementById("development").innerHTML += "<div class=\"developementEntry\" style=\"margin-top: 5px;\" onclick=\"editTask("+id+")\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
-                            break;
-                        case 2:
-                            document.getElementById("progress").innerHTML += "<div class=\"progressEntry\" style=\"margin-top: 5px;\" onclick=\"editTask("+id+")\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
-                            break;
-                        case 3:
-                            document.getElementById("done").innerHTML += "<div class=\"doneEntry\" style=\"margin-top: 5px;\" onclick=\"editTask("+id+")\"><div class=\"entryBox\" ><div class=\"entryTitle\">"+taskName+"</div><div class=\"entryFooter\"><button class=\"btn subjectText\">"+assignee+"</button><div id=\"av1\" class=\"avatar\" style=\"background-color:green;\"><div id=\"av2\" class=\"avatar\" style=\"background-color:blue;\"></div></div></div></div></div>"
-                            break;
-                    }
-                }
-
-            },
-            error: function(e){
-                console.log(e.message);
-            }
-            
-        });
-
-</script>
+        GrabProjects();
+    </script>
 </body>
 
 </html>
