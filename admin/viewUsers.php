@@ -3,7 +3,7 @@
     <head>
         <script>
             $.ajax({
-                url: "adminStuff/grabUserCards.php",
+                url: "admin/grabUserCards.php",
                 success: function(responseData){
                     let temp = JSON.parse(responseData);
                     for(let user of temp){
@@ -14,7 +14,7 @@
                         }
                     }
                 }
-            })
+            });
         </script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
