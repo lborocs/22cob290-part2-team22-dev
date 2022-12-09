@@ -10,6 +10,18 @@ function GrabEmails(){
     });
 }
 
+function GrabProjects(){
+    $.ajax({
+        url:"../admin/grabProjectCards.php",
+        success: function(responseData){
+            let temp = JSON.parse(responseData);
+            for (let project of temp){
+                document.getElementById("AdminProjectOverview").innerHTML += "<div class='card' style='width: 20rem; margin-left: 10px; margin-right: 10px;'><div class='card-body'><h5 class='card-title'>"+ project['projectName'] +"</h5><h6 class='card-subtitle mb-2 text-muted'>Team Leader: " + project['teamLeader'] + "</h6><a onclick=\"navclick('productivity/projects.php\')\" class='card-link'>Go to Project</a></div></div>"
+            }
+        }
+    });
+}
+
 $(document).ready(function(){
     $("#CreateProjectForm").submit(function(event){
         let projectName = $("#ProjectNameField").val();
