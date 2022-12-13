@@ -12,7 +12,7 @@ if (isset($_SESSION['email'])){
 <link rel="stylesheet" href="style.css">
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0">
 <script src = 'navbar.js'></script>
 <!--Bootstrap-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -61,7 +61,7 @@ if (isset($_SESSION['email'])){
                     </li>
                     <?php if($_SESSION['isAdmin'] == true) { echo(
                         "<li class='nav-item ' style='text-align:center;'>
-                            <a id='knowledgelink' class='nav-link text-dark' onclick =\"navclick('adminStuff/viewUsers.php')\">View All Users</a>
+                            <a id='knowledgelink' class='nav-link text-dark' onclick =\"navclick('admin/viewUsers.php')\">View All Users</a>
                         </li>"
                     );}?>
                 </ul>

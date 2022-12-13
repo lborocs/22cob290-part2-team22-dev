@@ -6,7 +6,7 @@
     <script src="../dashboard/navbar.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0">
 
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -14,61 +14,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="productivity/projects.js"></script>
     <script>
-         $(document).ready(function(){
+        $(document).ready(function(){
         
             localStorage.setItem("currentPage", "/productivity/projects.php");
         
-            
-        
-    });
-        $(function(){
-            $("#addTaskForm").submit(function(event){
-                
-
-                let taskName = $("#taskName").val();
-                let taskStatus = $("#taskStatus option:selected").val();
-                let linkedEpic = $("#linkedEpic").val();
-                let assignee = $("#assignee").val();
-
-                $.ajax({
-                    url:"../productivity/processAddTaskForm.php",
-                    type:"POST",
-                    data: {taskName: taskName, taskStatus: taskStatus, linkedEpic: linkedEpic, assignee:assignee},
-                    success: function(){
-                        $('#addTaskModal').modal('hide');
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-                        navclick("../productivity/projects.php");
-                    },
-                    error: function(e){
-                        window.alert("Error Occurred! Please refer to console.");
-                        console.log(e.message);
-                    }
-                });
-                event.preventDefault();
-            });
-            $("#filterTaskForm").submit(function(event){
-                let memberName = $("#memberName option:selected").val();
-                var developmentDivs = document.getElementsByClassName("developementEntry");
-                var progressDivs = document.getElementsByClassName("progressEntry");
-                var doneDivs  = document.getElementsByClassName("doneEntry");
-                var todoDivs = document.getElementsByClassName('todoEntry');
-                var divs = [todoDivs,developmentDivs,progressDivs,doneDivs];
-                for(var j = 0; j<4;j++) {
-                    for(var i = 0; i < divs[j].length; i++){
-                        divs[j][i].style.display = 'block'; 
-                        if ((divs[j][i].getElementsByTagName('button')[0].innerHTML != memberName)) {
-                            if (memberName != 'None') {
-                                divs[j][i].style.display = 'None'; 
-                            }
-                        }
-                    }
-                }
-                $('#filterTaskModal').modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-                return false;
-            });
         });
         function editTask(id) {
             $('#EditTaskModal').modal('show');
@@ -95,6 +44,7 @@
         }
     </script>
     <style>
+
         .tasks > .row {
             display: block;
             overflow-x: auto;
@@ -118,66 +68,29 @@
             </div>
 
             <div class="col-sm full-height mx-auto" style="border-radius: 0;">
-                <h5>To Do</h5>
-                <div class="tasks">
-                    <div id="toDo" class="row" style="margin:2%;">
-                        <div class="card" style="width: 18rem; margin-right:1%;">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" class="card-link">Card link</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
+                <div id="displayTasks" style="display:none">
+                    <h5>To Do</h5>
+                    <div class="tasks">
+                        <div id="toDo" class="row" style="margin:2%;"></div>
+                    </div>
+                    
+                    <h5>Selected for Development</h5>
+                    <div class="tasks">
+                        <div id="dev" class="row" style="margin:2%;"></div>
+                    </div>
+
+                    <h5>In Progress</h5>
+                    <div class="tasks">
+                        <div id="progress" class="row" style="margin:2%;"></div>
+                    </div>
+
+                    <h5>Done</h5>
+                    <div class="tasks">
+                        <div id="done" class="row" style="margin:2%;"></div>
                     </div>
                 </div>
-
-                <hr class="my-4">
-                
-                <h5>Selected for Development</h5>
-                <div class="tasks">
-                    <div id="dev" class="row" style="margin:2%;">
-                        <div class="card" style="width: 18rem; margin-right:1%;">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" class="card-link">Card link</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="my-4">
-
-                <h5>In Progress</h5>
-                <div class="tasks">
-                    <div id="progress" class="row" style="margin:2%;">
-                        <div class="card" style="width: 18rem; margin-right:1%;">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="my-4">
-
-                <h5>Done</h5>
-                <div class="tasks">
-                    <div id="done" class="row" style="margin:2%;">
-                        <div class="card" style="width: 18rem; margin-right:1%;">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" class="card-link">Card link</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
-                    </div>
+                <div id="noTasks" class="lead" style="margin-top: 27%;">
+                    No Tasks to Show.
                 </div>
             </div>
         </div>
@@ -215,6 +128,7 @@
                             <label for="taskName">Input Task Name:</label>
                             <input type="text" class="form-control" id="taskName" name="taskName" required>
                         </div>
+
                         <label for="taskStatus">Current Task Status:</label>
                         <select multiple class="form-control" name="taskStatus" id="taskStatus" required>
                             <option value="0">To Do</option>
@@ -223,14 +137,22 @@
                             <option value="3">Done</option>
                         </select>
                         <br>
+
                         <div class="form-group">
-                            <label for="linkedEpic">Linked Topic:</label>
-                            <input type="text" class="form-control" id="linkedEpic" name="linkedEpic">
+                            <label for="descriptionTextArea">Description:</label>
+                            <textarea class="form-control" id="descriptionTextArea" name="descriptionTextArea" rows="3"></textarea>
                         </div>
+
+                        <div class="form-group">
+                            <label for="manHoursInput">Expected Man Hours to Completion:</label>
+                            <input type="number" class="form-control" name="manHoursInput" id="manHoursInput" min="0" required>
+                        </div>
+
                         <div class="form-group">
                             <label for="assignee">Assignee:</label>
-                            <input type="text" class="form-control" id="assignee" name="assignee">
+                            <select class="form-control" id="assignee" name="assignee" required></select>
                         </div>
+
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
@@ -293,6 +215,8 @@
             navShut()
         })
         GrabProjects();
+        GrabAssignees();
+        sessionStorage.removeItem("chosenProject");
     </script>
 </body>
 
