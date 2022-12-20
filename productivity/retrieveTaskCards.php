@@ -9,7 +9,7 @@ if (!$conn) {
 
 $projectID = $_POST['projectID'];
 
-$sql = "SELECT taskName, status FROM tasks WHERE projectID = '$projectID'";
+$sql = "SELECT taskID, taskName, status FROM tasks WHERE projectID = '$projectID'";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result)>0){

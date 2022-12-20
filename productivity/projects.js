@@ -22,6 +22,20 @@ function GrabAssignees(){
     });
 }
 
+function OpenTaskPanel(chosenTaskID){
+    $('#EditTaskModal').modal('show');
+    $.ajax({
+        url: "productivity/retrieveTaskDetails.php",
+        type:"POST",
+        data:{taskID:chosenTaskID, projectID:sessionStorage.getItem("chosenProject")},
+        success: function(responseData){
+            let taskDetails = JSON.parse(responseData)[0];
+            document.querySelector("#editTaskName").value = taskDetails['taskName'];
+            document.querySelector("#editDescriptionTextArea").value = taskDetails['description'];
+        }
+    });
+}
+
 function RefreshPage(projectID){
     
     document.getElementById("toDo").innerHTML = "";
@@ -39,18 +53,19 @@ function RefreshPage(projectID){
             let temp = JSON.parse(responseData);
             for(let task of temp){
                 let taskStatus = Number(task['status']);
+                let newTaskCard = "<div class='card' style='width: 18rem; margin-right:1%;' onclick='OpenTaskPanel(\""+task['taskID']+"\")'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
                 switch (taskStatus){
                     case 0:
-                        document.getElementById("toDo").innerHTML += "<div class='card' style='width: 18rem; margin-right:1%;'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
+                        document.getElementById("toDo").innerHTML += newTaskCard;
                         break;
                     case 1:
-                        document.getElementById("dev").innerHTML += "<div class='card' style='width: 18rem; margin-right:1%;'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
+                        document.getElementById("dev").innerHTML += newTaskCard;
                         break;
                     case 2:
-                        document.getElementById("progress").innerHTML += "<div class='card' style='width: 18rem; margin-right:1%;'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
+                        document.getElementById("progress").innerHTML += newTaskCard;
                         break;
                     case 3:
-                        document.getElementById("done").innerHTML += "<div class='card' style='width: 18rem; margin-right:1%;'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
+                        document.getElementById("done").innerHTML += newTaskCard;
                         break;
 
                 }
@@ -90,20 +105,20 @@ $(document).ready(function(){
                     let temp = JSON.parse(responseData);
                     for(let task of temp){
                         let taskStatus = Number(task['status']);
+                        let newTaskCard = "<div class='card' style='width: 18rem; margin-right:1%;' onclick='OpenTaskPanel(\""+task['taskID']+"\")'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
                         switch (taskStatus){
                             case 0:
-                                document.getElementById("toDo").innerHTML += "<div class='card' style='width: 18rem; margin-right:1%;'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
+                                document.getElementById("toDo").innerHTML += newTaskCard;
                                 break;
                             case 1:
-                                document.getElementById("dev").innerHTML += "<div class='card' style='width: 18rem; margin-right:1%;'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
+                                document.getElementById("dev").innerHTML += newTaskCard;
                                 break;
                             case 2:
-                                document.getElementById("progress").innerHTML += "<div class='card' style='width: 18rem; margin-right:1%;'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
+                                document.getElementById("progress").innerHTML += newTaskCard;
                                 break;
                             case 3:
-                                document.getElementById("done").innerHTML += "<div class='card' style='width: 18rem; margin-right:1%;'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
+                                document.getElementById("done").innerHTML += newTaskCard;
                                 break;
-
                         }
                     }
                 }

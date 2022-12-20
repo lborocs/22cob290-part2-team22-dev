@@ -130,7 +130,7 @@
                         </div>
 
                         <label for="taskStatus">Current Task Status:</label>
-                        <select multiple class="form-control" name="taskStatus" id="taskStatus" required>
+                        <select class="form-control" name="taskStatus" id="taskStatus" required>
                             <option value="0">To Do</option>
                             <option value="1">Selected for Development</option>
                             <option value="2">In Progress</option>
@@ -170,15 +170,17 @@
 
                 <div class="modal-body">
                     <form id="EditTaskForm">
-                        <label for="taskStatus">Change Task Status:</label>
-                        <select multiple class="form-control" name="EdittaskStatus" id="EdittaskStatus" required>
-                            <option value="0">To Do</option>
-                            <option value="1">Selected for Development</option>
-                            <option value="2">In Progress</option>
-                            <option value="3">Done</option>
-                        </select>
-                        <br>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="form-group">
+                            <label for="editTaskName">Task Name:</label>
+                            <input type="text" class="form-control" id="editTaskName" name="editTaskName">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editDescriptionTextArea">Description:</label>
+                            <textarea class="form-control" id="editDescriptionTextArea" name="editDescriptionTextArea" rows="3"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success">Save</button>
                     </form>
                 </div>
             </div>
