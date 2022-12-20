@@ -157,10 +157,8 @@ session_start();
 <script>
   
    $(document).ready(function(){
-        
-            localStorage.setItem("currentPage", "knowledge/forum.php");
-            console.log(localStorage.getItem("technical"));
-            (localStorage.getItem("technical") == 1) ? document.getElementById('chooseTopic').innerHTML = 'Choose Technical Topic' : document.getElementById('chooseTopic').innerHTML = 'Choose non Technical Topic';
+      localStorage.setItem("currentPage", "knowledge/wiki.php");
+      (localStorage.getItem("technical") == 1) ? document.getElementById('chooseTopic').innerHTML = 'Choose Technical Topic' : document.getElementById('chooseTopic').innerHTML = 'Choose non Technical Topic';
     });
 
 
@@ -175,13 +173,12 @@ session_start();
                 temp.forEach((topic) => {
                   if (topic.technical === technical) {
                     var letter = topic.name.charAt(0).toUpperCase();
-                    letterToTopic.has(letter) ? letterToTopic.get(letter).push(topic.name) : letterToTopic.set(letter,[topic.name]);
+                    letterToTopic.has(letter) ? letterToTopic.get(letter).push(topic.name.charAt(0).toUpperCase() + topic.name.slice(1)) : letterToTopic.set(letter,[topic.name.charAt(0).toUpperCase() + topic.name.slice(1)]);
                 }
               });
 
             document.getElementsByClassName("container")[0].innerHTML = '';
             const sortedLetterToTopic = new Map([...letterToTopic].sort());
-
             sortedLetterToTopic.forEach((value, key) => {
               var container = document.getElementsByClassName("container")[0];
               var letterDiv = document.createElement("div");
@@ -189,7 +186,7 @@ session_start();
               h1.appendChild(document.createTextNode(key));
               letterDiv.appendChild(h1);
               letterDiv.setAttribute("class", "letter");
-              value.forEach((topicName) => {
+              value.sort().forEach((topicName) => {
                 var a = document.createElement("a");
                 var li = document.createElement("li");
                 a.setAttribute("href", "google.com");
