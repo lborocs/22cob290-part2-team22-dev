@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-if (isset($_SESSION['email'])){
-
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +55,9 @@ if (isset($_SESSION['email'])){
                         <a id="projectlink" class="nav-link text-dark" onclick="navclick('productivity/projects.php')">Projects</a>
                     </li>
                     <li class="nav-item " style="text-align:center;">
-                        <a id="knowledgelink" class="nav-link text-dark" onclick ="navclick('knowledge/forum.php')">Knowledge Forum</a>
+                        <h4>Knowledge Wiki</h4>
+                        <a id="knowledgeNonTechnical" class="nav-link text-dark" onclick = "localStorage.setItem('technical', 0); navclick('knowledge/wiki.php');">Non-Technical Wiki</a>
+                        <a id="knowledgeTechnical" class="nav-link text-dark" onclick = "localStorage.setItem('technical', 1); navclick('knowledge/wiki.php');">Technical Wiki</a>
                     </li>
                     <?php if($_SESSION['isAdmin'] == true) { echo(
                         "<li class='nav-item ' style='text-align:center;'>
@@ -108,10 +108,3 @@ if (isset($_SESSION['email'])){
 
 </body>
 </html>
-<?php
-
-} else {
-    header("Location: /login/index.php");
-    die();
-}
-?>
