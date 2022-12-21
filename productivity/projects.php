@@ -19,29 +19,6 @@
             localStorage.setItem("currentPage", "/productivity/projects.php");
         
         });
-        function editTask(id) {
-            $('#EditTaskModal').modal('show');
-            $("#EditTaskModal").submit(function(event){
-                let taskStatus = $("#EdittaskStatus option:selected").val();
-                console.log(taskStatus);
-                $.ajax({
-                    url:"../productivity/editTaskStatus.php",
-                    type:"POST",
-                    data: {id: id, taskStatus: taskStatus},
-                    success: function(){
-                        $('#EditTaskModal').modal('hide');
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-                        navclick("../productivity/projects.php");
-                    },
-                    error: function(e){
-                        window.alert("Error Occurred! Please refer to console.");
-                        console.log(e.message);
-                    }
-                });
-                event.preventDefault();
-            });
-        }
     </script>
     <style>
 
@@ -179,7 +156,7 @@
                             <label for="editDescriptionTextArea">Description:</label>
                             <textarea class="form-control" id="editDescriptionTextArea" name="editDescriptionTextArea" rows="3"></textarea>
                         </div>
-                        
+
                         <button type="submit" class="btn btn-success">Save</button>
                     </form>
                 </div>
