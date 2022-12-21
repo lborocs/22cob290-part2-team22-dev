@@ -65,7 +65,7 @@ session_start();
             posts[j].getElementsByTagName("li")[i].style.display = 'list-item';
             var textInside = posts[j].getElementsByTagName("li")[i];
 
-            if (!(textInside.innerHTML.includes(x.toLowerCase().trim()))) {
+            if (!(textInside.innerHTML.toLowerCase().includes(x.toLowerCase().trim()))) {
                 posts[j].getElementsByTagName("li")[i].style.display = 'None';
             }
             else {
