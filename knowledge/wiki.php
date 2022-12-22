@@ -63,13 +63,12 @@ session_start();
           for (var i = 0; i<posts[j].getElementsByTagName("li").length; i ++) {
 
             posts[j].getElementsByTagName("li")[i].style.display = 'list-item';
-            var textInside = posts[j].getElementsByTagName("li")[i];
+            var textInside = posts[j].getElementsByTagName("li")[i].getElementsByTagName("a")[0];
 
             if (!(textInside.innerHTML.toLowerCase().includes(x.toLowerCase().trim()))) {
                 posts[j].getElementsByTagName("li")[i].style.display = 'None';
             }
             else {
-              console.log(posts[j].getElementsByTagName("li")[i].innerHTML);
               nothing = letterFound = true;
             }
             
