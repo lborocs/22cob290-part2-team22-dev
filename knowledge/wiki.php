@@ -9,13 +9,11 @@ session_start();
     <script src="../navbar.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-
 <script>
     $(function(){
 
@@ -63,13 +61,12 @@ session_start();
           for (var i = 0; i<posts[j].getElementsByTagName("li").length; i ++) {
 
             posts[j].getElementsByTagName("li")[i].style.display = 'list-item';
-            var textInside = posts[j].getElementsByTagName("li")[i];
+            var textInside = posts[j].getElementsByTagName("li")[i].getElementsByTagName("a")[0];
 
             if (!(textInside.innerHTML.toLowerCase().includes(x.toLowerCase().trim()))) {
                 posts[j].getElementsByTagName("li")[i].style.display = 'None';
             }
             else {
-              console.log(posts[j].getElementsByTagName("li")[i].innerHTML);
               nothing = letterFound = true;
             }
             
@@ -95,6 +92,12 @@ session_start();
 </script>
 </head>
 <body>
+<div id="contextMenu" class="context-menu" 
+  style="display:none">
+  <ul>
+      <li><a href="#" id = 'deleteMenu'>Delete</a></li>
+  </ul>
+</div>
 <div class="modal" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="addPostModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -122,12 +125,17 @@ session_start();
   <div style="width:100%" id="Options">
       <h5 style="padding-top:27px;">Options</h5>
       <hr class="my-4">
-      <div class="forumSearch">
-          <input type="text" value = "" placeholder="Search Topic" style="width :99%" id="wordSelect" onchange="searchFilter(this.value)">
+      <div class="input-group rounded">
+        <input type="search" value = "" class="form-control rounded" placeholder="Search Topic" id="wordSelect" onchange="searchFilter(this.value)" aria-label="Search" aria-describedby="search-addon" />
+        <span class="input-group-text border-0" id="search-addon">
+          <i class="fas fa-search"></i>
+        </span>
       </div>
     <div style = 'margin-top: 20px;'>
-      <button id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addPostModal" aria-controls="addPostModal">Create Post</button>
-      <button id='FAQButton' type="button" onclick="navclick('/knowledge/faq.php')">FAQ</button>
+      <button class="btn btn-primary" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addPostModal" aria-controls="addPostModal">Create Topic</button>
+      <br>
+      <br>
+      <button class="btn btn-primary" id='FAQButton' type="button" onclick="navclick('/knowledge/faq.php')">FAQ</button>
   </div>
     </div>
 </section>
@@ -189,8 +197,12 @@ session_start();
               value.sort().forEach((topicName) => {
                 var a = document.createElement("a");
                 var li = document.createElement("li");
-                a.setAttribute("href", "google.com");
+                a.setAttribute("href","#");
                 a.appendChild(document.createTextNode(topicName));
+                document.onclick = hideMenu;
+                if (<?php echo ($_SESSION['isAdmin'])?>) {
+                    a.oncontextmenu = rightClick(topicName);
+                }
                 li.appendChild(a);
                 letterDiv.appendChild(li);
               });
@@ -201,6 +213,51 @@ session_start();
                 console.log(e.message);
             }
         });
+
+
+  function hideMenu() {
+      document.getElementById(
+          "contextMenu").style.display = "none";
+  }
+
+  function rightClick(topicName) {
+    return function(e) {
+      e.preventDefault();
+
+      if (document.getElementById(
+          "contextMenu").style.display == "block") {
+          hideMenu();
+        }
+      else {
+          var menu = document
+              .getElementById("contextMenu");
+          menu.title = topicName;
+          menu.style.display = 'block';
+          menu.style.left = e.pageX + "px";
+          menu.style.top = e.pageY + "px";
+          console.log(menu.title);
+      }
+    }
+  }
+
+  $("#deleteMenu").click(function(event){
+    let topicName = document.getElementById('contextMenu').title;
+    $.ajax({
+        url:"knowledge/deleteTopic.php",
+        type:"POST",
+        data: {topicName : topicName},
+        success: function(responseData){
+          location.reload();
+          hideMenu();
+        },
+        error: function(e){
+            window.alert("Error Occurred! Please refer to console.");
+            console.log(e.message);
+        }
+    });
+  });
+
+  
 </script>
 </body>
 </html>
