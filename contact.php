@@ -14,6 +14,6 @@ $to = "bendadzie03@gmail.com";
 
 
 mail($to,$subject,$body);
-header("Location: contactadmin.html");
+header("Location: contactadmin.php");
     
 ?>
