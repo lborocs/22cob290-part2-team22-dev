@@ -19,29 +19,6 @@
             localStorage.setItem("currentPage", "/productivity/projects.php");
         
         });
-        function editTask(id) {
-            $('#EditTaskModal').modal('show');
-            $("#EditTaskModal").submit(function(event){
-                let taskStatus = $("#EdittaskStatus option:selected").val();
-                console.log(taskStatus);
-                $.ajax({
-                    url:"../productivity/editTaskStatus.php",
-                    type:"POST",
-                    data: {id: id, taskStatus: taskStatus},
-                    success: function(){
-                        $('#EditTaskModal').modal('hide');
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-                        navclick("../productivity/projects.php");
-                    },
-                    error: function(e){
-                        window.alert("Error Occurred! Please refer to console.");
-                        console.log(e.message);
-                    }
-                });
-                event.preventDefault();
-            });
-        }
     </script>
     <style>
 
@@ -130,7 +107,7 @@
                         </div>
 
                         <label for="taskStatus">Current Task Status:</label>
-                        <select multiple class="form-control" name="taskStatus" id="taskStatus" required>
+                        <select class="form-control" name="taskStatus" id="taskStatus" required>
                             <option value="0">To Do</option>
                             <option value="1">Selected for Development</option>
                             <option value="2">In Progress</option>
@@ -170,15 +147,17 @@
 
                 <div class="modal-body">
                     <form id="EditTaskForm">
-                        <label for="taskStatus">Change Task Status:</label>
-                        <select multiple class="form-control" name="EdittaskStatus" id="EdittaskStatus" required>
-                            <option value="0">To Do</option>
-                            <option value="1">Selected for Development</option>
-                            <option value="2">In Progress</option>
-                            <option value="3">Done</option>
-                        </select>
-                        <br>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="form-group">
+                            <label for="editTaskName">Task Name:</label>
+                            <input type="text" class="form-control" id="editTaskName" name="editTaskName">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editDescriptionTextArea">Description:</label>
+                            <textarea class="form-control" id="editDescriptionTextArea" name="editDescriptionTextArea" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Save</button>
                     </form>
                 </div>
             </div>
