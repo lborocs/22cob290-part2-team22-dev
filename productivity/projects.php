@@ -23,6 +23,9 @@
     <style>
 
         .tasks > .row {
+            min-height: 5rem;
+            padding-top: 1rem;
+            align-content: center;
             display: block;
             overflow-x: auto;
             white-space: nowrap;
@@ -48,22 +51,22 @@
                 <div id="displayTasks" style="display:none">
                     <h5>To Do</h5>
                     <div class="tasks">
-                        <div id="toDo" class="row" style="margin:2%;"></div>
+                        <div id="toDo" class="row" style="margin:2%;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
                     </div>
                     
                     <h5>Selected for Development</h5>
                     <div class="tasks">
-                        <div id="dev" class="row" style="margin:2%;"></div>
+                        <div id="dev" class="row" style="margin:2%;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
                     </div>
 
                     <h5>In Progress</h5>
                     <div class="tasks">
-                        <div id="progress" class="row" style="margin:2%;"></div>
+                        <div id="progress" class="row" style="margin:2%;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
                     </div>
 
                     <h5>Done</h5>
                     <div class="tasks">
-                        <div id="done" class="row" style="margin:2%;"></div>
+                        <div id="done" class="row" style="margin:2%;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
                     </div>
                 </div>
                 <div id="noTasks" class="lead" style="margin-top: 27%;">
