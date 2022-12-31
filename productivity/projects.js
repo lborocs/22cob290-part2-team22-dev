@@ -42,7 +42,7 @@ function dragEnd(){
     $("#done").css({"border": "none", "background-color":"transparent"});
 }
 
-$("#toDo").on("dragenter", function(){
+$("#toDo").on("dragover", function(){
     $("#toDo").css({"border":"0.25rem dashed #4CBB17", "background-color":"lightgreen"});
 });
 $("#toDo").on("dragleave", function(){
@@ -50,7 +50,7 @@ $("#toDo").on("dragleave", function(){
 });
 
 
-$("#dev").on("dragenter", function(){
+$("#dev").on("dragover", function(){
     $("#dev").css({"border":"0.25rem dashed #4CBB17", "background-color":"lightgreen"});
 });
 $("#dev").on("dragleave", function(){
@@ -58,7 +58,7 @@ $("#dev").on("dragleave", function(){
 });
 
 
-$("#progress").on("dragenter", function(){
+$("#progress").on("dragover", function(){
     $("#progress").css({"border":"0.25rem dashed #4CBB17", "background-color":"lightgreen"});
 });
 $("#progress").on("dragleave", function(){
@@ -66,7 +66,7 @@ $("#progress").on("dragleave", function(){
 });
 
 
-$("#done").on("dragenter", function(){
+$("#done").on("dragover", function(){
     $("#done").css({"border":"0.25rem dashed #4CBB17", "background-color":"lightgreen"});
 });
 $("#done").on("dragleave", function(){
