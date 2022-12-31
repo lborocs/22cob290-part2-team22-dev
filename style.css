@@ -2,6 +2,10 @@
 html{
     font-size: calc(15px + 0.390625vw);
     overflow: hidden;
+    overflow-y: scroll;
+}
+body { 
+    position: absolute; 
 }
 .login-container{
    margin-top: 10vh;
@@ -164,7 +168,32 @@ p{
     font-weight: 600;
 }
 
+.context-menu {
+    position: absolute;
+    display: none;
+    background-color: #f9f9f9;
+    min-width: 90px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
 
+  .context-menu ul {
+      padding: 0px;
+      margin: 0px;
+      min-width: 100px;
+      list-style: none;
+  }
+
+  .context-menu a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .context-menu ul li:hover {
+      background-color: #f1f1f1;
+  }
 
 .subjectText{
    width:50%;
@@ -254,7 +283,7 @@ th{
     background-color: grey!important;
     box-shadow: 1.8px 3.5px 3.5px hsl(0deg 0% 0% / 0.45);
     transition: 0.3s;
-    width: 50% !important;
+    width: 10% !important;
     align-self: center;
 }
 #backButton:hover{

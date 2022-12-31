@@ -1,5 +1,4 @@
 <?php
-session_start();
 function generateAuthCode() {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
@@ -18,24 +17,18 @@ if (!$conn) {
 	die("Connection failed: " . mysqli_connect_error());
 }
 
-$authCode = generateAuthCode();
+$projectID = generateAuthCode();
+$teamLeader = $_POST["teamLeader"];
+$startDate = date("Y-m-d");
+$deadline = $_POST["deadline"];
+$projectName = $_POST["projectName"];
 
-$issueDate = date("Y-m-d");
-
-$time = time();
-$expiryDate = date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time) +3 ,date("Y", $time)));
-
-$recipientEmail = $_POST['recipientEmail'];
-
-$senderEmail = $_SESSION['email'];
-
-$sql = "INSERT INTO invites VALUES ('$authCode', '$recipientEmail', '$senderEmail', '$issueDate', '$expiryDate')";
+$sql = "INSERT INTO projects VALUES ('$projectID', '$teamLeader', '$startDate', '$deadline', '$projectName')";
 $result = mysqli_query($conn, $sql);
 
 if ($result == false){
     echo "false";
 } else {
-    echo $authCode;
+    echo "true";
 }
-
 ?>

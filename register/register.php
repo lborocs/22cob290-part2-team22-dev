@@ -1,8 +1,32 @@
 <?php
 session_start();
 
-if(isset($_SESSION['authcode'])){
+function checkInviteCode($inviteCode){
+  include("../DBCredentials.php");
 
+  $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+  if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+  }
+
+  $sql = "SELECT * FROM invites WHERE inviteCode = '$inviteCode'";
+  $result = mysqli_query($conn, $sql);
+
+  if (mysqli_num_rows($result)>0){
+    $record = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    return $record;
+  } else {
+    return "false";
+  }
+}
+
+if(isset($_GET['inviteCode'])){
+  $record = checkInviteCode($_GET['inviteCode']);
+  if ($record == "false"){
+    header("Location: /login/index.php");
+    die();
+  }
 
 ?>
 
@@ -16,6 +40,7 @@ if(isset($_SESSION['authcode'])){
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <body style="width:100% !important;">
     <title>User Registration Page</title>
 </head>
 <body>
@@ -27,7 +52,7 @@ if(isset($_SESSION['authcode'])){
         <form name = 'Register-Form' onsubmit="return validateForm()" action = 'registerProcess.php' id = "form2" method = 'POST'>
             <div class="form-group">
               <label for="emailInput">Email Address</label>
-              <input type="email" class="form-control" id="emailInput" name = "emailInput"  placeholder="youremail@make-it-all.com">
+              <input type="email" class="form-control" id="emailInput" name = "emailInput"  value="<?php echo $record['inviteeEmail']?>" readonly>
               <span class="error" aria-live="polite"></span>
             </div>
             <div class="form-group">
@@ -48,10 +73,13 @@ if(isset($_SESSION['authcode'])){
             </div>
             <input type="password" class="form-control" id="passwordMatchInput">
             </div>
+            <div class="form-group">
+              <label for="inviteCode">Invite Code:</label>
+              <input type="email" class="form-control" id="inviteCode" name = "inviteCode"  value="<?php echo $record['inviteCode']?>" readonly>
+              <span class="error" aria-live="polite"></span>
+            </div>
             <button type="submit" class="btn btn-primary">Register</button>
-            <div style="margin-top:20px ;">Already have an account? <a href='../login/index.html'>Login here</a></div>
           </form>
-
     </div>
 </div>
 </div>

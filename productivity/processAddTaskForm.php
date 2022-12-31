@@ -1,24 +1,33 @@
 <?php
-    $add = fileWriteAppend();
-    file_put_contents('testProject.json', $add);
-
-
-    function fileWriteAppend(){
-        $taskName = $_POST["taskName"];
-        $taskStatus = $_POST["taskStatus"];
-        $linkedEpic = $_POST["linkedEpic"];
-        $assignee = $_POST["assignee"];
-		$current_data = file_get_contents('testProject.json');
-        $array_data = json_decode($current_data, true);
-        if (!$array_data) {
-            $id = 1;
+    function generateAuthCode() {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $authCode = '';
+        for ($i = 0; $i < 6; $i++) {
+            $authCode .= $characters[rand(0, $charactersLength - 1)];
         }
-        else {
-            $id = $array_data[count($array_data)-1]['id'] + 1;
-        }
-        $new = array('id' => $id,'taskName' => $taskName, 'taskStatus' => $taskStatus, 'linkedEpic' => $linkedEpic, 'assignee' => $assignee);
-		$array_data[] = $new;
-		$final_data = json_encode($array_data);
-		return $final_data;
-}
+        return $authCode;
+    }
+
+    include("../DBCredentials.php");
+
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+    if (!$conn) {
+	    die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $taskID = generateAuthCode();
+    $projectID = $_POST["projectID"];
+    $taskName = $_POST["taskName"];
+    $taskStatus = $_POST["taskStatus"];
+    $description = $_POST["description"];
+    $manHours = $_POST['manHours'];
+    $assignee = $_POST["assignee"];
+
+    $sql = "INSERT INTO tasks VALUES ('$taskID', '$projectID', '$description', '$taskStatus', '$manHours', '$taskName');";
+    $result = mysqli_query($conn, $sql);
+
+    $sql = "INSERT INTO taskToUserMapping VALUES ('$assignee', '$taskID', '$projectID');";
+    $result = mysqli_query($conn, $sql);
 ?>

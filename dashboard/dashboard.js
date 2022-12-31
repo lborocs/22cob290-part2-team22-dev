@@ -1,24 +1,48 @@
-function generateAuthCode(){
-    let email = $("#emailInput").val()
+function GrabEmails(){
+    $.ajax({
+        url: "../admin/grabUserCards.php",
+        success: function(responseData){
+            let temp = JSON.parse(responseData);
+            for(let user of temp){
+                document.getElementById("TeamLeaderField").innerHTML += "<option value='" + user['email'] + "'>" + user['email'] + "</option>";
+            }
+        }
+    });
+}
 
-    if (!(email.includes('@') || email.includes('.') || email.length > 5)) {
-        document.getElementById('result').innerHTML = `<div class="alert alert-warning" role="alert">Enter valid email!</div>`;
-        document.getElementById("result").style = "";
-    } else {
+function GrabProjects(){
+    $.ajax({
+        url:"../admin/grabProjectCards.php",
+        success: function(responseData){
+            let temp = JSON.parse(responseData);
+            for (let project of temp){
+                document.getElementById("AdminProjectOverview").innerHTML += "<div class='card' style='width: 20rem; margin-left: 10px; margin-right: 10px;'><div class='card-body'><h5 class='card-title'>"+ project['projectName'] +"</h5><h6 class='card-subtitle mb-2 text-muted'>Team Leader: " + project['teamLeader'] + "</h6><a onclick=\"navclick('productivity/projects.php\')\" class='card-link'>Go to Project</a></div></div>"
+            }
+        }
+    });
+}
+
+$(document).ready(function(){
+    $("#CreateProjectForm").submit(function(event){
+        let projectName = $("#ProjectNameField").val();
+        let teamLeader = $("#TeamLeaderField").val();
+        let deadline = $("#DeadlineField").val();
         $.ajax({
-            url:"dashboard/generateAuthCode.php",
+            url:"dashboard/createProject.php",
+            type:"POST",
+            data: {projectName : projectName, teamLeader: teamLeader, deadline: deadline},
             success: function(responseData){
-                let temp = JSON.parse(responseData);
-                let msg = "Hi there!%0D%0A%0D%0AYou have been invited to Make-It-All's Productivity and Knowledge System!%0D%0A%0D%0AInsert the code: "+temp+" into the registration section of http://team22.sci-project.lboro.ac.uk/login/index.php";
-                window.open('mailto:'+ email +'?subject=You have been invited to Make-It-All!&body='+msg);
-                document.getElementById("result").innerHTML = ("AuthCode Generated: <b>" + temp + "</b><br>Please share this with whoever you wish to invite.");
-                document.getElementById("result").style = "color: green;"
+                if (responseData === "true"){
+                    window.alert("Project Created!");
+                } else {
+                    window.alert("Error!");
+                }
             },
             error: function(e){
-                document.getElementById("result").innerHTML = ("Error Occurred! Please refer to console.");
+                window.alert("Error Occurred! Please refer to console.");
                 console.log(e.message);
-                document.getElementById("result").style = "color: red;"
             }
         });
-    }
-}
+        event.preventDefault();
+    });
+});

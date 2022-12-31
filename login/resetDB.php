@@ -1,7 +1,6 @@
 <?php
-
-$emailInput = trim($_POST['emailInput']);
 $passwordInput = trim($_POST['passwordInput']);
+$forgotPWD = $_POST['forgotPWD'];
 $hash = password_hash($passwordInput, PASSWORD_DEFAULT);
 
 // WHEN WE START TO USE THE DB REPLACE WITH - 
@@ -15,19 +14,16 @@ if (!$conn) {
 	die("The connection has failed: " . mysqli_connect_error());
 }
 
-$sql = "INSERT INTO users VALUES ('$emailInput', '$hash', 0,'None')";
+$sql = "UPDATE users SET passwordHash = '$hash' WHERE forgotPWD = '$forgotPWD'";
 
 
 if (mysqli_query($conn, $sql)) {
-	echo "New record created successfully";
 
-    $inviteCode = trim($_POST['inviteCode']);
-    $sql = "DELETE FROM invites WHERE inviteCode = '$inviteCode'";
+    $sql = "UPDATE users SET forgotPWD = 'None' WHERE forgotPWD = '$forgotPWD'";
     mysqli_query($conn, $sql);
 
     mysqli_close($conn);
-    header("Location: ../navbar.php");
-    die();
+    echo "true";
 } else {
 	echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 
