@@ -9,7 +9,7 @@ session_start();
     <script src="../navbar.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -92,8 +92,7 @@ session_start();
 </script>
 </head>
 <body>
-<div id="contextMenu" class="context-menu" 
-  style="display:none">
+<div id="contextMenu" class="context-menu" style="display:none">
   <ul>
       <li><a href="#" id = 'deleteMenu'>Delete</a></li>
   </ul>
@@ -143,11 +142,15 @@ session_start();
 <p id ="nomatches"></p>
 
 <div id="contentDiv" style = 'width:80%;'>
-<div style = 'text-align: justify;'>
+<div style = 'width: 100%;'>
 <h1 id = 'chooseTopic'></h1>
+<a href='#' id = 'prev'>Prev Page</a>
+<div style = 'margin-left: 70%; display: inline;'>
+<a href='#' id = 'next'>Next Page</a>
+  </div>
 <hr style = 'border-top: 1px solid black;'>
   </div>
-  <div class="container" style = 'height: 85%;   column-count:5; column-fill: auto; margin-left: 0px;'>
+  <div class="container" style = 'height: 85%; column-count:5; column-fill: auto; margin-left: 0px;'>
   <div class = "letter">
     <h1>A</h1>
     <li><a href = 'google.com'>test</a></li>
@@ -169,8 +172,11 @@ session_start();
       (localStorage.getItem("technical") == 1) ? document.getElementById('chooseTopic').innerHTML = 'Choose Technical Topic' : document.getElementById('chooseTopic').innerHTML = 'Choose non Technical Topic';
     });
 
-
-    
+    const maxItemsOnScreen = 90;
+    console.log(typeof maxItemsOnScreen);
+    var bottom = localStorage.hasOwnProperty('bottom') ? Number(localStorage.getItem("bottom")) : 0;
+    var top1 = localStorage.hasOwnProperty('top') ? Number(localStorage.getItem("top")) : maxItemsOnScreen;
+    var topicCount = 0;
     $.ajax({
             url:"knowledge/getTopics.php",
             success: function(responseData){
@@ -188,6 +194,8 @@ session_start();
             document.getElementsByClassName("container")[0].innerHTML = '';
             const sortedLetterToTopic = new Map([...letterToTopic].sort());
             sortedLetterToTopic.forEach((value, key) => {
+              topicCount += 3;
+              if (bottom <= topicCount && top1 > topicCount) {
               var container = document.getElementsByClassName("container")[0];
               var letterDiv = document.createElement("div");
               var h1 = document.createElement("h1");
@@ -195,18 +203,28 @@ session_start();
               letterDiv.appendChild(h1);
               letterDiv.setAttribute("class", "letter");
               value.sort().forEach((topicName) => {
-                var a = document.createElement("a");
-                var li = document.createElement("li");
-                a.setAttribute("href","#");
-                a.appendChild(document.createTextNode(topicName));
-                document.onclick = hideMenu;
-                if (<?php echo ($_SESSION['isAdmin'])?>) {
-                    a.oncontextmenu = rightClick(topicName);
-                }
-                li.appendChild(a);
-                letterDiv.appendChild(li);
+                  topicCount += 1;
+                  var a = document.createElement("a");
+                  var li = document.createElement("li");
+                  a.setAttribute("href","#");
+                  a.appendChild(document.createTextNode(topicName));
+                  document.onclick = hideMenu;
+                  if (<?php echo ($_SESSION['isAdmin'])?>) {
+                      a.oncontextmenu = rightClick(topicName);
+                  }
+                  li.appendChild(a);
+                  letterDiv.appendChild(li);
+                
               });
               container.appendChild(letterDiv);
+              }
+              else {
+                value.forEach((topicName) => {
+                  topicCount += 1;
+                });
+              }
+            document.getElementById("next").style.display = top1 <= topicCount ? "inline" : 'None';
+            document.getElementById("prev").style.display = bottom > 0 ? "inline" : 'None';
             });
             },
             error: function(e){
@@ -257,7 +275,26 @@ session_start();
     });
   });
 
-  
+  $("#next").click(function() {
+    if (top1 <= topicCount){
+      bottom += Number(maxItemsOnScreen);
+      top1 += Number(maxItemsOnScreen);
+      localStorage.setItem("bottom", bottom);
+      localStorage.setItem("top", top1);
+      location.reload();
+    }
+  });
+
+  $("#prev").click(function() {
+    if (bottom > 0) {
+      bottom -= Number(maxItemsOnScreen);
+      top1 -= Number(maxItemsOnScreen);
+      localStorage.setItem("bottom", bottom);
+      localStorage.setItem("top", top1);
+      location.reload();
+    }
+  });
+
 </script>
 </body>
 </html>
