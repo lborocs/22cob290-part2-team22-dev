@@ -38,6 +38,7 @@ function changeSelected(name) {
 
 function navclick(_url){
     $.ajax({
+        async: false,
         url : _url,
         type : 'post',
         success: function(data) {

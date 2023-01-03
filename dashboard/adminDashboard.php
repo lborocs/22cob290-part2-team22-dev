@@ -9,18 +9,19 @@
 </head>
 <body style="width:100% !important;">
     <main class="bd-content p-5" id="content" role="main">
+        <div class="row">
+            <div class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
+                <h1 class="display-4" style="text-align: center;">Admin Dashboard</h1>
 
-        <section class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
-            <h1 class="display-4" style="text-align: center;">Admin Dashboard</h1>
+                <hr class="my-4">
 
-            <hr class="my-4">
+                <h5>Current Projects:</h5>
 
-            <h5>Current Projects:</h5>
+                <div class="row" id="AdminProjectOverview">
+                </div>
 
-            <div class="row" id="AdminProjectOverview">
             </div>
-
-        </section>
+        </div>
 
         <div class="row">
             <section class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
@@ -28,9 +29,7 @@
 
                 <hr class="my-4">
 
-                <div class="mx-auto">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateProjectModal" aria-controls="CreateProjectModal">Create Project</button>
-                </div>
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#CreateProjectModal" aria-controls="CreateProjectModal">Create Project</button>
 
             </section>
         </div> 
@@ -46,14 +45,14 @@
                 <div class="modal-body mx-auto">
                     <form id="CreateProjectForm">
                         <label for="ProjectNameField">Project Name:</label><br>
-                        <input type="text" class="form-control" id="ProjectNameField" name="ProjectNameField"><br>
+                        <input type="text" class="form-control" id="ProjectNameField" name="ProjectNameField" required><br>
 
                         <label for="TeamLeaderField">Assign a Team Leader:</label><br>
-                        <select class="form-control" id="TeamLeaderField" name="TeamLeaderField">
+                        <select class="form-control" id="TeamLeaderField" name="TeamLeaderField" required>
                         </select><br>
 
                         <label for="DeadlineField">Set the Deadline:</label><br>
-                        <input type="date" class="form-control" id="DeadlineField" name="DeadlineField"><br>
+                        <input type="date" class="form-control" id="DeadlineField" name="DeadlineField" required><br>
 
                         <button type="submit" class="btn btn-success">Create</button>
                     </form>
