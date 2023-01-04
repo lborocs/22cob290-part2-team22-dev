@@ -113,13 +113,17 @@ function OpenTaskPanel(chosenTaskID){
     });
 }
 
-function RefreshPage(projectID){
+function RefreshPage(projectID, projectName=null){
     
     document.getElementById("toDo").innerHTML = "";
     document.getElementById("dev").innerHTML = "";
     document.getElementById("progress").innerHTML = "";
     document.getElementById("done").innerHTML = "";
-
+    
+    if (projectName != null){
+        document.getElementById("selectedProject").innerHTML = "Selected Project: " + projectName;
+    }
+    
     $.ajax({
         url:"productivity/retrieveTaskCards.php",
         type:"POST",
@@ -153,6 +157,7 @@ function RefreshPage(projectID){
                     }
                 }
             }
+            sessionStorage.setItem("chosenProject", projectID);
         },
         error: function(e){
             window.alert("Error Occurred! Please refer to console.");
@@ -164,57 +169,15 @@ function RefreshPage(projectID){
 $(document).ready(function(){
     //Change Project Form
     $("#changeProjectModal").submit(function(event){
-
-        document.getElementById("toDo").innerHTML = "";
-        document.getElementById("dev").innerHTML = "";
-        document.getElementById("progress").innerHTML = "";
-        document.getElementById("done").innerHTML = "";
-
         let projectID = $("#ProjectNameField").val();
         document.getElementById("selectedProject").innerHTML = "Selected Project: " + $("#ProjectNameField option:selected").text();
-        $.ajax({
-            url:"productivity/retrieveTaskCards.php",
-            type:"POST",
-            data: {projectID:projectID},
-            success: function(responseData){
-                //If the Project has no tasks....
-                if (responseData === "false"){
-                    document.getElementById("noTasks").style = "margin-top: 27%;";
-                    document.getElementById("displayTasks").style = "display: none;";
-                //Else.....
-                } else {
-                    document.getElementById("noTasks").style = "display:none;";
-                    document.getElementById("displayTasks").style = "";
-                    let temp = JSON.parse(responseData);
-                    for(let task of temp){
-                        let taskStatus = Number(task['status']);
-                        let newTaskCard = "<div id='"+task['taskID']+"' class='card' style='width: 18rem; margin-right:1%;' onclick='OpenTaskPanel(\""+task['taskID']+"\")' draggable='true' ondragstart='drag(event)' ondragend='dragEnd()'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
-                        switch (taskStatus){
-                            case 0:
-                                document.getElementById("toDo").innerHTML += newTaskCard;
-                                break;
-                            case 1:
-                                document.getElementById("dev").innerHTML += newTaskCard;
-                                break;
-                            case 2:
-                                document.getElementById("progress").innerHTML += newTaskCard;
-                                break;
-                            case 3:
-                                document.getElementById("done").innerHTML += newTaskCard;
-                                break;
-                        }
-                    }
-                }
-                $('#changeProjectModal').modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-                sessionStorage.setItem("chosenProject", projectID);
-            },
-            error: function(e){
-                window.alert("Error Occurred! Please refer to console.");
-                console.log(e.message);
-            }
-        });
+
+        RefreshPage(projectID);
+
+        $('#changeProjectModal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+
         event.preventDefault();
     });
     ///////////////
