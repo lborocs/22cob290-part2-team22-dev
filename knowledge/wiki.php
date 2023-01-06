@@ -191,6 +191,9 @@ session_start();
       <br>
       <button class="btn btn-primary" id='FAQButton' type="button" onclick="navclick('/knowledge/faq.php')">FAQ</button>
   </div>
+  <br>
+  <div id = 'return'>
+  </div>
     </div>
 </section>
 
@@ -217,6 +220,7 @@ session_start();
    $(document).ready(function(){
       localStorage.setItem("currentPage", "knowledge/wiki.php");
       if (localStorage.getItem("posts") === '0') {
+        document.getElementById("return").innerHTML = '';
         (localStorage.getItem("technical") == 1) ? document.getElementById('chooseTopic').innerHTML = 'Choose Technical Topic' : document.getElementById('chooseTopic').innerHTML = 'Choose non Technical Topic';
       }
       else {
@@ -229,9 +233,8 @@ session_start();
         let month = date.getMonth() + 1 > 9 ? (date.getMonth() + 1): '0' + (date.getMonth() + 1);
         let year = date.getFullYear();
         document.getElementById("Date").innerHTML = `Published on - ${day}/${month}/${year}`;
+        document.getElementById("return").innerHTML += `<button type="button" class="btn btn-danger" onclick = 'localStorage.setItem("posts",0); location.reload();'>Return To Topics</button>`;
       }
-      let pageName = $("#PageName").val();
-      let topicDescription = $("#PageDescription").val();
     });
 
     const maxItemsOnScreen = 90;
