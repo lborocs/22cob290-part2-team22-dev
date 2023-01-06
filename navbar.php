@@ -56,8 +56,8 @@ session_start();
                     </li>
                     <li class="nav-item " style="text-align:center;">
                         <h4>Knowledge Wiki</h4>
-                        <a id="knowledgeNonTechnical" class="nav-link text-dark" onclick = "localStorage.setItem('technical', 0); navclick('knowledge/wiki.php');">Non-Technical Wiki</a>
-                        <a id="knowledgeTechnical" class="nav-link text-dark" onclick = "localStorage.setItem('technical', 1); navclick('knowledge/wiki.php');">Technical Wiki</a>
+                        <a id="knowledgeNonTechnical" class="nav-link text-dark" onclick = "localStorage.setItem('technical', 0); navclick('knowledge/wiki.php'); localStorage.setItem('posts',0); location.reload();">Non-Technical Wiki</a>
+                        <a id="knowledgeTechnical" class="nav-link text-dark" onclick = "localStorage.setItem('technical', 1); navclick('knowledge/wiki.php'); localStorage.setItem('posts',0); location.reload();">Technical Wiki</a>
                     </li>
                     <?php if($_SESSION['isAdmin'] == true) { echo(
                         "<li class='nav-item ' style='text-align:center;'>

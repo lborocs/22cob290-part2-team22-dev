@@ -1,25 +1,36 @@
 <?php
-    $add = fileWriteAppend();
-    file_put_contents('posts.json', $add);
 
+    function generateAuthCode() {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $authCode = '';
+        for ($i = 0; $i < 6; $i++) {
+            $authCode .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $authCode;
+    }
 
-    function fileWriteAppend(){
-        $title = $_POST["title"];
-        $content = $_POST["content"];
-        $currentDate = $_POST["currentDate"];
-        $user = $_POST["user"];
-        $tags = $_POST["tags"];
-		$current_data = file_get_contents('posts.json');
-        $array_data = json_decode($current_data, true);
-        if (!$array_data) {
-            $id = 1;
-        }
-        else {
-            $id = $array_data[count($array_data)-1]['id'] + 1;
-        }
-        $new = array('id' => $id,'title' => $title, 'body' => $content, 'from'=>$user,'tags'=>$tags, 'lastUpdated' => $currentDate, 'lastUpdatedBy' => $user, 'comments' => array());
-		$array_data[] = $new;
-		$final_data = json_encode($array_data);
-		return $final_data;
-}
+    include("../DBCredentials.php");
+
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $postID = generateAuthCode();
+    $topicNames = $_POST["associatedTopics"];
+    $pageName = $_POST["pageName"];
+    $topicDescription = $_POST["topicDescription"];
+    $postDate = date("d/m/Y");
+    $author = $_POST["author"];
+    $sql = "INSERT INTO posts VALUES ('$postID', '$pageName', '$topicDescription','$postDate','$author')";
+    $result = mysqli_query($conn, $sql);
+    $sql = "INSERT INTO topicToPostMapping VALUES ((SELECT topicID FROM topics WHERE topics.name = '$topicNames'),'$postID')";
+    $result = mysqli_query($conn, $sql);
+    if ($result == false){
+        echo "false";
+    } else {
+        echo "true";
+    }
 ?>
