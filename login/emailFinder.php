@@ -38,7 +38,8 @@ if (mysqli_num_rows($result)>0){
         $subject = "Reset Password";
         $message = "<h1>Make It All</h1>";
         $message .= "<b>Forgot Password?</b><br>";
-        $message .= "<a href = 'http://coja.sci-project.lboro.ac.uk/teamProject/login/resetPassword.php?resetCode=$getCode'>Click Here </a>";
+        // Ensure we change this when we get  DB working 
+        $message .= "<a href = 'http://coja.sci-project.lboro.ac.uk/login/resetPassword.php?resetCode=$getCode'>Click Here </a>";
         
         $header = "From:support@makeitall.com \r\n";
         $header .= "MIME-Version: 1.0\r\n";

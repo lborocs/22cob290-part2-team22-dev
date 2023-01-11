@@ -1,15 +1,5 @@
 <?php
 
-    function generateAuthCode() {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $authCode = '';
-        for ($i = 0; $i < 6; $i++) {
-            $authCode .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $authCode;
-    }
-
     include("../DBCredentials.php");
 
     $conn = mysqli_connect($servername, $username, $password, $dbname);
