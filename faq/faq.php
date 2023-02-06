@@ -26,11 +26,11 @@ session_start();
           <div class="modal-body">
               <form id="addFaqForm">
                   <div class="form-group">
-                      <input hidden type="text" id="user" value="<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'], "@"));?>">
+                      <input hidden type="text" id="user" value="<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'], "@"));?>" >
                       <label for="question" id = "questionTag">Question</label>
-                      <input type="text" class="form-control" id="question" name="topicName" placeholder="Topic Name">
+                      <input type="text" class="form-control" id="question" name="topicName" placeholder="Topic Name" required>
                       <label for="answer" id = "answerTag">Answer</label>
-                      <textarea class="form-control" id="answer" rows="3"></textarea>
+                      <textarea class="form-control" id="answer" rows="3" required></textarea>
                       <label for="attachments">Add images</label>
                       <input type="file" id = "file" accept="image/png, image/jpeg"> 
                     </div>

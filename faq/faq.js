@@ -41,6 +41,9 @@ file.addEventListener("change", ev => {
 $("#addFaqModal").submit(function(event){
     let question = $("#question").val();
     let answer = document.getElementById("answer").value;
+    if (link == null) {
+        link = '';
+    }
     $.ajax({
         url:"faq/addFaq.php",
         type:"POST",
