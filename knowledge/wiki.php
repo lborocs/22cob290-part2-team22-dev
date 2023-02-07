@@ -9,7 +9,7 @@ session_start();
     <script src="../navbar.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -100,7 +100,7 @@ let author = ('<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'
       <button class="btn btn-primary" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTopicModal" aria-controls="addTopicModal">Add Topic</button>
       <br>
       <br>
-      <button class="btn btn-primary" id='FAQButton' type="button" onclick="navclick('/knowledge/faq.php')">FAQ</button>
+      <button class="btn btn-primary" id='FAQButton' type="button" onclick="navclick('/faq/faq.php')">FAQ</button>
   </div>
   <br>
   <div id = 'return'>

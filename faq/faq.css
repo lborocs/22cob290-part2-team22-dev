@@ -1,0 +1,24 @@
+#module {
+    width: 75%;
+    position: absolute;
+    left: 0px;
+    height: 20px;
+  }
+
+  #module p.collapse[aria-expanded="false"] {
+    display: block;
+    height: 40px !important;
+    overflow: hidden;
+  }
+
+  #module p.collapsing[aria-expanded="false"] {
+    height: 40px !important;
+  }
+
+  #module a.collapsed:after {
+    content: '+ Show More';
+  }
+
+  #module a:not(.collapsed):after {
+    content: '- Show Less';
+  }
