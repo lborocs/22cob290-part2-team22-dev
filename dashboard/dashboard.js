@@ -16,10 +16,22 @@ function GrabProjects(){
         success: function(responseData){
             let temp = JSON.parse(responseData);
             for (let project of temp){
-                document.getElementById("AdminProjectOverview").innerHTML += "<div class='card' style='width: 20rem; margin-left: 10px; margin-right: 10px;'><div class='card-body'><h5 class='card-title'>"+ project['projectName'] +"</h5><h6 class='card-subtitle mb-2 text-muted'>Team Leader: " + project['teamLeader'] + "</h6><a onclick=\"navclick('productivity/projects.php\')\" class='card-link'>Go to Project</a></div></div>"
+                let card = "<div class='card' style='width: 26rem; margin-left: 10px; margin-right: 10px;'>";
+                card += "<div class='card-body'>";
+                card += "<h5 class='card-title'>"+ project['projectName'] +"</h5>";
+                card += "<h6 class='card-subtitle mb-2 text-muted'>Team Leader: " + project['teamLeader'] + "</h6><hr class='my-1'>";
+                card += "<button type='button' onclick='directToProject(\""+project['projectID']+"\", \""+project['projectName']+"\")' class='btn btn-primary'>Go to Project</button>";
+                card += "</div></div>";
+
+                document.getElementById("AdminProjectOverview").innerHTML += card;
             }
         }
     });
+}
+
+function directToProject(projectID, projectName){
+    navclick('productivity/projects.php');
+    RefreshPage(projectID, projectName);
 }
 
 $(document).ready(function(){

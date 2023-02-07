@@ -23,6 +23,9 @@
     <style>
 
         .tasks > .row {
+            min-height: 5rem;
+            padding-top: 1rem;
+            align-content: center;
             display: block;
             overflow-x: auto;
             white-space: nowrap;
@@ -34,41 +37,39 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-1 border-right full-height mx-auto" id="options" style="border-radius: 0;">
-                <h5 id="selectedProject">No Project Selected.</h5>
-                <hr class="my-4">
-                <button class="btn btn-primary" style="margin-bottom:2%;" id="changeProjectButton" type="button" data-bs-toggle="modal" data-bs-target="#changeProjectModal" aria-controls="changeProjectModal">Change Selected Project</button>
-                <button class="btn btn-success" style="margin-bottom:2%;" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTaskModal" aria-controls="addTaskModal">Add Task</button>
-                <button class="btn btn-primary" style="margin-bottom:2%;" id='filterTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#filterTaskModal" aria-controls="filterTaskModal">Filter Tasks</button>
+    <div class="row" style="margin-top:1%;">
+        <div class="col-sm-1 full-height" id="options">
+            <h5 id="selectedProject">No Project Selected.</h5>
+            <hr class="my-4">
+            <button class="btn btn-primary" style="margin-bottom:2%;" id="changeProjectButton" type="button" data-bs-toggle="modal" data-bs-target="#changeProjectModal" aria-controls="changeProjectModal">Change Selected Project</button>
+            <button class="btn btn-success" style="margin-bottom:2%;" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTaskModal" aria-controls="addTaskModal">Add Task</button>
+            <button class="btn btn-primary" style="margin-bottom:2%;" id='filterTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#filterTaskModal" aria-controls="filterTaskModal">Filter Tasks</button>
+        </div>
+
+        <div class="col-sm full-height">
+            <div id="displayTasks" style="display:none">
+                <h5>To Do</h5>
+                <div class="tasks">
+                    <div id="toDo" class="row" style="margin:2%;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                </div>
+                
+                <h5>Selected for Development</h5>
+                <div class="tasks">
+                    <div id="dev" class="row" style="margin:2%;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                </div>
+
+                <h5>In Progress</h5>
+                <div class="tasks">
+                    <div id="progress" class="row" style="margin:2%;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                </div>
+
+                <h5>Done</h5>
+                <div class="tasks">
+                    <div id="done" class="row" style="margin:2%;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                </div>
             </div>
-
-            <div class="col-sm full-height mx-auto" style="border-radius: 0;">
-                <div id="displayTasks" style="display:none">
-                    <h5>To Do</h5>
-                    <div class="tasks">
-                        <div id="toDo" class="row" style="margin:2%;"></div>
-                    </div>
-                    
-                    <h5>Selected for Development</h5>
-                    <div class="tasks">
-                        <div id="dev" class="row" style="margin:2%;"></div>
-                    </div>
-
-                    <h5>In Progress</h5>
-                    <div class="tasks">
-                        <div id="progress" class="row" style="margin:2%;"></div>
-                    </div>
-
-                    <h5>Done</h5>
-                    <div class="tasks">
-                        <div id="done" class="row" style="margin:2%;"></div>
-                    </div>
-                </div>
-                <div id="noTasks" class="lead" style="margin-top: 27%;">
-                    No Tasks to Show.
-                </div>
+            <div id="noTasks" class="lead" style="margin-top: 27%;">
+                No Tasks to Show.
             </div>
         </div>
     </div>
