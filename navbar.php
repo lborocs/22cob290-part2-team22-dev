@@ -27,13 +27,12 @@ session_start();
 </script>
 
 </head>
-<body>
+<body style="width:100% !important;">
 <nav class="navbar navbar-dark" style="background-color: #FFB800; margin:0; border-radius:0;">
     <div class="container-fluid">
-        <a href="navbar.php" class="navbar-brand">
+        <a href="navbar.php" class="navbar-brand display-6 text-light">
             Make-It-All
         </a>
-        <div class="navbar-brand">Signed in as: <?php echo $_SESSION['email']?>.</div>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"  aria-controls="offcanvasNavbar" onclick="toggleClicked()">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -41,46 +40,44 @@ session_start();
         <!-- Offcanvas Navbar-->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel"  data-bs-scroll="true" data-bs-backdrop="false" >
             <div class="offcanvas-header" style="background-color: #FFB800; height:3.5rem;">
-                <div></div>
+                <div class="display-6 text-light" style="font-size: 1.5rem;">Menu</div>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onclick="navShut()"></button>
             </div>
             <div class="offcanvas-body">
-                <h4 class="display-6" style="text-align: center;">Menu</h4>
-                <hr class="my-4">
                 <ul class="nav flex-column">
                     <li class="nav-item " style="text-align:center;">
                         <a id="dashboardlink" class="nav-link text-dark" onclick="<?php if ($_SESSION['isAdmin']==true) {echo "navclick('dashboard/adminDashboard.php')";} else {echo"navclick('dashboard/dashboard.php')";}?>">Dashboard</a>
                     </li>
+                    <hr class="my-2">
                     <li class="nav-item" style="text-align:center;">
                         <a id="projectlink" class="nav-link text-dark" onclick="navclick('productivity/projects.php')">Projects</a>
                     </li>
+                    <hr class="my-2">
                     <li class="nav-item " style="text-align:center;">
-                        <h4>Knowledge Wiki</h4>
-                        <a id="knowledgeNonTechnical" class="nav-link text-dark" onclick = "localStorage.setItem('technical', 0); navclick('knowledge/wiki.php'); localStorage.setItem('posts',0); location.reload();">Non-Technical Wiki</a>
-                        <a id="knowledgeTechnical" class="nav-link text-dark" onclick = "localStorage.setItem('technical', 1); navclick('knowledge/wiki.php'); localStorage.setItem('posts',0); location.reload();">Technical Wiki</a>
+                        <a id="knowledgeNonTechnical" class="nav-link text-dark" onclick = "localStorage.setItem('technical', 0); navclick('knowledge/wiki.php'); localStorage.setItem('posts',0);">Non-Technical Wiki</a>
+                        <a id="knowledgeTechnical" class="nav-link text-dark" onclick = "localStorage.setItem('technical', 1); navclick('knowledge/wiki.php'); localStorage.setItem('posts',0);">Technical Wiki</a>
                     </li>
                     <?php if($_SESSION['isAdmin'] == true) { echo(
-                        "<li class='nav-item ' style='text-align:center;'>
+                        "<hr class='my-2'><li class='nav-item ' style='text-align:center;'>
                             <a id='knowledgelink' class='nav-link text-dark' onclick =\"navclick('admin/viewUsers.php')\">View All Users</a>
                         </li>"
                     );}?>
                 </ul>
 
-            </div>
+            <hr class="my-2">
 
-            <hr class="my-4">
-
-            <div class="offcanvas-body">
-                <div>Please enter an appropriate email to send an invite to:</div>
-                <br>
+                <small class="text-muted">Please enter an appropriate email to send an invite to:</small>
                 <input type="email" class="form-control" id="emailInput" placeholder="Enter email">
                 <button class="btn btn-primary" style="margin-top:10px;" type="button" onclick="generateAuthCode()">Send Invite</button>
                 <div id="result" style="display:none"></div>
+
+            <hr class="my-2">
+            
+            <small class="text-muted">Signed in as:</small>
+            <small class="text-muted"><?php echo $_SESSION['email']?></small>
+                
             </div>
-
-            <hr class="my-4">
-
-            <div class="offcanvas-footer" style="text-align:center">
+            <div class="offcanvas-footer mb-3" style="text-align:center">
                 <a href="login/index.php" class="btn btn-alert">Sign Out</a>
             </div>
         </div>
