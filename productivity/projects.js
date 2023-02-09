@@ -136,7 +136,7 @@ function RefreshPage(projectID, projectName=null){
             //Else.....
             } else {
                 document.getElementById("noTasks").style = "display:none;";
-                document.getElementById("displayTasks").style = "";
+                document.getElementById("displayTasks").style = "display:block;";
                 let temp = JSON.parse(responseData);
                 for(let task of temp){
                     let taskStatus = Number(task['status']);

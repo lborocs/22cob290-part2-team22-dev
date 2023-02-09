@@ -1,4 +1,3 @@
-
 <script src="productivity/projects.js"></script>
 <script>
     $(document).ready(function(){
@@ -7,53 +6,39 @@
     
     });
 </script>
-<style>
-
-    .tasks > .row {
-        min-height: 5rem;
-        padding-top: 1rem;
-        align-content: center;
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-    .tasks > .row > .card {
-        display: inline-block;
-    }
-</style>
-
-<div class="row" style="margin-top:1%;">
+<link rel="stylesheet" href="productivity/projects.css">
+<div id="main" class="row">
     <div class="col-sm-1 full-height" id="options">
         <h6 id="selectedProject">No Project Selected.</h6>
         <hr class="my-3">
-        <button class="btn btn-primary" style="margin-bottom:2%;" id="changeProjectButton" type="button" data-bs-toggle="modal" data-bs-target="#changeProjectModal" aria-controls="changeProjectModal">Change Selected Project</button>
-        <button class="btn btn-success" style="margin-bottom:2%;" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTaskModal" aria-controls="addTaskModal">Add Task</button>
-        <button class="btn btn-primary" style="margin-bottom:2%;" id='filterTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#filterTaskModal" aria-controls="filterTaskModal">Filter Tasks</button>
+        <button class="btn btn-primary" id="changeProjectButton" type="button" data-bs-toggle="modal" data-bs-target="#changeProjectModal" aria-controls="changeProjectModal">Change Selected Project</button>
+        <button class="btn btn-success" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTaskModal" aria-controls="addTaskModal">Add Task</button>
+        <button class="btn btn-primary" id='filterTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#filterTaskModal" aria-controls="filterTaskModal">Filter Tasks</button>
     </div>
 
     <div class="col-sm full-height p-2">
-        <div id="displayTasks" style="display:none">
+        <div id="displayTasks">
             <small>To Do</small>
             <div class="tasks">
-                <div id="toDo" class="row" style="margin:2%;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div id="toDo" class="row" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
             </div>
             
             <small>Selected for Development</small>
             <div class="tasks">
-                <div id="dev" class="row" style="margin:2%;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div id="dev" class="row" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
             </div>
 
             <small>In Progress</small>
             <div class="tasks">
-                <div id="progress" class="row" style="margin:2%;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div id="progress" class="row" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
             </div>
 
             <small>Done</small>
             <div class="tasks">
-                <div id="done" class="row" style="margin:2%;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div id="done" class="row" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
             </div>
         </div>
-        <div id="noTasks" class="lead" style="margin-top: 27%;">
+        <div id="noTasks" class="lead">
             No Tasks to Show.
         </div>
     </div>
