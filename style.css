@@ -276,6 +276,11 @@ th{
     overflow-y: auto;
     max-height: 20vh;
 }
+
+#hideCard {
+    display: none;
+}
+
 #backButton{
     margin-bottom: 1vh;
     border-radius:5px;

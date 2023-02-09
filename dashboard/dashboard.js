@@ -18,7 +18,8 @@ function GrabProjects(){
             for (let project of temp){
                 let card = "<div class='card' style='width: 26rem; margin-left: 10px; margin-right: 10px;'>";
                 card += "<div class='card-body'>";
-                card += "<h5 class='card-title'>"+ project['projectName'] +"</h5>";
+                card += "<h5 class='card-title'>"+ project['projectName'] +"</h5>"
+                card += "<button type='button' id='hideCard' onclick='removeTask()' class='btn btn-danger'>X</button>";
                 card += "<h6 class='card-subtitle mb-2 text-muted'>Team Leader: " + project['teamLeader'] + "</h6><hr class='my-1'>";
                 card += "<button type='button' onclick='directToProject(\""+project['projectID']+"\", \""+project['projectName']+"\")' class='btn btn-primary'>Go to Project</button>";
                 card += "</div></div>";
@@ -32,6 +33,10 @@ function GrabProjects(){
 function directToProject(projectID, projectName){
     navclick('productivity/projects.php');
     RefreshPage(projectID, projectName);
+}
+
+function removeTask() {
+$("hideCard").show()
 }
 
 $(document).ready(function(){
