@@ -1,0 +1,31 @@
+.tasks > .row {
+    min-height: 5rem;
+    padding-top: 1rem;
+    align-content: center;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.tasks > .row > .card {
+    display: inline-block;
+}
+
+#options > .btn {
+    margin-bottom:2%;
+}
+
+.tasks > .row {
+    margin: 2%;
+}
+
+#displayTasks {
+    display: none;
+}
+
+#noTasks {
+    margin-top: 27%;
+}
+
+#main {
+    margin-top: 1%;
+}

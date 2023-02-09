@@ -1,11 +1,11 @@
-<?php
-session_start();
+<!-- <?php
+// session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <script src="knowledge/wiki.js"></script>
+    
     <script src="../navbar.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,9 +14,9 @@ session_start();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<body>
+</head> -->
 
+<script src="knowledge/wiki.js"></script>
 <script>
 $(function(){
     if ((<?php echo ($_SESSION['isAdmin'])?>) == false) {
@@ -126,5 +126,3 @@ let author = ('<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'
   </div>
   </div>
   </div>
-</body>
-</html>
