@@ -29,3 +29,7 @@
 #main {
     margin-top: 1%;
 }
+
+#progressBar {
+    display: none;
+}

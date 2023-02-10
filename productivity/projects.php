@@ -11,9 +11,18 @@
     <div class="col-sm-1 full-height" id="options">
         <h6 id="selectedProject">No Project Selected.</h6>
         <hr class="my-3">
+        <div id="progressBar">
+            <div class="progress">
+                <div id="toDoMeter" class="progress-bar bg-danger" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" data-bs-toggle="popover" data-bs-placement="top" data-bs-title="'To Do' Stats: " data-bs-content="1" data-bs-trigger="hover"></div>
+                <div id="selectedMeter" class="progress-bar bg-warning" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" data-bs-toggle="popover" data-bs-placement="top" data-bs-title="'Selected for Development' Stats: " data-bs-content="" data-bs-trigger="hover"></div>
+                <div id="inProgressMeter" class="progress-bar bg-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" data-bs-toggle="popover" data-bs-placement="top" data-bs-title="'In Progress' Stats:" data-bs-content="" data-bs-trigger="hover"></div>
+                <div id="doneMeter" class="progress-bar bg-success" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" data-bs-toggle="popover" data-bs-placement="top" data-bs-title="'Done' Stats:" data-bs-content="" data-bs-trigger="hover"></div>
+            </div>
+            <hr class="my-3">
+        </div>
         <button class="btn btn-primary" id="changeProjectButton" type="button" data-bs-toggle="modal" data-bs-target="#changeProjectModal" aria-controls="changeProjectModal">Change Selected Project</button>
         <button class="btn btn-success" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTaskModal" aria-controls="addTaskModal">Add Task</button>
-        <button class="btn btn-primary" id='filterTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#filterTaskModal" aria-controls="filterTaskModal">Filter Tasks</button>
+        <button class="btn btn-primary bg-info border-info" id='filterTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#filterTaskModal" aria-controls="filterTaskModal">Filter Tasks</button>
     </div>
 
     <div class="col-sm full-height p-2">
