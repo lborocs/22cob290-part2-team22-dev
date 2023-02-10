@@ -28,10 +28,13 @@ $("#addTopicForm").submit(function(event){
 });
 
 
+var quill;
+
 $("#addPageForm").submit(function(event){
 event.preventDefault();
 let pageName = $("#pageName").val();
-let topicDescription = $("#pageDescription").val();
+let topicDescription = quill.root.innerHTML;
+console.log(topicDescription);
 let associatedTopics = localStorage.getItem("topicName");
 $.ajax({
     url:"knowledge/addPost.php",
@@ -95,6 +98,25 @@ function searchFilter(x) {
 }
 
 $(document).ready(function(){
+  setTimeout( () =>
+  {
+        quill = new Quill('#pageDescription', {
+          modules: {
+          toolbar: [
+              [{ header: [1, 2, false] }],
+              ['bold', 'italic', 'underline'],
+              ['image', 'code-block']
+          ],
+          },
+          placeholder: 'Compose an epic...',
+          theme: 'snow'  // or 'bubble'
+      });
+      quill.on('text-change', function() {
+        console.log(quill.root.innerHTML);
+      });
+  }, 3000 );
+
+
 localStorage.setItem("currentPage", "knowledge/wiki.php");
 if (localStorage.getItem("posts") === '0') {
     document.getElementById("return").innerHTML = '';
@@ -195,7 +217,7 @@ else {
                 var posts = document.getElementsByClassName("letter");
                 temp.forEach((page) => {
                   var letter = page.name.charAt(0).toUpperCase();
-                  letterToPage.has(letter) ? letterToPage.get(letter).push(page.name.charAt(0).toUpperCase() + page.name.slice(1)) : letterToPage.set(letter,[page.name.charAt(0).toUpperCase() + page.name.slice(1)]);
+                  letterToPage.has(letter) ? letterToPage.get(letter).push([page.name.charAt(0).toUpperCase() + page.name.slice(1), page.postID]) : letterToPage.set(letter,[[page.name.charAt(0).toUpperCase() + page.name.slice(1), page.postID]]);
               });
             document.getElementsByClassName("container")[0].innerHTML = '';
             const sortedLetterToPage = new Map([...letterToPage].sort());
@@ -209,14 +231,16 @@ else {
                 letterDiv.appendChild(h1);
                 letterDiv.setAttribute("class", "letter");
                 value.sort().forEach((pageName) => {
+                  console.log(pageName[1]);
                   topicCount += 1;
                   var a = document.createElement("a");
                   var li = document.createElement("li");
                   a.setAttribute("href","#");
-                  a.appendChild(document.createTextNode(pageName));
+                  a.setAttribute("onclick","localStorage.setItem('currentPost','" + pageName[1] + "'); navclick('knowledge/posts.php');")
+                  a.appendChild(document.createTextNode(pageName[0]));
                   document.onclick = hideMenu;
                   if (admin) {
-                      a.oncontextmenu = rightClick(pageName);
+                      a.oncontextmenu = rightClick(pageName[0]);
                   }
                   li.appendChild(a);
                   letterDiv.appendChild(li);

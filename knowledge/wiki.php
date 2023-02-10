@@ -14,6 +14,8 @@ session_start();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
 <body>
 
@@ -68,8 +70,8 @@ let author = ('<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'
                         <label for="PageName">Page Name</label>
                         <input type="text" class="form-control" id="pageName" name="pageName" placeholder="Page Name">
                         <br>
-                        <label for="PageDescription">Page Description</label>
-                        <textarea id="pageDescription" class="form-control" placeholder = 'Enter Description' name="pageDescription" rows="4" cols="50"></textarea>
+                        <label for="PageDescriptionlabel">Page Description</label>
+                        <div class="modal-body" id = 'pageDescription'></div>
                         <br>
                         <label for="Author" id = "Author">Author - <?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'], "@"));?></label>
                         <br>
@@ -95,7 +97,7 @@ let author = ('<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'
           <i class="fas fa-search"></i>
         </span>       
       </div>
-    <div style = 'margin-top: 20px;'>
+    <div style = 'margin-top: 20px;'>  
       <!-- change to js -->
       <button class="btn btn-primary" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTopicModal" aria-controls="addTopicModal">Add Topic</button>
       <br>
