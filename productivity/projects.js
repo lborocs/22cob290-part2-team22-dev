@@ -19,7 +19,7 @@ function drop(ev) {
     try {
         ev.target.appendChild(document.getElementById(data));
         let statusToCode = {"toDo":0, "dev":1, "progress":2, "done":3};
-        let selected = statusToCode[ev.path[0].id];
+        let selected = statusToCode[ev.target.id];
         
         $.ajax({
             url:"productivity/updateTaskStatus.php",
@@ -27,6 +27,7 @@ function drop(ev) {
             data:{taskID:data, projectID:sessionStorage.getItem("chosenProject"), newStatus:selected},
             success: function(){
                 console.log("Successfully updated!");
+                RefreshProgressBar();
             },
             error: function(){
                 console.log("Something has happened!")
@@ -113,6 +114,55 @@ function OpenTaskPanel(chosenTaskID){
     });
 }
 
+function RefreshProgressBar(){
+    
+    //Count the tasks in each category
+    let toDoCount = document.getElementById("toDo").childElementCount;
+    let selectedCount = document.getElementById("dev").childElementCount;
+    let inProgressCount = document.getElementById("progress").childElementCount;
+    let doneCount = document.getElementById("done").childElementCount;
+    let total = toDoCount + selectedCount + inProgressCount + doneCount;
+
+    //Calculate percentage of each
+    toDoPerc = (toDoCount/total)*100;
+    selectedPerc = (selectedCount/total)*100;
+    inProgressPerc = (inProgressCount/total)*100;
+    donePerc = (doneCount/total)*100;
+
+    //Set To Do Progress Meter
+    document.getElementById("toDoMeter").style="width:"+toDoPerc+"%;";
+    document.getElementById("toDoMeter").ariaValueNow = toDoPerc;
+    
+    //Change Popover Text
+    $("#toDoMeter").attr("data-bs-content", toDoCount+" out of "+total+" tasks ("+toDoPerc.toFixed(2)+"%)");
+
+    //Set Selected Progress Meter
+    document.getElementById("selectedMeter").style="width:"+selectedPerc+"%;";
+    document.getElementById("selectedMeter").ariaValueNow = selectedPerc;
+
+    //Change Popover Text
+    $("#selectedMeter").attr("data-bs-content", selectedCount+" out of "+total+" tasks ("+selectedPerc.toFixed(2)+"%)")
+
+    //Set In Progress Progress Meter
+    document.getElementById("inProgressMeter").style="width:"+inProgressPerc+"%;";
+    document.getElementById("inProgressMeter").ariaValueNow = inProgressPerc;
+
+    //Change Popover Text
+    $("#inProgressMeter").attr("data-bs-content", inProgressCount+" out of "+total+" tasks ("+inProgressPerc.toFixed(2)+"%)")
+
+    //Set Done Progress Meter
+    document.getElementById("doneMeter").style="width:"+donePerc+"%;";
+    document.getElementById("doneMeter").ariaValueNow = donePerc;
+
+    //Change Popover Text
+    $("#doneMeter").attr("data-bs-content", inProgressCount+" out of "+total+" tasks ("+inProgressPerc.toFixed(2)+"%)")
+
+
+    //Reset Popovers
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+}
+
 function RefreshPage(projectID, projectName=null){
     
     document.getElementById("toDo").innerHTML = "";
@@ -133,10 +183,12 @@ function RefreshPage(projectID, projectName=null){
             if (responseData === "false"){
                 document.getElementById("noTasks").style = "margin-top: 27%;";
                 document.getElementById("displayTasks").style = "display: none;";
+                document.getElementById("progressBar").style = "display: none;";
             //Else.....
             } else {
                 document.getElementById("noTasks").style = "display:none;";
                 document.getElementById("displayTasks").style = "display:block;";
+                document.getElementById("progressBar").style = "display:inline;";
                 let temp = JSON.parse(responseData);
                 for(let task of temp){
                     let taskStatus = Number(task['status']);
@@ -156,6 +208,9 @@ function RefreshPage(projectID, projectName=null){
                             break;
                     }
                 }
+
+                RefreshProgressBar();
+
             }
             sessionStorage.setItem("chosenProject", projectID);
         },
@@ -269,3 +324,6 @@ $(document).ready(function(){
     });
     //////////////////
 });
+
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
