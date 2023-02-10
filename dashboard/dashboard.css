@@ -1,3 +1,25 @@
+body{
+    position: absolute;
+    width:100% !important;
+}
+.card-text{
+    font-size: 0.8rem !important;
+}
+.card-title{
+    font-size: 1rem !important;
+}
+.card-subtitle{
+    font-size: 0.8rem !important;
+}
+.card{
+    margin-bottom: 1vh !important;
+    border-radius: 5px !important;
+    box-shadow: 1.8px 3.5px 3.5px hsl(0deg 0% 0% / 0.45);
+    transition: 0.3s;
+    background-color: #F5F5F5 !important;
+    overflow-y: auto;
+    max-height: 20vh;
+}
 .mainContainer {
     height: 80vh;
  
