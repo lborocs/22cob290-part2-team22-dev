@@ -122,6 +122,27 @@ function OpenTaskPanel(chosenTaskID){
     });
 }
 
+function deleteTask(){
+    let projectID = sessionStorage.getItem("chosenProject");
+    let taskID = sessionStorage.getItem("chosenTask");
+
+    $.ajax({
+        url:"productivity/deleteTask.php",
+        type:"POST",
+        data: {projectID: projectID, taskID:taskID},
+        success: function(){
+            $('#EditTaskModal').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+            RefreshPage(sessionStorage.getItem("chosenProject"));
+        },
+        error: function(e){
+            window.alert("Error Occurred! Please refer to console.");
+            console.log(e.message);
+        }
+    });
+}
+
 function RefreshProgressBar(){
     
     //Count the tasks in each category

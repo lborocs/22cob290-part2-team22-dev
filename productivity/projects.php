@@ -162,7 +162,7 @@
                             More Options
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a id="deleteTask" class="dropdown-item" onclick="window.alert('Zoinks Scoob, this feature hasn\'t been added yet')">Delete Task</a></li>
+                            <li><a id="deleteTask" class="dropdown-item" onclick="deleteTask()">Delete Task</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
