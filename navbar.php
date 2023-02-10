@@ -30,7 +30,7 @@ session_start();
 <body>
 <nav class="navbar navbar-dark" style="background-color: #FFB800; margin:0; border-radius:0;">
     <div class="container-fluid">
-        <a href="navbar.php" class="navbar-brand">
+        <a href="navbar.php" class="navbar-brand" onclick="navclick('dashboard/dashboard.php'); localStorage.setItem('dashboard/dashboard.php');">
             Make-It-All
         </a>
         <div class="navbar-brand">Signed in as: <?php echo $_SESSION['email']?>.</div>
