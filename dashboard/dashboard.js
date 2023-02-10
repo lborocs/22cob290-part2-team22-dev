@@ -28,10 +28,33 @@ function GrabProjects(){
         }
     });
 }
+function grabProjectStats(){
+    let projectID = localStorage.getItem("projectID");
+    let projectName = localStorage.getItem("projectName");
+    $.ajax({
+        url:"../admin/grabProjectStats.php",
+        type:"POST",
+        data: {projectID : projectID},
+        success: function(responseData){
+            let temp = JSON.parse(responseData);
+            document.getElementById("ProjectName").innerHTML = projectName;
+            document.getElementById("ProjectID").innerHTML = projectID;
+            document.getElementById("ProjectTeamLeader").innerHTML = temp['teamLeader'];
+            document.getElementById("ProjectDeadline").innerHTML = temp['deadline'];
+            document.getElementById("ProjectStatus").innerHTML = temp['status'];
+        }
+    });
+}
+
+
 
 function directToProject(projectID, projectName){
-    navclick('productivity/projects.php');
-    RefreshPage(projectID, projectName);
+    
+    
+    localStorage.setItem("chosenProjectName", projectName);
+    localStorage.setItem("chosenProject", projectID);
+    //localStorage.setItem("currentPage","projectStats.php");
+    navclick('dashboard/projectStats.php');
 }
 
 $(document).ready(function(){
