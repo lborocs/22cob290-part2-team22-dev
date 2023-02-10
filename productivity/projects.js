@@ -94,6 +94,7 @@ function GrabAssignees(){
             let temp = JSON.parse(responseData);
             for(let user of temp) {
                 document.getElementById("assignee").innerHTML += "<option value='" + user['email'] + "'>" + user['email'] + "</option>";
+                document.getElementById("userOptions").innerHTML += "<option value='" + user['email'] + "'>" + user['firstName'] + " " + user['secondName'] + "</option>";
             }
         }
     });
@@ -106,10 +107,17 @@ function OpenTaskPanel(chosenTaskID){
         type:"POST",
         data:{taskID:chosenTaskID, projectID:sessionStorage.getItem("chosenProject")},
         success: function(responseData){
-            let taskDetails = JSON.parse(responseData)[0];
-            document.querySelector("#editTaskName").value = taskDetails['taskName'];
-            document.querySelector("#editDescriptionTextArea").value = taskDetails['description'];
-            sessionStorage.setItem("chosenTask",chosenTaskID);
+            let temp = JSON.parse(responseData);
+            document.querySelector("#assigneeList").innerHTML = "";
+            for (i in temp){
+                let taskDetails = temp[i];
+                document.querySelector("#editTaskName").value = taskDetails['taskName'];
+                document.querySelector("#editDescriptionTextArea").value = taskDetails['description'];
+                document.querySelector("#assigneeList").innerHTML += `<li class="list-group-item list-group-item-action">`+taskDetails['email']+`</li>`;
+                document.querySelector("#assigneeInput").value = "";
+                document.querySelector("#assigneeResult").innerHTML = "";
+                sessionStorage.setItem("chosenTask",chosenTaskID);
+            }
         }
     });
 }
@@ -155,7 +163,7 @@ function RefreshProgressBar(){
     document.getElementById("doneMeter").ariaValueNow = donePerc;
 
     //Change Popover Text
-    $("#doneMeter").attr("data-bs-content", inProgressCount+" out of "+total+" tasks ("+inProgressPerc.toFixed(2)+"%)")
+    $("#doneMeter").attr("data-bs-content", doneCount+" out of "+total+" tasks ("+donePerc.toFixed(2)+"%)")
 
 
     //Reset Popovers
@@ -192,7 +200,14 @@ function RefreshPage(projectID, projectName=null){
                 let temp = JSON.parse(responseData);
                 for(let task of temp){
                     let taskStatus = Number(task['status']);
-                    let newTaskCard = "<div id='"+task['taskID']+"' class='card' style='width: 18rem; margin-right:1%;' onclick='OpenTaskPanel(\""+task['taskID']+"\")' draggable='true' ondragstart='drag(event)' ondragend='dragEnd()'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
+
+                    let newTaskCard = `<div id='`+task['taskID']+`' class='card shadow-none bg-white' onclick='OpenTaskPanel(\"`+task['taskID']+`\")' draggable='true' ondragstart='drag(event)' ondragend='dragEnd()'>
+                    <div class='card-body'>
+                    `+task['taskName']+`
+                    <div class='taskDeadline'>84 Hours Until Completion</div>
+                    </div>
+                    </div>`;
+
                     switch (taskStatus){
                         case 0:
                             document.getElementById("toDo").innerHTML += newTaskCard;
@@ -213,6 +228,33 @@ function RefreshPage(projectID, projectName=null){
 
             }
             sessionStorage.setItem("chosenProject", projectID);
+        },
+        error: function(e){
+            window.alert("Error Occurred! Please refer to console.");
+            console.log(e.message);
+        }
+    });
+}
+
+function addAssignee(){
+    let newAssignee = $(assigneeInput).val();
+    let projectID = sessionStorage.getItem("chosenProject");
+    let taskID = sessionStorage.getItem("chosenTask");
+
+    $.ajax({
+        url:"productivity/addAssignee.php",
+        type:"POST",
+        data: {projectID:projectID, taskID:taskID, newAssignee:newAssignee},
+        success: function(responseData){
+            if (responseData == 1){
+                document.getElementById("assigneeResult").innerHTML = `<div class="alert alert-success" role="alert">
+                User has been assigned to this task!
+              </div>`;
+            } else {
+                document.getElementById("assigneeResult").innerHTML = `<div class="alert alert-danger" role="alert">
+                User has not been assigned to this task! They may already be assigned to this task or may not be a user on the system.
+              </div>`;
+            }
         },
         error: function(e){
             window.alert("Error Occurred! Please refer to console.");

@@ -119,10 +119,10 @@
 
 
 <div class="modal" id="EditTaskModal" tabindex="-1" role="dialog" aria-labelledby="EditTaskModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="EditTaskModalLabel">Edit a Task</h5>
+                <h5 class="modal-title" id="EditTaskModalLabel">Edit Task:</h5>
             </div>
 
             <div class="modal-body">
@@ -137,7 +137,36 @@
                         <textarea class="form-control" id="editDescriptionTextArea" name="editDescriptionTextArea" rows="3"></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <label>Assignee(s):</label>
+                    <ul class="list-group" id="assigneeList">
+                    </ul>
+                    <button type="button" class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#assigneeCollapse" aria-expanded="false" aria-controls="assigneeCollapse">Add an Assignee...</button>
+
+                    <div class="collapse" id="assigneeCollapse">
+                        <hr class="my-3">
+                        <input type="email" id="assigneeInput" name="assigneeInput" list="userOptions" class="form-control" placeholder="Enter Assignee Here">
+                        <datalist id="userOptions">
+                        </datalist>
+                        <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-outline-secondary" onclick="addAssignee()">Add User</button>
+                        </div>
+                        <div id="assigneeResult" class="mt-3">
+                        </div>
+                    </div>
+
+                    <hr class="my-3">
+                    
+                    <button type="submit" class="btn btn-success" style="margin-bottom:0.5em;">Save</button>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            More Options
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a id="deleteTask" class="dropdown-item" onclick="window.alert('Zoinks Scoob, this feature hasn\'t been added yet')">Delete Task</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
                 </form>
             </div>
         </div>

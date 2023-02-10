@@ -10,7 +10,7 @@
     $taskID = $_POST['taskID'];
     $projectID = $_POST['projectID'];
     
-    $sql = "SELECT taskName, description FROM tasks WHERE projectID = '$projectID' AND taskID = '$taskID'";
+    $sql = "SELECT taskName, description, email FROM tasks, taskToUserMapping WHERE tasks.projectID = '$projectID' AND tasks.taskID = '$taskID' AND tasks.taskID = taskToUserMapping.taskID AND tasks.projectID = taskToUserMapping.projectID";
     $result = mysqli_query($conn, $sql);
     
     if (mysqli_num_rows($result)>0){
