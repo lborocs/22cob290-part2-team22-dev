@@ -9,13 +9,7 @@ session_start();
     <script src="../navbar.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="style.css">
     <title>Document</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
 <body>
 
@@ -50,6 +44,7 @@ let author = ('<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'
                             <label for="topicName">Topic Name</label>
                             <input type="text" class="form-control" id="topicName" name="topicName" placeholder="Topic Name">
                         </div>
+                        <br>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
@@ -77,6 +72,7 @@ let author = ('<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'
                         <br>
                         <label for = "Date" id = "Date"></label>
                     </div>
+                    <br>
                     <button type="submit" class="btn btn-primary">Publish</button>
                 </form>
             </div>
@@ -93,8 +89,6 @@ let author = ('<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'
       <!-- change to js -->
       <div class="input-group rounded">      
         <input type="search" value = "" class="form-control rounded" placeholder="Search Topic" id="wordSelect" onchange="searchFilter(this.value)" aria-label="Search" aria-describedby="search-addon" />
-        <span class="input-group-text border-0" id="search-addon">
-          <i class="fas fa-search"></i>
         </span>       
       </div>
     <div style = 'margin-top: 20px;'>  

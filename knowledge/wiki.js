@@ -31,29 +31,30 @@ $("#addTopicForm").submit(function(event){
 var quill;
 
 $("#addPageForm").submit(function(event){
-event.preventDefault();
-let pageName = $("#pageName").val();
-let topicDescription = quill.root.innerHTML;
-console.log(topicDescription);
-let associatedTopics = localStorage.getItem("topicName");
-$.ajax({
-    url:"knowledge/addPost.php",
-    type:"POST",
-    data: {pageName : pageName, topicDescription: topicDescription, associatedTopics: associatedTopics,author : author},
-    success: function(responseData){
-        if (responseData === "true"){
-            $('#addPageModal').modal('hide');
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
-            location.reload();
-        } else {
-            window.alert("Error!");
-        }
-    },
-    error: function(e){
-        window.alert("Error Occurred! Please refer to console.");
-        console.log(e.message);
-    }
+  event.preventDefault();
+  let pageName = $("#pageName").val();
+  let topicDescription = quill.root.innerHTML;
+  console.log(topicDescription);
+  let associatedTopics = localStorage.getItem("topicName");
+  $.ajax({
+      url:"knowledge/addPost.php",
+      type:"POST",
+      data: {pageName : pageName, topicDescription: topicDescription, associatedTopics: associatedTopics,author : author},
+      success: function(responseData){
+        console.log(responseData);
+          if (responseData === "true"){
+              $('#addPageModal').modal('hide');
+              $('body').removeClass('modal-open');
+              $('.modal-backdrop').remove();
+              location.reload();
+          } else {
+              window.alert("Error!");
+          }
+      },
+      error: function(e){
+          window.alert("Error Occurred! Please refer to console.");
+          console.log(e.message);
+      }
 });
 
 event.preventDefault();       
@@ -103,9 +104,16 @@ $(document).ready(function(){
         quill = new Quill('#pageDescription', {
           modules: {
           toolbar: [
-              [{ header: [1, 2, false] }],
-              ['bold', 'italic', 'underline'],
-              ['image', 'code-block']
+            [{ font: [] }],
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            ["bold", "italic", "underline", "strike"],
+            [{ color: [] }, { background: [] }],
+            [{ script:  "sub" }, { script:  "super" }],
+            ["blockquote", "code-block"],
+            [{ list:  "ordered" }, { list:  "bullet" }],
+            [{ indent:  "-1" }, { indent:  "+1" }, { align: [] }],
+            ["image"],
+            ["clean"],
           ],
           },
           placeholder: 'Compose an epic...',
@@ -114,7 +122,7 @@ $(document).ready(function(){
       quill.on('text-change', function() {
         console.log(quill.root.innerHTML);
       });
-  }, 3000 );
+  }, 1000 );
 
 
 localStorage.setItem("currentPage", "knowledge/wiki.php");
