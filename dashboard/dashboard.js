@@ -81,3 +81,15 @@ $(document).ready(function(){
         event.preventDefault();
     });
 });
+
+var quill = new Quill('#editor', {
+    modules: {
+        toolbar: [
+            [{ header: [1, 2, false] }],
+            ['bold', 'italic', 'underline'],
+            ['image', 'code-block']
+        ]
+    },
+    placeholder: '...',
+    theme: 'snow'
+});

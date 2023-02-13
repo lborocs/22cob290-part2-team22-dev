@@ -225,3 +225,36 @@ progress {
     border-radius: 20px;       /* roundness of the scroll thumb */
       /* creates padding around scroll thumb */
   }
+  #content{
+    border-radius: 15px;
+    padding: 20px;
+    float: left;
+  }
+  .float-container{
+    border: 3px solid #fff;
+    padding: 20px;
+  }
+  #projectContainer{
+    width: 70%;
+    min-height: 375px;
+    height: 375px;
+    float: left;
+    padding: 20px;
+  }
+  #toDo{
+    width: 30%;
+    float: left;
+    padding: 20px; 
+  }
+ .header{
+    border-radius: 15px;
+    padding: 10px;
+ }
+ #createProjectBtn{
+    background-color: #337ab7;
+    margin-top: 160px;
+    
+ }
+ #editor{
+    height: 375px;
+ }
