@@ -100,47 +100,80 @@ function GrabAssignees(){
     });
 }
 
+function removeAssignee(user){
+
+    if (window.confirm("Do you wish to remove " + user + " from this task?")){
+        let taskID = sessionStorage.getItem("chosenTask");
+        let projectID = sessionStorage.getItem("chosenProject");
+
+        $.ajax({
+            url: "productivity/removeAssignee.php",
+            type: "POST",
+            data: {user:user, projectID:projectID, taskID:taskID},
+            success: function() {
+                OpenTaskPanel(taskID);
+            }
+        });
+    }
+}
+
 function OpenTaskPanel(chosenTaskID){
     $('#EditTaskModal').modal('show');
     $.ajax({
         url: "productivity/retrieveTaskDetails.php",
         type:"POST",
+        async:false,
+        data:{taskID:chosenTaskID, projectID:sessionStorage.getItem("chosenProject")},
+        success: function(responseData){
+            let taskDetails = JSON.parse(responseData)[0];
+            document.querySelector("#editTaskName").value = taskDetails['taskName'];
+            document.querySelector("#editDescriptionTextArea").value = taskDetails['description'];
+            document.querySelector("#assigneeInput").value = "";
+            document.querySelector("#assigneeResult").innerHTML = "";
+            sessionStorage.setItem("chosenTask",chosenTaskID);
+        }
+    });
+    $.ajax({
+        url:"productivity/getAssignees.php",
+        type:"POST",
         data:{taskID:chosenTaskID, projectID:sessionStorage.getItem("chosenProject")},
         success: function(responseData){
             let temp = JSON.parse(responseData);
             document.querySelector("#assigneeList").innerHTML = "";
+
             for (i in temp){
-                let taskDetails = temp[i];
-                document.querySelector("#editTaskName").value = taskDetails['taskName'];
-                document.querySelector("#editDescriptionTextArea").value = taskDetails['description'];
-                document.querySelector("#assigneeList").innerHTML += `<li class="list-group-item list-group-item-action">`+taskDetails['email']+`</li>`;
-                document.querySelector("#assigneeInput").value = "";
-                document.querySelector("#assigneeResult").innerHTML = "";
-                sessionStorage.setItem("chosenTask",chosenTaskID);
+                user = temp[i];
+                document.querySelector("#assigneeList").innerHTML += `<li class="list-group-item list-group-item-action" onclick="removeAssignee('`+user['email']+`');">`+user['email']+`</li>`;
+            }
+
+            if (document.getElementById("assigneeList").childElementCount == 0){
+                document.getElementById("assigneeList").innerHTML = "<small class='text-muted'>Assigned to No One.</small>"
             }
         }
     });
 }
 
 function deleteTask(){
-    let projectID = sessionStorage.getItem("chosenProject");
-    let taskID = sessionStorage.getItem("chosenTask");
+    if (window.confirm("Are you sure you wish to delete this task?")){
+        let projectID = sessionStorage.getItem("chosenProject");
+        let taskID = sessionStorage.getItem("chosenTask");
 
-    $.ajax({
-        url:"productivity/deleteTask.php",
-        type:"POST",
-        data: {projectID: projectID, taskID:taskID},
-        success: function(){
-            $('#EditTaskModal').modal('hide');
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
-            RefreshPage(sessionStorage.getItem("chosenProject"));
-        },
-        error: function(e){
-            window.alert("Error Occurred! Please refer to console.");
-            console.log(e.message);
-        }
-    });
+        $.ajax({
+            url:"productivity/deleteTask.php",
+            type:"POST",
+            data: {projectID: projectID, taskID:taskID},
+            success: function(){
+                $('#EditTaskModal').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                RefreshPage(sessionStorage.getItem("chosenProject"));
+            },
+            error: function(e){
+                window.alert("Error Occurred! Please refer to console.");
+                console.log(e.message);
+            }
+        });
+    }
 }
 
 function RefreshProgressBar(){
@@ -276,6 +309,7 @@ function addAssignee(){
                 User has not been assigned to this task! They may already be assigned to this task or may not be a user on the system.
               </div>`;
             }
+            OpenTaskPanel(taskID);
         },
         error: function(e){
             window.alert("Error Occurred! Please refer to console.");
