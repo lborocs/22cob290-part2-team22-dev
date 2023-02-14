@@ -19,7 +19,7 @@ function drop(ev) {
     try {
         ev.target.appendChild(document.getElementById(data));
         let statusToCode = {"toDo":0, "dev":1, "progress":2, "done":3};
-        let selected = statusToCode[ev.path[0].id];
+        let selected = statusToCode[ev.target.id];
         
         $.ajax({
             url:"productivity/updateTaskStatus.php",
@@ -27,6 +27,7 @@ function drop(ev) {
             data:{taskID:data, projectID:sessionStorage.getItem("chosenProject"), newStatus:selected},
             success: function(){
                 console.log("Successfully updated!");
+                RefreshProgressBar();
             },
             error: function(){
                 console.log("Something has happened!")
@@ -93,9 +94,27 @@ function GrabAssignees(){
             let temp = JSON.parse(responseData);
             for(let user of temp) {
                 document.getElementById("assignee").innerHTML += "<option value='" + user['email'] + "'>" + user['email'] + "</option>";
+                document.getElementById("userOptions").innerHTML += "<option value='" + user['email'] + "'>" + user['firstName'] + " " + user['secondName'] + "</option>";
             }
         }
     });
+}
+
+function removeAssignee(user){
+
+    if (window.confirm("Do you wish to remove " + user + " from this task?")){
+        let taskID = sessionStorage.getItem("chosenTask");
+        let projectID = sessionStorage.getItem("chosenProject");
+
+        $.ajax({
+            url: "productivity/removeAssignee.php",
+            type: "POST",
+            data: {user:user, projectID:projectID, taskID:taskID},
+            success: function() {
+                OpenTaskPanel(taskID);
+            }
+        });
+    }
 }
 
 function OpenTaskPanel(chosenTaskID){
@@ -103,14 +122,107 @@ function OpenTaskPanel(chosenTaskID){
     $.ajax({
         url: "productivity/retrieveTaskDetails.php",
         type:"POST",
+        async:false,
         data:{taskID:chosenTaskID, projectID:sessionStorage.getItem("chosenProject")},
         success: function(responseData){
             let taskDetails = JSON.parse(responseData)[0];
             document.querySelector("#editTaskName").value = taskDetails['taskName'];
             document.querySelector("#editDescriptionTextArea").value = taskDetails['description'];
+            document.querySelector("#assigneeInput").value = "";
+            document.querySelector("#assigneeResult").innerHTML = "";
             sessionStorage.setItem("chosenTask",chosenTaskID);
         }
     });
+    $.ajax({
+        url:"productivity/getAssignees.php",
+        type:"POST",
+        data:{taskID:chosenTaskID, projectID:sessionStorage.getItem("chosenProject")},
+        success: function(responseData){
+            let temp = JSON.parse(responseData);
+            document.querySelector("#assigneeList").innerHTML = "";
+
+            for (i in temp){
+                user = temp[i];
+                document.querySelector("#assigneeList").innerHTML += `<li class="list-group-item list-group-item-action" onclick="removeAssignee('`+user['email']+`');">`+user['email']+`</li>`;
+            }
+
+            if (document.getElementById("assigneeList").childElementCount == 0){
+                document.getElementById("assigneeList").innerHTML = "<small class='text-muted'>Assigned to No One.</small>"
+            }
+        }
+    });
+}
+
+function deleteTask(){
+    if (window.confirm("Are you sure you wish to delete this task?")){
+        let projectID = sessionStorage.getItem("chosenProject");
+        let taskID = sessionStorage.getItem("chosenTask");
+
+        $.ajax({
+            url:"productivity/deleteTask.php",
+            type:"POST",
+            data: {projectID: projectID, taskID:taskID},
+            success: function(){
+                $('#EditTaskModal').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                RefreshPage(sessionStorage.getItem("chosenProject"));
+            },
+            error: function(e){
+                window.alert("Error Occurred! Please refer to console.");
+                console.log(e.message);
+            }
+        });
+    }
+}
+
+function RefreshProgressBar(){
+    
+    //Count the tasks in each category
+    let toDoCount = document.getElementById("toDo").childElementCount;
+    let selectedCount = document.getElementById("dev").childElementCount;
+    let inProgressCount = document.getElementById("progress").childElementCount;
+    let doneCount = document.getElementById("done").childElementCount;
+    let total = toDoCount + selectedCount + inProgressCount + doneCount;
+
+    //Calculate percentage of each
+    toDoPerc = (toDoCount/total)*100;
+    selectedPerc = (selectedCount/total)*100;
+    inProgressPerc = (inProgressCount/total)*100;
+    donePerc = (doneCount/total)*100;
+
+    //Set To Do Progress Meter
+    document.getElementById("toDoMeter").style="width:"+toDoPerc+"%;";
+    document.getElementById("toDoMeter").ariaValueNow = toDoPerc;
+    
+    //Change Popover Text
+    $("#toDoMeter").attr("data-bs-content", toDoCount+" out of "+total+" tasks ("+toDoPerc.toFixed(2)+"%)");
+
+    //Set Selected Progress Meter
+    document.getElementById("selectedMeter").style="width:"+selectedPerc+"%;";
+    document.getElementById("selectedMeter").ariaValueNow = selectedPerc;
+
+    //Change Popover Text
+    $("#selectedMeter").attr("data-bs-content", selectedCount+" out of "+total+" tasks ("+selectedPerc.toFixed(2)+"%)")
+
+    //Set In Progress Progress Meter
+    document.getElementById("inProgressMeter").style="width:"+inProgressPerc+"%;";
+    document.getElementById("inProgressMeter").ariaValueNow = inProgressPerc;
+
+    //Change Popover Text
+    $("#inProgressMeter").attr("data-bs-content", inProgressCount+" out of "+total+" tasks ("+inProgressPerc.toFixed(2)+"%)")
+
+    //Set Done Progress Meter
+    document.getElementById("doneMeter").style="width:"+donePerc+"%;";
+    document.getElementById("doneMeter").ariaValueNow = donePerc;
+
+    //Change Popover Text
+    $("#doneMeter").attr("data-bs-content", doneCount+" out of "+total+" tasks ("+donePerc.toFixed(2)+"%)")
+
+
+    //Reset Popovers
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 }
 
 function RefreshPage(projectID, projectName=null){
@@ -133,14 +245,23 @@ function RefreshPage(projectID, projectName=null){
             if (responseData === "false"){
                 document.getElementById("noTasks").style = "margin-top: 27%;";
                 document.getElementById("displayTasks").style = "display: none;";
+                document.getElementById("progressBar").style = "display: none;";
             //Else.....
             } else {
                 document.getElementById("noTasks").style = "display:none;";
-                document.getElementById("displayTasks").style = "";
+                document.getElementById("displayTasks").style = "display:block;";
+                document.getElementById("progressBar").style = "display:inline;";
                 let temp = JSON.parse(responseData);
                 for(let task of temp){
                     let taskStatus = Number(task['status']);
-                    let newTaskCard = "<div id='"+task['taskID']+"' class='card' style='width: 18rem; margin-right:1%;' onclick='OpenTaskPanel(\""+task['taskID']+"\")' draggable='true' ondragstart='drag(event)' ondragend='dragEnd()'><div class='card-body'><h5 class='card-title'>"+task['taskName']+"</h5></div></div>";
+
+                    let newTaskCard = `<div id='`+task['taskID']+`' class='card shadow-none bg-white' onclick='OpenTaskPanel(\"`+task['taskID']+`\")' draggable='true' ondragstart='drag(event)' ondragend='dragEnd()'>
+                    <div class='card-body'>
+                    `+task['taskName']+`
+                    <div class='taskDeadline'>84 Hours Until Completion</div>
+                    </div>
+                    </div>`;
+
                     switch (taskStatus){
                         case 0:
                             document.getElementById("toDo").innerHTML += newTaskCard;
@@ -156,8 +277,39 @@ function RefreshPage(projectID, projectName=null){
                             break;
                     }
                 }
+
+                RefreshProgressBar();
+
             }
             sessionStorage.setItem("chosenProject", projectID);
+        },
+        error: function(e){
+            window.alert("Error Occurred! Please refer to console.");
+            console.log(e.message);
+        }
+    });
+}
+
+function addAssignee(){
+    let newAssignee = $(assigneeInput).val();
+    let projectID = sessionStorage.getItem("chosenProject");
+    let taskID = sessionStorage.getItem("chosenTask");
+
+    $.ajax({
+        url:"productivity/addAssignee.php",
+        type:"POST",
+        data: {projectID:projectID, taskID:taskID, newAssignee:newAssignee},
+        success: function(responseData){
+            if (responseData == 1){
+                document.getElementById("assigneeResult").innerHTML = `<div class="alert alert-success" role="alert">
+                User has been assigned to this task!
+              </div>`;
+            } else {
+                document.getElementById("assigneeResult").innerHTML = `<div class="alert alert-danger" role="alert">
+                User has not been assigned to this task! They may already be assigned to this task or may not be a user on the system.
+              </div>`;
+            }
+            OpenTaskPanel(taskID);
         },
         error: function(e){
             window.alert("Error Occurred! Please refer to console.");
@@ -269,3 +421,6 @@ $(document).ready(function(){
     });
     //////////////////
 });
+
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
