@@ -1,71 +1,52 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="dashboard/dashboard.js"></script>
-</head>
-<body style="width:100% !important;">
-    <main class="bd-content p-5" id="content" role="main">
-        <div class="row">
-            <div class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
-                <h1 class="display-4" style="text-align: center;">Admin Dashboard</h1>
+<script src="dashboard/dashboard.js"></script>
+<main id="content" role="main">
+    <div class="row">
+        <div class="bg-light rounded-3" style="border-radius: 15px; padding: 3rem;">
+            <h1 class="display-6" style="text-align: center;">Admin Dashboard</h1>
 
-                <hr class="my-4">
+            <hr class="my-4">
 
-                <h5>Current Projects:</h5>
+            <h6>Current Projects:</h6>
 
-                <div class="row" id="AdminProjectOverview">
-                </div>
-
+            <div class="row" id="AdminProjectOverview" style="overflow-x:hidden;">
+                <script>GrabProjects();</script>
             </div>
+
+            <hr class="my-4">
+            <h6>Admin Tools:</h6>
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#CreateProjectModal" aria-controls="CreateProjectModal">Create Project</button>
+            <hr class="my-4">
         </div>
+    </div> 
+</main>
 
-        <div class="row">
-            <section class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
-                <h5>Create a New Project:</h5>
+<div class="modal" id="CreateProjectModal" tabindex="-1" role="dialog" aria-labelledby="CreateProjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateProjectModalLabel">Input Project Details Below:</h5>
+            </div>
 
-                <hr class="my-4">
+            <div class="modal-body mx-auto">
+                <form id="CreateProjectForm">
+                    <label for="ProjectNameField">Project Name:</label><br>
+                    <input type="text" class="form-control" id="ProjectNameField" name="ProjectNameField" required><br>
 
-                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#CreateProjectModal" aria-controls="CreateProjectModal">Create Project</button>
+                    <label for="TeamLeaderField">Assign a Team Leader:</label><br>
+                    <select class="form-control" id="TeamLeaderField" name="TeamLeaderField" required>
+                    </select><br>
 
-            </section>
-        </div> 
-    </main>
+                    <label for="DeadlineField">Set the Deadline:</label><br>
+                    <input type="date" class="form-control" id="DeadlineField" name="DeadlineField" required><br>
 
-    <div class="modal" id="CreateProjectModal" tabindex="-1" role="dialog" aria-labelledby="CreateProjectModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="CreateProjectModalLabel">Input Project Details Below:</h5>
-                </div>
-
-                <div class="modal-body mx-auto">
-                    <form id="CreateProjectForm">
-                        <label for="ProjectNameField">Project Name:</label><br>
-                        <input type="text" class="form-control" id="ProjectNameField" name="ProjectNameField" required><br>
-
-                        <label for="TeamLeaderField">Assign a Team Leader:</label><br>
-                        <select class="form-control" id="TeamLeaderField" name="TeamLeaderField" required>
-                        </select><br>
-
-                        <label for="DeadlineField">Set the Deadline:</label><br>
-                        <input type="date" class="form-control" id="DeadlineField" name="DeadlineField" required><br>
-
-                        <button type="submit" class="btn btn-success">Create</button>
-                    </form>
-                </div>
+                    <button type="submit" class="btn btn-success">Create</button>
+                </form>
             </div>
         </div>
     </div>
-
-    <script type="text/javascript">
-        changeSelected("dashboard");
-        GrabEmails();
-        GrabProjects();
-    </script>
-</body>
-
-</html>
+</div>
+<script>   
+    localStorage.setItem("currentPage", "dashboard/adminDashboard.php");
+    changeSelected("dashboard");
+    GrabEmails();
+</script>
