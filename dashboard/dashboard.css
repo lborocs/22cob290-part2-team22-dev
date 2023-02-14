@@ -226,8 +226,7 @@ progress {
       /* creates padding around scroll thumb */
   }
   #content{
-    min-width: 100%;
-    width: 100%;
+    
     border-radius: 15px;
     padding: 20px;
     float: left;
@@ -238,15 +237,15 @@ progress {
   }
   #projectContainer{
     width: 70%;
-    min-height: 375px;
-    height: 375px;
     float: left;
-    padding: 20px;
+    padding: 5px;
+    
   }
   #toDo{
     width: 30%;
     float: left;
-    padding: 20px; 
+    padding: 5px; 
+    
   }
  .header{
     border-radius: 15px;
@@ -254,7 +253,7 @@ progress {
  }
  #createProjectBtn{
     background-color: #337ab7;
-    margin-top: 270px;
+    
     
  }
  #editor{
