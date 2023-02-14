@@ -1,4 +1,13 @@
 <script src="dashboard/dashboard.js"></script>
+<script>
+     $(document).ready(function(){
+       
+            localStorage.setItem("currentPage", "dashboard/adminDashboard.php");
+        
+            
+        
+    });
+    </script>
 <main id="content" role="main">
     <div class="row">
         <div class="bg-light rounded-3" style="border-radius: 15px; padding: 3rem;">
@@ -45,8 +54,7 @@
         </div>
     </div>
 </div>
-<script>   
-    localStorage.setItem("currentPage", "dashboard/adminDashboard.php");
+<script>
     changeSelected("dashboard");
     GrabEmails();
 </script>

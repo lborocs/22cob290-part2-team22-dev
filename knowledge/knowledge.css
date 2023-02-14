@@ -1,0 +1,74 @@
+.w3-sidebar {
+    width:160px; 
+    height: 100%;
+}
+
+hr {
+    border-top: 1px solid black;
+}
+
+.w3-container {
+    margin-left:160px;
+}
+
+.col-md-8 {
+    width: 100%;
+}
+
+#commentBorder {
+    border-style: solid;
+    border-width: 1px; 
+    border-color: grey;
+}
+
+#contextMenu {
+    display:none;
+}
+
+#knowledgeDiv {
+    height: 100vh;
+}
+
+.jumbotron {
+    margin-top: 0px;
+}
+
+#Options {
+    width:100%;
+}
+
+#optionsTitle {
+    padding-top:27px;
+}
+
+
+#addTopicMargin {
+    margin-top: 20px;
+}
+
+#contentDiv {
+    width:80%;
+}
+
+#wikiTop {
+    width: 100%;
+}
+
+#pageChange {
+    margin-left: 70%;
+    display: inline;
+}
+
+.container {
+    height: 85%; 
+    column-count:5; 
+    column-fill: auto; 
+    margin-left: 0px;
+}
+
+#notFound {
+    text-align: center;
+}
+
+
+
