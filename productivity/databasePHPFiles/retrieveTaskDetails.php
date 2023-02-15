@@ -1,5 +1,5 @@
 <?php
-    include("../DBCredentials.php");
+    include("../../DBCredentials.php");
 
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     
@@ -10,7 +10,7 @@
     $taskID = $_POST['taskID'];
     $projectID = $_POST['projectID'];
     
-    $sql = "SELECT email FROM taskToUserMapping WHERE taskToUserMapping.projectID = '$projectID' AND taskToUserMapping.taskID = '$taskID'";
+    $sql = "SELECT taskName, description FROM tasks WHERE tasks.projectID = '$projectID' AND tasks.taskID = '$taskID'";
     $result = mysqli_query($conn, $sql);
     
     if (mysqli_num_rows($result)>0){

@@ -19,8 +19,8 @@
 }
 
 .card {
-    height: 5em;
-    width: 12em; 
+    height: 5.5em;
+    width: 15em; 
     margin-right:1%;
 }
 
@@ -64,6 +64,19 @@
 }
 
 #EditTaskForm > .list-group{
+    margin-top: 0.25em;
+    margin-bottom: 0.75em;
+}
+
+#ViewTaskBody .form-group {
+    margin-bottom: 0.5em;
+}
+
+#ViewTaskBody .form-group > label{
+    margin-bottom: 0.25em;
+}
+
+#ViewTaskBody .list-group{
     margin-top: 0.25em;
     margin-bottom: 0.75em;
 }

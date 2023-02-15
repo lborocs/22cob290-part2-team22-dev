@@ -75,9 +75,12 @@ $("#done").on("dragleave", function(){
 });
 //////////////////////////////
 
-function GrabProjects(){
+
+function GrabProjects(userEmail){
     $.ajax({
-        url: "admin/grabProjectCards.php",
+        url: "dashboard/grabProjectCards.php",
+        type:"POST",
+        data:{email:userEmail},
         success: function(responseData){
             let temp = JSON.parse(responseData);
             for(let project of temp){
@@ -87,37 +90,7 @@ function GrabProjects(){
     });
 }
 
-function GrabAssignees(){
-    $.ajax({
-        url: "admin/grabUserCards.php",
-        success: function(responseData){
-            let temp = JSON.parse(responseData);
-            for(let user of temp) {
-                document.getElementById("assignee").innerHTML += "<option value='" + user['email'] + "'>" + user['email'] + "</option>";
-                document.getElementById("userOptions").innerHTML += "<option value='" + user['email'] + "'>" + user['firstName'] + " " + user['secondName'] + "</option>";
-            }
-        }
-    });
-}
-
-function removeAssignee(user){
-
-    if (window.confirm("Do you wish to remove " + user + " from this task?")){
-        let taskID = sessionStorage.getItem("chosenTask");
-        let projectID = sessionStorage.getItem("chosenProject");
-
-        $.ajax({
-            url: "productivity/databasePHPFiles/removeAssignee.php",
-            type: "POST",
-            data: {user:user, projectID:projectID, taskID:taskID},
-            success: function() {
-                OpenTaskPanel(taskID);
-            }
-        });
-    }
-}
-
-function OpenTaskPanel(chosenTaskID){
+function OpenEditTaskPanel(chosenTaskID){
     $('#EditTaskModal').modal('show');
     $.ajax({
         url: "productivity/databasePHPFiles/retrieveTaskDetails.php",
@@ -153,27 +126,38 @@ function OpenTaskPanel(chosenTaskID){
     });
 }
 
-function deleteTask(){
-    if (window.confirm("Are you sure you wish to delete this task?")){
-        let projectID = sessionStorage.getItem("chosenProject");
-        let taskID = sessionStorage.getItem("chosenTask");
+function OpenViewTaskPanel(chosenTaskID){
+    $('#ViewTaskModal').modal('show');
+    $.ajax({
+        url: "productivity/databasePHPFiles/retrieveTaskDetails.php",
+        type:"POST",
+        async:false,
+        data:{taskID:chosenTaskID, projectID:sessionStorage.getItem("chosenProject")},
+        success: function(responseData){
+            let taskDetails = JSON.parse(responseData)[0];
+            document.querySelector("#viewTaskName").value = taskDetails['taskName'];
+            document.querySelector("#viewDescriptionTextArea").value = taskDetails['description'];
+            sessionStorage.setItem("chosenTask",chosenTaskID);
+        }
+    });
+    $.ajax({
+        url:"productivity/databasePHPFiles/getAssignees.php",
+        type:"POST",
+        data:{taskID:chosenTaskID, projectID:sessionStorage.getItem("chosenProject")},
+        success: function(responseData){
+            let temp = JSON.parse(responseData);
+            document.querySelector("#viewAssigneeList").innerHTML = "";
 
-        $.ajax({
-            url:"productivity/databasePHPFiles/deleteTask.php",
-            type:"POST",
-            data: {projectID: projectID, taskID:taskID},
-            success: function(){
-                $('#EditTaskModal').modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-                RefreshPage(sessionStorage.getItem("chosenProject"));
-            },
-            error: function(e){
-                window.alert("Error Occurred! Please refer to console.");
-                console.log(e.message);
+            for (i in temp){
+                user = temp[i];
+                document.querySelector("#viewAssigneeList").innerHTML += `<li class="list-group-item">`+user['email']+`</li>`;
             }
-        });
-    }
+
+            if (document.getElementById("viewAssigneeList").childElementCount == 0){
+                document.getElementById("viewAssigneeList").innerHTML = "<small class='text-muted'>Assigned to No One.</small>"
+            }
+        }
+    });
 }
 
 function RefreshProgressBar(){
@@ -225,69 +209,168 @@ function RefreshProgressBar(){
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 }
 
-function RefreshPage(projectID, projectName=null){
+function RefreshPage(projectID, projectName=null, email){
     
+    //Reset task view
     document.getElementById("toDo").innerHTML = "";
     document.getElementById("dev").innerHTML = "";
     document.getElementById("progress").innerHTML = "";
     document.getElementById("done").innerHTML = "";
-    
+    //////////////////
+
+    //If we already know the Project Name (from the dashboard)...
     if (projectName != null){
         document.getElementById("selectedProject").innerHTML = "Selected Project: " + projectName;
     }
+    ////////////////////////////////////////
     
+    //Grab tasks that the user is assigned to
     $.ajax({
-        url:"productivity/databasePHPFiles/retrieveTaskCards.php",
+        url:"productivity/databasePHPFiles/retrieveUserAssignedTaskCards.php",
         type:"POST",
-        data: {projectID:projectID},
+        async:false,
+        data: {projectID:projectID, email:email},
         success: function(responseData){
-            //If the Project has no tasks....
-            if (responseData === "false"){
-                document.getElementById("noTasks").style = "margin-top: 27%;";
-                document.getElementById("displayTasks").style = "display: none;";
-                document.getElementById("progressBar").style = "display: none;";
-            //Else.....
-            } else {
-                document.getElementById("noTasks").style = "display:none;";
-                document.getElementById("displayTasks").style = "display:block;";
-                document.getElementById("progressBar").style = "display:inline;";
-                let temp = JSON.parse(responseData);
-                for(let task of temp){
-                    let taskStatus = Number(task['status']);
 
-                    let newTaskCard = `<div id='`+task['taskID']+`' class='card shadow-none bg-white' onclick='OpenTaskPanel(\"`+task['taskID']+`\")' draggable='true' ondragstart='drag(event)' ondragend='dragEnd()'>
-                    <div class='card-body'>
-                    `+task['taskName']+`
-                    <div class='taskDeadline'>84 Hours Until Completion</div>
-                    </div>
-                    </div>`;
+            let temp = JSON.parse(responseData);
+            for(let task of temp) {
+                let taskStatus = Number(task['status']);
 
-                    switch (taskStatus){
-                        case 0:
-                            document.getElementById("toDo").innerHTML += newTaskCard;
-                            break;
-                        case 1:
-                            document.getElementById("dev").innerHTML += newTaskCard;
-                            break;
-                        case 2:
-                            document.getElementById("progress").innerHTML += newTaskCard;
-                            break;
-                        case 3:
-                            document.getElementById("done").innerHTML += newTaskCard;
-                            break;
-                    }
+                let newTaskCard = `<div id='`+task['taskID']+`' class='card shadow-none bg-white' onclick='OpenEditTaskPanel(\"`+task['taskID']+`\")' draggable='true' ondragstart='drag(event)' ondragend='dragEnd()'>
+                <div class='card-body'>
+                `+task['taskName']+`
+                <div class='taskDeadline'>84 Hours Until Completion</div>
+                </div>
+                </div>`;
+
+                switch (taskStatus){
+                    case 0:
+                        document.getElementById("toDo").innerHTML += newTaskCard;
+                        break;
+                    case 1:
+                        document.getElementById("dev").innerHTML += newTaskCard;
+                        break;
+                    case 2:
+                        document.getElementById("progress").innerHTML += newTaskCard;
+                        break;
+                    case 3:
+                        document.getElementById("done").innerHTML += newTaskCard;
+                        break;
                 }
-
-                RefreshProgressBar();
-
             }
-            sessionStorage.setItem("chosenProject", projectID);
         },
         error: function(e){
             window.alert("Error Occurred! Please refer to console.");
             console.log(e.message);
         }
     });
+    //////////////////////////////////////////
+
+    //Grab tasks that the User is not assigned to
+    $.ajax({
+        url:"productivity/databasePHPFiles/retrieveNonUserAssignedTaskCards.php",
+        type:"POST",
+        async:false,
+        data: {projectID:projectID, email:email},
+        success: function(responseData){
+            let temp = JSON.parse(responseData);
+            for(let task of temp){
+                let taskStatus = Number(task['status']);
+
+                let newTaskCard = `<div id='`+task['taskID']+`' class='card shadow-none' onclick='OpenViewTaskPanel(\"`+task['taskID']+`\")' draggable='false' ondragstart='drag(event)' ondragend='dragEnd()'>
+                <div class='card-body'>
+                `+task['taskName']+`
+                <div class='taskDeadline'>84 Hours Until Completion</div>
+                </div>
+                </div>`;
+
+                switch (taskStatus){
+                    case 0:
+                        document.getElementById("toDo").innerHTML += newTaskCard;
+                        break;
+                    case 1:
+                        document.getElementById("dev").innerHTML += newTaskCard;
+                        break;
+                    case 2:
+                        document.getElementById("progress").innerHTML += newTaskCard;
+                        break;
+                    case 3:
+                        document.getElementById("done").innerHTML += newTaskCard;
+                        break;
+                }
+            }
+
+            sessionStorage.setItem("chosenProject", projectID);
+
+        },
+        error: function(e){
+            window.alert("Error Occurred! Please refer to console.");
+            console.log(e.message);
+        }
+    });
+    /////////////////////////////////////////
+
+    //Count the tasks in each category
+    let toDoCount = document.getElementById("toDo").childElementCount;
+    let selectedCount = document.getElementById("dev").childElementCount;
+    let inProgressCount = document.getElementById("progress").childElementCount;
+    let doneCount = document.getElementById("done").childElementCount;
+    let total = toDoCount + selectedCount + inProgressCount + doneCount;
+
+    //If there are no tasks in the project...
+    if (total === 0) {
+        document.getElementById("noTasks").style = "margin-top: 27%;";
+        document.getElementById("displayTasks").style = "display: none;";
+        document.getElementById("progressBar").style = "display: none;";
+    } 
+    //Else....
+    else {
+        document.getElementById("noTasks").style = "display:none;";
+        document.getElementById("displayTasks").style = "display:block;";
+        document.getElementById("progressBar").style = "display:inline;";
+    }
+
+    RefreshProgressBar();
+}
+
+function removeAssignee(user){
+
+    if (window.confirm("Do you wish to remove " + user + " from this task?")){
+        let taskID = sessionStorage.getItem("chosenTask");
+        let projectID = sessionStorage.getItem("chosenProject");
+
+        $.ajax({
+            url: "productivity/databasePHPFiles/removeAssignee.php",
+            type: "POST",
+            data: {user:user, projectID:projectID, taskID:taskID},
+            success: function() {
+                OpenEditTaskPanel(taskID);
+            }
+        });
+    }
+}
+
+function deleteTask(){
+    if (window.confirm("Are you sure you wish to delete this task?")){
+        let projectID = sessionStorage.getItem("chosenProject");
+        let taskID = sessionStorage.getItem("chosenTask");
+
+        $.ajax({
+            url:"productivity/databasePHPFiles/deleteTask.php",
+            type:"POST",
+            data: {projectID: projectID, taskID:taskID},
+            success: function(){
+                $('#EditTaskModal').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                RefreshPage(sessionStorage.getItem("chosenProject"), null, sessionStorage.getItem("email"));
+            },
+            error: function(e){
+                window.alert("Error Occurred! Please refer to console.");
+                console.log(e.message);
+            }
+        });
+    }
 }
 
 function addAssignee(){
@@ -301,19 +384,33 @@ function addAssignee(){
         data: {projectID:projectID, taskID:taskID, newAssignee:newAssignee},
         success: function(responseData){
             if (responseData == 1){
+                OpenEditTaskPanel(taskID);
                 document.getElementById("assigneeResult").innerHTML = `<div class="alert alert-success" role="alert">
                 User has been assigned to this task!
               </div>`;
             } else {
+                OpenEditTaskPanel(taskID);
                 document.getElementById("assigneeResult").innerHTML = `<div class="alert alert-danger" role="alert">
                 User has not been assigned to this task! They may already be assigned to this task or may not be a user on the system.
               </div>`;
             }
-            OpenTaskPanel(taskID);
         },
         error: function(e){
             window.alert("Error Occurred! Please refer to console.");
             console.log(e.message);
+        }
+    });
+}
+
+function GrabAssignees(){
+    $.ajax({
+        url: "admin/grabUserCards.php",
+        success: function(responseData){
+            let temp = JSON.parse(responseData);
+            for(let user of temp) {
+                document.getElementById("assignee").innerHTML += "<option value='" + user['email'] + "'>" + user['email'] + "</option>";
+                document.getElementById("userOptions").innerHTML += "<option value='" + user['email'] + "'>" + user['firstName'] + " " + user['secondName'] + "</option>";
+            }
         }
     });
 }
@@ -324,7 +421,7 @@ $(document).ready(function(){
         let projectID = $("#ProjectNameField").val();
         document.getElementById("selectedProject").innerHTML = "Selected Project: " + $("#ProjectNameField option:selected").text();
 
-        RefreshPage(projectID);
+        RefreshPage(projectID,null,sessionStorage.getItem("email"));
 
         $('#changeProjectModal').modal('hide');
         $('body').removeClass('modal-open');
@@ -337,35 +434,38 @@ $(document).ready(function(){
     //Add Task Form
     $("#addTaskModal").submit(function(event){
                 
-        let projectID = sessionStorage.getItem("chosenProject");
+        // let projectID = sessionStorage.getItem("chosenProject");
 
-        if (projectID == null){
-            window.alert("A project must be selected first");
-            event.preventDefault();
-            return;
-        }
+        // if (projectID == null){
+        //     window.alert("A project must be selected first");
+        //     event.preventDefault();
+        //     return;
+        // }
 
-        let taskName = $("#taskName").val();
-        let taskStatus = $("#taskStatus option:selected").val();
-        let description = $("#descriptionTextArea").val();
-        let manHours = $("#manHoursInput").val();
-        let assignee = $("#assignee").val();
+        // let taskName = $("#taskName").val();
+        // let taskStatus = $("#taskStatus option:selected").val();
+        // let description = $("#descriptionTextArea").val();
+        // let manHours = $("#manHoursInput").val();
+        // let assignee = $("#assignee").val();
 
-        $.ajax({
-            url:"productivity/databasePHPFiles/processAddTaskForm.php",
-            type:"POST",
-            data: {projectID: projectID, taskName: taskName, taskStatus: taskStatus, description:description, manHours: manHours, assignee:assignee},
-            success: function(){
-                $('#addTaskModal').modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-                RefreshPage(sessionStorage.getItem("chosenProject"));
-            },
-            error: function(e){
-                window.alert("Error Occurred! Please refer to console.");
-                console.log(e.message);
-            }
-        });
+        // $.ajax({
+        //     url:"productivity/databasePHPFiles/processAddTaskForm.php",
+        //     type:"POST",
+        //     data: {projectID: projectID, taskName: taskName, taskStatus: taskStatus, description:description, manHours: manHours, assignee:assignee},
+        //     success: function(){
+        //         $('#addTaskModal').modal('hide');
+        //         $('body').removeClass('modal-open');
+        //         $('.modal-backdrop').remove();
+        //         RefreshPage(sessionStorage.getItem("chosenProject"));
+        //     },
+        //     error: function(e){
+        //         window.alert("Error Occurred! Please refer to console.");
+        //         console.log(e.message);
+        //     }
+        // });
+
+        window.alert("This function will get added once team leaders are implemented");
+
         event.preventDefault();
     });
     //////////////
@@ -384,7 +484,7 @@ $(document).ready(function(){
                 $('#EditTaskModal').modal('hide');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
-                RefreshPage(sessionStorage.getItem("chosenProject"));
+                RefreshPage(sessionStorage.getItem("chosenProject"),null,sessionStorage.getItem("email"));
                 sessionStorage.removeItem("chosenTask");
             },
             error: function(e){
@@ -427,4 +527,4 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 
 sessionStorage.removeItem("chosenProject");
 GrabAssignees();
-GrabProjects();
+GrabProjects(sessionStorage.getItem("email"));
