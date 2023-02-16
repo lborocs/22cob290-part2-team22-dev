@@ -11,8 +11,6 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="faq/faq.css">
     <title>Document</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
 
@@ -31,9 +29,13 @@ session_start();
                       <input type="text" class="form-control" id="question" name="topicName" placeholder="Topic Name" required>
                       <label for="answer" id = "answerTag">Answer</label>
                       <textarea class="form-control" id="answer" rows="3" required></textarea>
+                      <br>
                       <label for="attachments">Add images</label>
+                      <br>
+                      <br>
                       <input type="file" id = "file" accept="image/png, image/jpeg"> 
                     </div>
+                    <br>
                   <button type="submit" class="btn btn-primary">Submit</button>
               </form>
           </div>
@@ -47,6 +49,12 @@ session_start();
 <input type="search" value = "" class="form-control rounded" placeholder="Search Topic" id="wordSelect" onchange="searchFilter(this.value)" aria-label="Search" aria-describedby="search-addon" style = "width: 70%"/>
 <br>
 <a id = "faqAdd" role="button" href='#' data-bs-toggle="modal" data-bs-target="#addFaqModal" aria-controls="addFaqModal">Add question</a>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item" id = "wikiType"><a href="#"></a></li>
+      <li class="breadcrumb-item active" aria-current="page" id = "page"></li>
+    </ol>
+  </nav>
 <hr style = 'border-top: 1px solid black;'>
 
 <script>

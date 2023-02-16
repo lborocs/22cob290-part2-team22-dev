@@ -1,12 +1,18 @@
-<script src="productivity/projects.js"></script>
+<?php session_start(); ?>
+
+<script src="<?php if ($_SESSION['isAdmin'] == true){ echo 'productivity/projects.js';} else {echo 'productivity/userProjects.js';} ?>"></script>
+
 <script>
     $(document).ready(function(){
     
         localStorage.setItem("currentPage", "/productivity/projects.php");
+        sessionStorage.setItem("email", "<?php echo $_SESSION['email']?>");
     
     });
 </script>
+
 <link rel="stylesheet" href="productivity/projects.css">
+
 <div id="main" class="row">
     <div class="col-sm-1 full-height" id="options">
         <h6 id="selectedProject">No Project Selected.</h6>
@@ -109,7 +115,9 @@
                         <label for="assignee">Assignee:</label>
                         <select class="form-control" id="assignee" name="assignee" required></select>
                     </div>
-
+                    
+                    <hr class="my-3">
+                    
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -144,12 +152,17 @@
 
                     <div class="collapse" id="assigneeCollapse">
                         <hr class="my-3">
+
                         <input type="email" id="assigneeInput" name="assigneeInput" list="userOptions" class="form-control" placeholder="Enter Assignee Here">
+
                         <datalist id="userOptions">
                         </datalist>
+
                         <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-outline-secondary" onclick="addAssignee()">Add User</button>
+
+                            <button type="button" class="btn btn-outline-secondary" onclick="addAssignee()">Add User</button>
                         </div>
+
                         <div id="assigneeResult" class="mt-3">
                         </div>
                     </div>
@@ -163,8 +176,6 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a id="deleteTask" class="dropdown-item" onclick="deleteTask()">Delete Task</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
                     </div>
                 </form>
@@ -173,6 +184,32 @@
     </div>
 </div>
 
+<div class="modal" id="ViewTaskModal" tabindex="-1" role="dialog" aria-labelledby="ViewTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ViewTaskModalLabel">View Task:</h5>
+            </div>
+
+            <div id="ViewTaskBody" class="modal-body">
+                <div class="form-group">
+                    <label for="viewTaskName">Task Name:</label>
+                    <input type="text" class="form-control" id="viewTaskName" name="viewTaskName" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="viewDescriptionTextArea">Description:</label>
+                    <textarea class="form-control" id="viewDescriptionTextArea" name="viewDescriptionTextArea" rows="3" disabled></textarea>
+                </div>
+
+                <label>Assignee(s):</label>
+                <ul class="list-group" id="viewAssigneeList">
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal" id="filterTaskModal" tabindex="-1" role="dialog" aria-labelledby="filterTaskModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -202,7 +239,4 @@
     myOffcanvas.addEventListener('hidden.bs.offcanvas', function() {
         navShut()
     })
-    GrabProjects();
-    GrabAssignees();
-    sessionStorage.removeItem("chosenProject");
 </script>

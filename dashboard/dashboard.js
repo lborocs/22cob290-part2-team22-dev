@@ -1,30 +1,19 @@
-function GrabEmails(){
+function GrabProjects(userEmail){
     $.ajax({
-        url: "../admin/grabUserCards.php",
+        url:"dashboard/grabProjectCards.php",
+        type:"POST",
+        data:{email:userEmail},
         success: function(responseData){
-            let temp = JSON.parse(responseData);
-            for(let user of temp){
-                document.getElementById("TeamLeaderField").innerHTML += "<option value='" + user['email'] + "'>" + user['email'] + "</option>";
-            }
-        }
-    });
-}
-
-function GrabProjects(){
-    $.ajax({
-        url:"../admin/grabProjectCards.php",
-        success: function(responseData){
-            document.getElementById("AdminProjectOverview").innerHTML = "";
+            document.getElementById("userProjectOverview").innerHTML = "";
             let temp = JSON.parse(responseData);
             for (let project of temp){
                 let card = "<div class='card' style='width: 23%; margin-left: 1%; margin-right: 1%;'>";
                 card += "<div class='card-body'>";
                 card += "<p class='card-title'>"+ project['projectName'] +"<p>";
-                card += "<p class='card-subtitle mb-2 text-muted'>" + project['teamLeader'] + "</p><hr class='my-1'>";
-                card += "<button type='button' onclick='directToProject(\""+project['projectID']+"\", \""+project['projectName']+"\")' class='btn btn-primary'>Go to Project</button>";
+                card += "<p class='card-subtitle mb-2 text-muted'>Team Leader: " + project['teamLeader'] + "</p><hr class='my-1'>";
+                card += "<button type='button' onclick='directToProject(\""+project['projectID']+"\", \""+project['projectName']+"\", \""+userEmail+"\")' class='btn btn-primary'>Go to Project</button>";
                 card += "</div></div>";
-
-                document.getElementById("AdminProjectOverview").innerHTML += card;
+                document.getElementById("userProjectOverview").innerHTML += card;
             }
         }
     });
@@ -49,48 +38,7 @@ function grabProjectStats(){
 
 
 
-function directToProject(projectID, projectName){
-    
-    
-    localStorage.setItem("chosenProjectName", projectName);
-    localStorage.setItem("chosenProject", projectID);
-    //localStorage.setItem("currentPage","projectStats.php");
-    navclick('dashboard/projectStats.php');
+function directToProject(projectID, projectName, email){
+    navclick('productivity/projects.php');
+    RefreshPage(projectID, projectName, email);
 }
-
-$(document).ready(function(){
-    $("#CreateProjectForm").submit(function(event){
-        let projectName = $("#ProjectNameField").val();
-        let teamLeader = $("#TeamLeaderField").val();
-        let deadline = $("#DeadlineField").val();
-        $.ajax({
-            url:"dashboard/createProject.php",
-            type:"POST",
-            data: {projectName : projectName, teamLeader: teamLeader, deadline: deadline},
-            success: function(responseData){
-                if (responseData === "true"){
-                    window.alert("Project Created!");
-                } else {
-                    window.alert("Error!");
-                }
-            },
-            error: function(e){
-                window.alert("Error Occurred! Please refer to console.");
-                console.log(e.message);
-            }
-        });
-        event.preventDefault();
-    });
-});
-
-var quill = new Quill('#editor', {
-    modules: {
-        toolbar: [
-            [{ header: [1, 2, false] }],
-            ['bold', 'italic', 'underline'],
-            ['image', 'code-block']
-        ]
-    },
-    placeholder: '...',
-    theme: 'snow'
-});

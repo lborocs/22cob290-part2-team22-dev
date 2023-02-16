@@ -14,8 +14,8 @@ $.ajax({
         document.getElementById("contentBar").innerHTML += `<a class="w3-bar-item w3-button" onclick = "document.getElementById('main').getElementsByTagName('h1')[${i}].scrollIntoView();">➤ ${main.getElementsByTagName('h1')[i].innerHTML}</a>`;
         found = true;
       }
-      (localStorage.getItem("technical") == 1) ? document.getElementById("wikiType").innerHTML = 'Technical Wiki' : document.getElementById("wikiType").innerHTML = 'Non Technical Wiki';
-      document.getElementById("Topic").innerHTML = localStorage.getItem("topicName");
+      (localStorage.getItem("technical") == 1) ? document.getElementById("wikiType").innerHTML = `<a href = '#' onclick = "navclick('knowledge/wiki.php'); localStorage.setItem('posts',0); location.reload(); localStorage.setItem('currentPage', 'knowledge/wiki.php');">Technical Wiki</a>` : document.getElementById("wikiType").innerHTML = `<a href = '#' onclick = "navclick('knowledge/wiki.php'); localStorage.setItem('posts',0); location.reload(); localStorage.setItem('currentPage', 'knowledge/wiki.php');">Non Technical Wiki</a>`;
+      document.getElementById("Topic").innerHTML = `<a href = '#' onclick = "navclick('knowledge/wiki.php'); localStorage.setItem('posts',1); location.reload(); localStorage.setItem('currentPage', 'knowledge/wiki.php');">${localStorage.getItem("topicName")}</a>`;
       document.getElementById("page").innerHTML = document.getElementById("title").innerHTML = temp[0].name;
 
     if (found === false) {
