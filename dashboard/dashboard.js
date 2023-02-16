@@ -20,7 +20,7 @@ function GrabProjects(){
                 let card = "<div class='card' style='width: 14rem; margin-left: 10px; margin-right: 10px;'>";
                 card += "<div class='card-body'>";
                 card += "<p class='card-title'>"+ project['projectName'] +"<p>";
-                card += "<button type='button' id='hideCard' onclick='removeTask()' class='btn btn-danger'>X</button>";
+                card += "<button class='btn btn-danger 'onclick='removeTask()'>X</button>";
                 card += "<p class='card-subtitle mb-2 text-muted'>Team Leader: " + project['teamLeader'] + "</p><hr class='my-1'>";
                 card += "<button type='button' onclick='directToProject(\""+project['projectID']+"\", \""+project['projectName']+"\")' class='btn btn-primary'>Go to Project</button>";
                 card += "</div></div>";
@@ -36,9 +36,9 @@ function directToProject(projectID, projectName){
     RefreshPage(projectID, projectName);
 }
 
-function removeTask() {
-$("hideCard").show()
-}
+$(document).on('click', '.btn btn-danger', function removeTask() {
+$(this).parent().remove();
+});
 
 $(document).ready(function(){
     $("#CreateProjectForm").submit(function(event){
