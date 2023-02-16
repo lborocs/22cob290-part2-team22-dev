@@ -1,5 +1,5 @@
 <?php
-include("../DBCredentials.php");
+include("../../DBCredentials.php");
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -9,8 +9,8 @@ if (!$conn) {
 
 $taskID = $_POST["taskID"];
 $projectID = $_POST["projectID"];
-$assignee = $_POST["user"];
+$newStatus = $_POST["newStatus"];
 
-$sql = "DELETE FROM taskToUserMapping WHERE email = '$assignee' AND taskID = '$taskID' AND projectID = '$projectID';";
+$sql = "UPDATE tasks SET status = '$newStatus' WHERE taskID = '$taskID' AND projectID = '$projectID';";
 $result = mysqli_query($conn, $sql);
 ?>

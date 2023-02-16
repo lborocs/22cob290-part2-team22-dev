@@ -1,5 +1,5 @@
 <?php
-include("../DBCredentials.php");
+include("../../DBCredentials.php");
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 

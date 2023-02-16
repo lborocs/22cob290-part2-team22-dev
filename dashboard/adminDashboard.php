@@ -1,4 +1,4 @@
-<script src="dashboard/dashboard.js"></script>
+<script src="dashboard/adminDashboard.js"></script>
 <script>
      $(document).ready(function(){
        
@@ -7,7 +7,7 @@
             
         
     });
-    </script>
+</script>
 <main id="content" role="main">
     <div class="row">
         <div class="bg-light rounded-3" style="border-radius: 15px; padding: 3rem;">
