@@ -36,6 +36,23 @@ function grabProjectStats(){
     });
 }
 
+function grabUsersByProject(projectID){
+    
+    $.ajax({
+        url:"../admin/grabUsersByProject.php",
+        type:"POST",
+        data: {projectID : projectID},
+        success: function(responseData){
+            let temp = JSON.parse(responseData);
+            for(let user of temp){
+                document.getElementById("usersAssigned").innerHTML += "<div class='user'>" + user['email'] + "</div>";
+            }
+        }
+    });
+
+}
+
+
 
 
 function directToProject(projectID, projectName, email){

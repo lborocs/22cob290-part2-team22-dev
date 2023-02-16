@@ -39,6 +39,7 @@ function directToProject(projectID, projectName){
     navclick('dashboard/projectStats.php');
 }
 
+
 var quill = new Quill('#editor', {
     modules: {
         toolbar: [

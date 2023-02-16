@@ -199,8 +199,8 @@ progress::after {
 }
 
 .user {
-    font-size: 0.7rem;
-    font-weight: lighter;
+    font-size: 0.9rem;
+    font-weight: light;
 
     margin: 0;
     overflow: hidden;

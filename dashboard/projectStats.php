@@ -27,6 +27,7 @@
 
     </script>
         <script src="dashboard/dashboard.js"></script>
+        
 
 </head>
 
@@ -36,19 +37,11 @@
         <div class="boxContainer">
             <div class="userContainer">
                 Users
-                  <div class="usersAssigned">
+                  <div id="usersAssigned"class="usersAssigned">
                     
                     
-                        <div class="user">admin</div>
-                        <div class="user">j.anderson2-21</div>
-                        <div class="user">lorem</div>
-                        <div class="user">lorem</div>
-                        <div class="user">lorem</div>
-                        <div class="user">lorem</div>
-                        <div class="user">lorem</div>
-                        <div class="user">lorem</div>
-                        <div class="user">lorem</div>
-                        <div class="user">lorem</div>
+                        
+                        
                         
                     </div>
                   </div>
@@ -72,6 +65,7 @@
 </body>
 <script>
 grabProjectStats();
+grabUsersByProject(localStorage.getItem("chosenProject"));
 </script>
 <script>
 const elems = document.querySelectorAll("#after0, #after1, #after2, #after3");
