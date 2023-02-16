@@ -257,10 +257,21 @@ function RefreshPage(projectID, projectName=null){
 
                     let newTaskCard = `<div id='`+task['taskID']+`' class='card shadow-none bg-white' onclick='OpenTaskPanel(\"`+task['taskID']+`\")' draggable='true' ondragstart='drag(event)' ondragend='dragEnd()'>
                     <div class='card-body'>
-                    `+task['taskName']+`
-                    <div class='taskDeadline'>84 Hours Until Completion</div>
-                    </div>
-                    </div>`;
+                    `+task['taskName'];
+
+                    if (task['assignees'] == 0) {
+                        newTaskCard += `<div class="text-muted">Assigned to No One</div><div class="cannotCalc">Cannot Calculate Estimate Time</div></div></div>`;
+                    } else {
+
+                        calcHours = Math.trunc(task['expectedManHours']/task['assignees']);
+                        calcMin = Math.round(((task['expectedManHours']/task['assignees']) - calcHours) * 60)
+                        let plural = "people";
+                        if (task['assignees'] == 1){
+                            plural = "person"
+                        }
+                        newTaskCard += `<div class="text-muted">Assigned to `+ task['assignees'] +` `+plural+`</div><div class='taskDeadline'>Duration: ` + calcHours + ` Hour(s), `+ calcMin +` Min</div></div></div>`;
+                    }
+                    
 
                     switch (taskStatus){
                         case 0:
