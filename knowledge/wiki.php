@@ -21,7 +21,8 @@ $(function(){
       admin = false;
     }
     else {
-      admin = true;
+        document.getElementById("addTopicMargin").innerHTML += "<br><br>";
+        admin = true;
     }
 });
 let author = ('<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'], "@"));?>');
@@ -86,20 +87,17 @@ let author = ('<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'
 <section class="jumbotron jumbotron-fluid col full-height">
   <div id="Options">
       <h5 id = "optionsTitle">Options</h5>
-      <hr class="my-4">
+      <hr class="hrline my-4">
       <div class="input-group rounded">      
         <input type="search" value = "" class="form-control rounded" placeholder="Search Topic" id="wordSelect" onchange="searchFilter(this.value)" aria-label="Search" aria-describedby="search-addon" />
         </span>       
       </div>
     <div id = 'addTopicMargin'>  
       <button class="btn btn-primary" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTopicModal" aria-controls="addTopicModal">Add Topic</button>
-      <br>
-      <br>
-      <button class="btn btn-primary" id='FAQButton' type="button" onclick="navclick('/faq/faq.php')">FAQ</button>
   </div>
+  <button class="btn btn-primary" id='FAQButton' type="button" onclick="navclick('/faq/faq.php')">FAQ</button>
   <br>
-  <div id = 'return'>
-  </div>
+  <br>
     </div>
 </section>
 
@@ -108,11 +106,12 @@ let author = ('<?php echo substr($_SESSION['email'], 0, strpos($_SESSION['email'
 <div id="contentDiv">
     <div id = "wikiTop">
         <h1 id = 'chooseTopic'></h1> 
-        <a href='#' id = 'prev'>Prev Page</a>
-        <div id = "pageChange">
-            <a href='#' id = 'next'>Next Page</a>
-        </div>
-        <hr>
+        <nav aria-label="breadcrumb">
+            <ol id = "breadcrumb" class="breadcrumb">
+                <li class="breadcrumb-item" id = "wikiType"><a href="#"></a></li>
+            </ol>
+        </nav>
+        <hr class = 'hrline'>
     </div>
     <div class="container">
     </div>

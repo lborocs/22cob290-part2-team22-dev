@@ -127,11 +127,12 @@ $(document).ready(function(){
 
 localStorage.setItem("currentPage", "knowledge/wiki.php");
 if (localStorage.getItem("posts") === '0') {
-    document.getElementById("return").innerHTML = '';
+    (localStorage.getItem("technical") == 1) ? document.getElementById('wikiType').innerHTML = `Technical Wiki` : document.getElementById('wikiType').innerHTML = `Non Technical Wiki`;
     (localStorage.getItem("technical") == 1) ? document.getElementById('chooseTopic').innerHTML = 'Choose Technical Topic' : document.getElementById('chooseTopic').innerHTML = 'Choose non Technical Topic';
 }
 else {
     document.getElementById('chooseTopic').innerHTML = `Choose Post Associated With "${localStorage.getItem("topicName")}"`; 
+    (localStorage.getItem("technical") == 1) ? document.getElementById('wikiType').innerHTML = `<a href = '#' onclick = "localStorage.setItem('posts',0); location.reload();">Technical Wiki</a>` : document.getElementById('wikiType').innerHTML = `<a href = '#' onclick = "localStorage.setItem('posts',0); location.reload();">Non Technical Wiki</a>`;
     document.getElementById("addTaskButton").innerHTML = 'Add Page';
     document.getElementById("addTaskButton").setAttribute("data-bs-target", "#addPageModal");
     document.getElementById("addTaskButton").setAttribute("aria-controls", "addPageModal");
@@ -140,13 +141,10 @@ else {
     let month = date.getMonth() + 1 > 9 ? (date.getMonth() + 1): '0' + (date.getMonth() + 1);
     let year = date.getFullYear();
     document.getElementById("Date").innerHTML = `Published on - ${day}/${month}/${year}`;
-    document.getElementById("return").innerHTML += `<button type="button" class="btn btn-danger" onclick = 'localStorage.setItem("posts",0); location.reload();'>Return To Topics</button>`;
 }
 });
 
   const maxItemsOnScreen = 90;
-  var lower = localStorage.hasOwnProperty('bottom') ? Number(localStorage.getItem("bottom")) : 0;
-  var higher = localStorage.hasOwnProperty('top') ? Number(localStorage.getItem("top")) : maxItemsOnScreen;
   var topicCount = 0;
   var admin;
 
@@ -169,7 +167,6 @@ else {
             const sortedLetterToTopic = new Map([...letterToTopic].sort());
             sortedLetterToTopic.forEach((value, key) => {
               topicCount += 3;
-              if (lower <= topicCount && higher > topicCount) {
               var container = document.getElementsByClassName("container")[0];
               var letterDiv = document.createElement("div");
               var h1 = document.createElement("h1");
@@ -183,7 +180,7 @@ else {
                   a.setAttribute("href","#");
                   a.setAttribute("onclick","getPosts(this);");
                   a.appendChild(document.createTextNode(topicName));
-                  document.onclick = hideMenu;
+                  //document.onclick = hideMenu;
                    if (admin) {
                        a.oncontextmenu = rightClick(topicName);
                    }
@@ -192,14 +189,6 @@ else {
                 
               });
               container.appendChild(letterDiv);
-              }
-              else {
-                value.forEach((topicName) => {
-                  topicCount += 1;
-                });
-              }
-            document.getElementById("next").style.display = higher <= topicCount ? "inline" : 'None';
-            document.getElementById("prev").style.display = lower > 0 ? "inline" : 'None';
             });
             },
             error: function(e){
@@ -220,6 +209,8 @@ else {
             document.getElementById("notFound").innerHTML = `Couldn't find any pages associated with "${topicName}".`;
           }
           else {
+            document.getElementById("breadcrumb").innerHTML += `<li class="breadcrumb-item active" aria-current="page" id = "page"></li>`
+            document.getElementById('page').innerHTML = localStorage.getItem("topicName");
             let temp = JSON.parse(responseData);
                 const letterToPage = new Map();
                 var posts = document.getElementsByClassName("letter");
@@ -230,39 +221,29 @@ else {
             document.getElementsByClassName("container")[0].innerHTML = '';
             const sortedLetterToPage = new Map([...letterToPage].sort());
             sortedLetterToPage.forEach((value, key) => {
-              topicCount += 3;
-              if (lower <= topicCount && higher > topicCount) {
-                var container = document.getElementsByClassName("container")[0];
-                var letterDiv = document.createElement("div");
-                var h1 = document.createElement("h1");
-                h1.appendChild(document.createTextNode(key));
-                letterDiv.appendChild(h1);
-                letterDiv.setAttribute("class", "letter");
-                value.sort().forEach((pageName) => {
-                  console.log(pageName[1]);
-                  topicCount += 1;
-                  var a = document.createElement("a");
-                  var li = document.createElement("li");
-                  a.setAttribute("href","#");
-                  a.setAttribute("onclick","localStorage.setItem('currentPost','" + pageName[1] + "'); navclick('knowledge/posts.php');")
-                  a.appendChild(document.createTextNode(pageName[0]));
-                  document.onclick = hideMenu;
-                  if (admin) {
-                      a.oncontextmenu = rightClick(pageName[0]);
-                  }
-                  li.appendChild(a);
-                  letterDiv.appendChild(li);
-                  
-                });
-                container.appendChild(letterDiv);
-              }
-              else {
-                value.forEach((pageName) => {
-                  topicCount += 1;
-                });
-              }
-            document.getElementById("next").style.display = higher <= topicCount ? "inline" : 'None';
-            document.getElementById("prev").style.display = lower > 0 ? "inline" : 'None';
+              var container = document.getElementsByClassName("container")[0];
+              var letterDiv = document.createElement("div");
+              var h1 = document.createElement("h1");
+              h1.appendChild(document.createTextNode(key));
+              letterDiv.appendChild(h1);
+              letterDiv.setAttribute("class", "letter");
+              value.sort().forEach((pageName) => {
+                console.log(pageName[1]);
+                topicCount += 1;
+                var a = document.createElement("a");
+                var li = document.createElement("li");
+                a.setAttribute("href","#");
+                a.setAttribute("onclick","localStorage.setItem('currentPost','" + pageName[1] + "'); navclick('knowledge/posts.php');")
+                a.appendChild(document.createTextNode(pageName[0]));
+                //document.onclick = hideMenu;
+                if (admin) {
+                    a.oncontextmenu = rightClick(pageName[0]);
+                }
+                li.appendChild(a);
+                letterDiv.appendChild(li);
+                
+              });
+              container.appendChild(letterDiv);
             });
           }
     },
@@ -272,10 +253,10 @@ else {
     });
   }
 
-function hideMenu() {
-    document.getElementById(
-        "contextMenu").style.display = "none";
-}
+// function hideMenu() {
+//     document.getElementById(
+//         "contextMenu").style.display = "none";
+// }
 
 function rightClick(topicName) {
   return function(e) {
@@ -283,7 +264,7 @@ function rightClick(topicName) {
 
     if (document.getElementById(
         "contextMenu").style.display == "block") {
-        hideMenu();
+        //hideMenu();
       }
     else {
         var menu = document
@@ -304,7 +285,7 @@ $("#deleteMenu").click(function(event){
       data: {topicName : topicName},
       success: function(responseData){
         location.reload();
-        hideMenu();
+        //hideMenu();
       },
       error: function(e){
           window.alert("Error Occurred! Please refer to console.");
@@ -319,22 +300,3 @@ function getPosts(ele) {
   location.reload();
 }
 
-$("#next").click(function() {
-  if (higher <= topicCount){
-    lower += Number(maxItemsOnScreen);
-    higher += Number(maxItemsOnScreen);
-    localStorage.setItem("bottom", lower);
-    localStorage.setItem("top", higher);
-    location.reload();
-  }
-});
-
-$("#prev").click(function() {
-  if (lower > 0) {
-    lower -= Number(maxItemsOnScreen);
-    higher -= Number(maxItemsOnScreen);
-    localStorage.setItem("bottom", lower);
-    localStorage.setItem("top", higher);
-    location.reload();
-  }
-});

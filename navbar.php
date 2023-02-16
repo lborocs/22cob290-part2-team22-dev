@@ -41,13 +41,13 @@ session_start();
         </button>
     </div>
         <!-- Offcanvas Navbar-->
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel"  data-bs-scroll="true" data-bs-backdrop="false" >
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel"  data-bs-scroll="true" data-bs-backdrop="false">
             <div class="offcanvas-header" style="background-color: #FFB800; height:3.5rem;">
                 <div class="display-6 text-light" style="font-size: 1.5rem;">Menu</div>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onclick="navShut()"></button>
             </div>
             <div class="offcanvas-body">
-                <ul class="nav flex-column">
+                <ul class="nav flex-column" style = "font-size: 0.78rem">
                     <li class="nav-item " style="text-align:center;">
                         <a id="dashboardlink" class="nav-link text-dark" onclick="<?php if ($_SESSION['isAdmin']==true) {echo "navclick('dashboard/adminDashboard.php')";} else {echo"navclick('dashboard/dashboard.php')";}?>">Dashboard</a>
                     </li>
@@ -71,11 +71,9 @@ session_start();
             <hr class="my-2">
 
                 <small class="text-muted">Please enter an appropriate email to send an invite to:</small>
-                <input type="email" class="form-control" id="emailInput" placeholder="Enter email">
-                <button class="btn btn-primary" style="margin-top:10px;" type="button" onclick="generateAuthCode()">Send Invite</button>
+                <input type="email" class="form-control" id="emailInput" placeholder="Enter email" style = "font-size: 0.78rem;">
+                <button class="btn btn-primary" style="margin-top:10px;" type="button" onclick="generateAuthCode()"><span style="font-size:smaller;">Send Invite</span></button>
                 <div id="result" style="display:none"></div>
-
-            <hr class="my-2">
             
             <small class="text-muted">Signed in as:</small>
             <small class="text-muted"><?php echo $_SESSION['email']?></small>
