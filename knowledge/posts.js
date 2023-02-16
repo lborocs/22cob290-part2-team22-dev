@@ -1,7 +1,10 @@
+// Onload local storage sets and gets
 localStorage.setItem("currentPage", "knowledge/posts.php");
 let currentPost = localStorage.getItem('currentPost');
+
+// GET post data
 $.ajax({
-  url:"knowledge/getPost.php",
+  url:"knowledge/databasePHPFiles/getPost.php",
   type:"POST",
   data: {currentPost : currentPost},
   success: function(responseData){
@@ -28,8 +31,10 @@ $.ajax({
   }
 });
 
+
+// GET comments for post
 $.ajax({
-    url:"knowledge/getComments.php",
+    url:"knowledge/databasePHPFiles/getComments.php",
     type:"POST",
     data: {currentPost : currentPost},
     success: function(responseData){
@@ -38,6 +43,7 @@ $.ajax({
       document.getElementById("commentMain").innerHTML += `<h5 style = 'text-align: center;'><i>No comments for this post yet</i></h5>`;
     }
     temp.forEach((message) => {
+    // using make-it-all image as avatar for all
     document.getElementById("commentMain").innerHTML += `
       <div class="card">
             <div class="card-body">
@@ -45,7 +51,7 @@ $.ajax({
 
               <div class="d-flex justify-content-between">
                 <div class="d-flex flex-row align-items-center">
-                  <img src="https://i.imgur.com/518PEmt.png" alt="avatar" width="25"
+                  <img src="https://i.imgur.com/518PEmt.png" alt="avatar" width="25" 
                     height="25" />
                   <p class="small mb-0 ms-2">${message.author}</p>
                 </div>
@@ -63,11 +69,12 @@ $.ajax({
     }
 });
 
+// submitting comment
 $(document).on('click',"#commentSubmit",function(event){
     let postId = localStorage.getItem('currentPost'); 
     let comment = $("#addANote").val();
     $.ajax({
-        url:"knowledge/addComment.php",
+        url:"knowledge/databasePHPFiles/addComment.php",
         type:"POST",
         data: {postId : postId,author : author, comment : comment},
         success: function(responseData){

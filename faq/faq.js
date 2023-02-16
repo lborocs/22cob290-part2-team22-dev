@@ -1,5 +1,7 @@
 $(function() {
+    // local storage setter
     localStorage.setItem("currentPage", "faq/faq.php");
+    // breadcrumbs
     (localStorage.getItem("technical") == 1) ? document.getElementById("wikiType").innerHTML = `<a href = '#' onclick = "navclick('knowledge/wiki.php'); localStorage.setItem('posts',0); location.reload(); localStorage.setItem('currentPage', 'knowledge/wiki.php');">Technical Wiki</a>` : document.getElementById("wikiType").innerHTML = `<a href = '#' onclick = "navclick('knowledge/wiki.php'); localStorage.setItem('posts',0); location.reload(); localStorage.setItem('currentPage', 'knowledge/wiki.php');">Non Technical Wiki</a>`;
     document.getElementById("page").innerHTML = 'FAQ';
 });
@@ -29,9 +31,9 @@ const formdata = new FormData();
 const file = document.getElementById("file");
 file.addEventListener("change", ev => {
     formdata.append("image", ev.target.files[0]);
-      fetch("https://api.imgur.com/3/image/", {
+      fetch("https://api.imgur.com/3/image/", {                  // Use Imgur to store images via their API
           method: "post",
-          headers: {
+          headers: {                                            // Instead storing images in the DB as full images we just store it as a string
               Authorization: "Client-ID 152051c2d7a71e4"
           },
           body: formdata
@@ -46,10 +48,10 @@ $("#addFaqModal").submit(function(event){
     let question = $("#question").val();
     let answer = document.getElementById("answer").value;
     if (link == null) {
-        link = '';
+        link = '';                                                      
     }
-    $.ajax({
-        url:"faq/addFaq.php",
+    $.ajax({    
+        url:"faq/addFaq.php",                                               // Add new FAQ to DB
         type:"POST",
         data: {question : question, answer: answer, image: link},
         success: function(responseData){
@@ -73,7 +75,7 @@ $("#addFaqModal").submit(function(event){
 $.ajax({
     url:"faq/get.php",
     success: function(responseData){
-    let temp = JSON.parse(responseData);
+    let temp = JSON.parse(responseData);                        // get FAQs from DB
     let first = true;
     temp.forEach((faq) => {
         if (faq.question != "") {
@@ -88,6 +90,7 @@ $.ajax({
                 qaWrapper.innerHTML = `  
                     <hr style = 'border-top: 1px solid black;'>`;
             }
+            // Bootsrap collapseable 
             qaWrapper.innerHTML += `
                 <h3><b>${question}</b></h3>
                 <br>

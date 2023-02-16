@@ -1,9 +1,11 @@
+
+// When new topic inputted add to DB
 $("#addTopicForm").submit(function(event){
     event.preventDefault();
     let topicName = $("#topicName").val();
     let technical = localStorage.getItem("technical");
     $.ajax({
-        url:"knowledge/addTopics.php",
+        url:"knowledge/databasePHPFiles/addTopics.php",
         type:"POST",
         data: {topicName : topicName, technical: technical},
         success: function(responseData){
@@ -28,16 +30,14 @@ $("#addTopicForm").submit(function(event){
 });
 
 
-var quill;
-
+// When page is added write to DB
 $("#addPageForm").submit(function(event){
   event.preventDefault();
   let pageName = $("#pageName").val();
-  let topicDescription = quill.root.innerHTML;
-  console.log(topicDescription);
+  let topicDescription = quill.root.innerHTML;    // This grabs the innerHTML plus tags 
   let associatedTopics = localStorage.getItem("topicName");
   $.ajax({
-      url:"knowledge/addPost.php",
+      url:"knowledge/databasePHPFiles/addPost.php",
       type:"POST",
       data: {pageName : pageName, topicDescription: topicDescription, associatedTopics: associatedTopics,author : author},
       success: function(responseData){
@@ -61,6 +61,8 @@ event.preventDefault();
 
 });
   
+var quill;    // Quill = rich text editor js framework
+// For searching through topics / posts
 function searchFilter(x) {
     var posts = document.getElementsByClassName("letter");
     var nothing = false;
@@ -70,13 +72,13 @@ function searchFilter(x) {
     for (var i = 0; i<posts[j].getElementsByTagName("li").length; i ++) {
 
         posts[j].getElementsByTagName("li")[i].style.display = 'list-item';
-        var textInside = posts[j].getElementsByTagName("li")[i].getElementsByTagName("a")[0];
+        var textInside = posts[j].getElementsByTagName("li")[i].getElementsByTagName("a")[0]; // Search through each letter / then through each li per letter
 
         if (!(textInside.innerHTML.toLowerCase().includes(x.toLowerCase().trim()))) {
             posts[j].getElementsByTagName("li")[i].style.display = 'None';
         }
         else {
-        nothing = letterFound = true;
+        nothing = letterFound = true;     // None found
         }
         
     }
@@ -93,21 +95,20 @@ function searchFilter(x) {
     }
     else {
     document.getElementsByClassName("container")[0].style.display = 'block';
-    document.getElementById("notFound").innerHTML = "";
+    document.getElementById("notFound").innerHTML = "";                     // Remove notFound
     }
     
 }
 
 $(document).ready(function(){
-  console.log("hello");
-  setTimeout( () =>
+  setTimeout( () =>                     // Setting a timeout so import is processed so Quill is interpreted
   {
         quill = new Quill('#pageDescription', {
           modules: {
           toolbar: [
             [{ font: [] }],
             [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            ["bold", "italic", "underline", "strike"],
+            ["bold", "italic", "underline", "strike"],        // Options for rich text
             [{ color: [] }, { background: [] }],
             [{ script:  "sub" }, { script:  "super" }],
             ["blockquote", "code-block"],
@@ -117,22 +118,21 @@ $(document).ready(function(){
             ["clean"],
           ],
           },
-          placeholder: 'Compose an epic...',
+          placeholder: 'Write a post...',
           theme: 'snow'  // or 'bubble'
-      });
-      quill.on('text-change', function() {
-        console.log(quill.root.innerHTML);
       });
   }, 1000 );
 
 
 localStorage.setItem("currentPage", "knowledge/wiki.php");
 if (localStorage.getItem("posts") === '0') {
-    (localStorage.getItem("technical") == 1) ? document.getElementById('wikiType').innerHTML = `Technical Wiki` : document.getElementById('wikiType').innerHTML = `Non Technical Wiki`;
-    (localStorage.getItem("technical") == 1) ? document.getElementById('chooseTopic').innerHTML = 'Choose Technical Topic' : document.getElementById('chooseTopic').innerHTML = 'Choose non Technical Topic';
+    (localStorage.getItem("technical") == 1) ? document.getElementById('wikiType').innerHTML = `Technical Wiki` : document.getElementById('wikiType').innerHTML = `Non Technical Wiki`;     // Breadcrumb
+    (localStorage.getItem("technical") == 1) ? document.getElementById('chooseTopic').innerHTML = 'Choose Technical Topic' : document.getElementById('chooseTopic').innerHTML = 'Choose non Technical Topic';   // header
 }
 else {
+    // header
     document.getElementById('chooseTopic').innerHTML = `Choose Post Associated With "${localStorage.getItem("topicName")}"`; 
+    // breadcrumbs
     (localStorage.getItem("technical") == 1) ? document.getElementById('wikiType').innerHTML = `<a href = '#' onclick = "localStorage.setItem('posts',0); location.reload();">Technical Wiki</a>` : document.getElementById('wikiType').innerHTML = `<a href = '#' onclick = "localStorage.setItem('posts',0); location.reload();">Non Technical Wiki</a>`;
     document.getElementById("addTaskButton").innerHTML = 'Add Page';
     document.getElementById("addTaskButton").setAttribute("data-bs-target", "#addPageModal");
@@ -141,17 +141,17 @@ else {
     let day = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
     let month = date.getMonth() + 1 > 9 ? (date.getMonth() + 1): '0' + (date.getMonth() + 1);
     let year = date.getFullYear();
-    document.getElementById("Date").innerHTML = `Published on - ${day}/${month}/${year}`;
+    document.getElementById("Date").innerHTML = `Published on - ${day}/${month}/${year}`;     // Date of publish
 }
 });
 
-  const maxItemsOnScreen = 90;
   var topicCount = 0;
   var admin;
 
-  if (localStorage.getItem("posts") === '0') {
+  if (localStorage.getItem("posts") === '0') {    // if not on Topic --> Posts page
     $.ajax({
-            url:"knowledge/getTopics.php",
+            url:"knowledge/databasePHPFiles/getTopics.php",
+            // GET topics 
             success: function(responseData){
                 let technical = localStorage.getItem("technical");
                 let temp = JSON.parse(responseData);
@@ -162,7 +162,7 @@ else {
                     var letter = topic.name.charAt(0).toUpperCase();
                     letterToTopic.has(letter) ? letterToTopic.get(letter).push(topic.name.charAt(0).toUpperCase() + topic.name.slice(1)) : letterToTopic.set(letter,[topic.name.charAt(0).toUpperCase() + topic.name.slice(1)]);
                 }
-              });
+              });     // Getting hashmap of the form [letter -> li beginning with letter]
 
             document.getElementsByClassName("container")[0].innerHTML = '';
             const sortedLetterToTopic = new Map([...letterToTopic].sort());
@@ -170,11 +170,11 @@ else {
               topicCount += 3;
               var container = document.getElementsByClassName("container")[0];
               var letterDiv = document.createElement("div");
-              var h1 = document.createElement("h1");
+              var h1 = document.createElement("h1");          
               h1.appendChild(document.createTextNode(key));
               letterDiv.appendChild(h1);
               letterDiv.setAttribute("class", "letter");
-              value.sort().forEach((topicName) => {
+              value.sort().forEach((topicName) => {       // add topics to screen
                   topicCount += 1;
                   var a = document.createElement("a");
                   var li = document.createElement("li");
@@ -183,7 +183,7 @@ else {
                   a.appendChild(document.createTextNode(topicName));
                   //document.onclick = hideMenu;
                    if (admin) {
-                       a.oncontextmenu = rightClick(topicName);
+                       a.oncontextmenu = rightClick(topicName);     // if admin let us right click to delete
                    }
                   li.appendChild(a);
                   letterDiv.appendChild(li);
@@ -203,7 +203,7 @@ else {
       $.ajax({
         type:"POST",
         data: {topicName : topicName},
-        url:"knowledge/getPosts.php",
+        url:"knowledge/databasePHPFiles/getPosts.php",          // GET posts for a certain topic (topicName)
         success: function(responseData){
           if (responseData === 'false') {
             document.getElementsByClassName("container")[0].style.display = 'None';
@@ -225,7 +225,7 @@ else {
               var container = document.getElementsByClassName("container")[0];
               var letterDiv = document.createElement("div");
               var h1 = document.createElement("h1");
-              h1.appendChild(document.createTextNode(key));
+              h1.appendChild(document.createTextNode(key));           // same as above
               letterDiv.appendChild(h1);
               letterDiv.setAttribute("class", "letter");
               value.sort().forEach((pageName) => {
@@ -266,7 +266,7 @@ function rightClick(topicName) {
         "contextMenu").style.display == "block") {
         hideMenu();
       }
-    else {
+    else {                      // delete menu
         var menu = document
             .getElementById("contextMenu");
         menu.title = topicName;
@@ -281,9 +281,9 @@ $("#deleteMenu").click(function(event){
   let topicName = document.getElementById('contextMenu').title;
   if (localStorage.getItem("posts") === '0') {
     $.ajax({
-        url:"knowledge/deleteTopic.php",
+        url:"knowledge/databasePHPFiles/deleteTopic.php",
         type:"POST",
-        data: {topicName : topicName},
+        data: {topicName : topicName},                      // Remove from db if delete clicked on menu
         success: function(responseData){
           location.reload();
           hideMenu();
@@ -297,11 +297,11 @@ $("#deleteMenu").click(function(event){
   else {
     let postId = document.getElementById('contextMenu').title;
     $.ajax({
-      url:"knowledge/deletePost.php",
+      url:"knowledge/databasePHPFiles/deletePost.php",
       type:"POST",
       data: {postId : postId},
       success: function(responseData){
-        console.log(responseData);
+        console.log(responseData);                  // if we want to delete post rather than topic
         location.reload();
         hideMenu();
       },
@@ -315,7 +315,7 @@ $("#deleteMenu").click(function(event){
 
 function getPosts(ele) {
   localStorage.setItem("posts",1);
-  localStorage.setItem("topicName",ele.innerHTML);
+  localStorage.setItem("topicName",ele.innerHTML);        // local storage setter to say we are on post page and what the related topic is 
   location.reload();
 }
 
