@@ -22,7 +22,7 @@
         </div>
         <div class="float-child" id="projectContainer">
             <section class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
-                <h2 class="display-4" style="text-align: center;">Current Projects</h2>
+                <h2 class="display-6" style="text-align: center;">Current Projects</h2>
 
                 <hr class="my-4">
 
@@ -36,7 +36,7 @@
         </div>
         <div class="float-child" id="toDo">
             <section class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
-                <h5 class="display-4" style="text-align: center;">To Do List:</h5>
+                <h5 class="display-6" style="text-align: center;">To Do List:</h5>
 
                 <hr class="my-4">
 

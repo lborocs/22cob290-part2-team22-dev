@@ -266,6 +266,13 @@ progress::after {
     float: left;
     padding: 0;
 }
+#userContent {
+    min-width: 100%;
+    border-radius: 15px;
+    float: left;
+    padding: 0;
+    
+}
 
 .float-container {
     border: 3px solid #fff;
@@ -280,17 +287,28 @@ progress::after {
     height: 70%;
 
 }
+#userProjectContainer{
+    width: 70%;
+    float: left;   
+    padding: 5px;
+    
+    height: 70%;
+}
 
 #toDo {
     width: 30%;
     float: left;
-
-
+}
+#userToDo{
+    width: 30%;
+    float: left;
+    
 }
 
 .header {
     border-radius: 15px;
     margin: 0;
+    
 }
 
 #createProjectBtn {
@@ -304,9 +322,13 @@ progress::after {
 #editor {
     height: 375px;
 }
+#userEditor{
+    height: 375px;
+    
+}
 
 .display-4 {
-    font-size: 2rem;
+    font-size: 3rem;
     height: 1%;
     margin-top: 0;
     padding: 0;
