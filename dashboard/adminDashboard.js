@@ -20,7 +20,7 @@ function GrabProjects(){
                 let card = "<div class='card' style='width: 14rem; margin-left: 10px; margin-right: 10px;'>";
                 card += "<div class='card-body'>";
                 card += "<p class='card-title'>"+ project['projectName'] +"<p>";
-                card += "<p class='card-subtitle mb-2 text-muted'>Team Leader: " + project['teamLeader'] + "</p><hr class='my-1'>";
+                card += "<p class='card-subtitle mb-2 text-muted'>" + project['teamLeader'] + "</p><hr class='my-1'>";
                 card += "<button type='button' onclick='directToProject(\""+project['projectID']+"\", \""+project['projectName']+"\")' class='btn btn-primary'>Go to Project</button>";
                 card += "</div></div>";
 
@@ -39,6 +39,8 @@ function directToProject(projectID, projectName){
     navclick('dashboard/projectStats.php');
 }
 
+var Delta = Quill.import('delta');
+
 var quill = new Quill('#editor', {
     modules: {
         toolbar: [
@@ -50,6 +52,32 @@ var quill = new Quill('#editor', {
     placeholder: '...',
     theme: 'snow'
 });
+
+quill.setContents(JSON.parse(localStorage.getItem('storedText')) || { ops: [] });
+// Store accumulated changes
+var change = new Delta();
+quill.on('text-change', function(delta, oldDelta, source) {
+    change=change.compose(delta);
+  });
+
+// Save periodically
+setInterval(function() {
+  if (change.length() > 0) {
+    console.log('Saving changes', change);
+    // Save the entire updated text to localStorage
+    const data = JSON.stringify(quill.getContents())
+    localStorage.setItem('storedText', data);
+    change = new Delta();
+    console.log(localStorage.getItem('storedText'));
+  }
+}, 1000);
+
+// Check for unsaved data
+window.onbeforeunload = function() {
+  if (change.length() > 0) {
+    return 'There are unsaved changes. Are you sure you want to leave?';
+  }
+}
 
 $(document).ready(function(){
     $("#CreateProjectForm").submit(function(event){

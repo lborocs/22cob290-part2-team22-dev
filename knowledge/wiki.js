@@ -99,6 +99,7 @@ function searchFilter(x) {
 }
 
 $(document).ready(function(){
+  console.log("hello");
   setTimeout( () =>
   {
         quill = new Quill('#pageDescription', {
@@ -228,16 +229,15 @@ else {
               letterDiv.appendChild(h1);
               letterDiv.setAttribute("class", "letter");
               value.sort().forEach((pageName) => {
-                console.log(pageName[1]);
                 topicCount += 1;
                 var a = document.createElement("a");
                 var li = document.createElement("li");
                 a.setAttribute("href","#");
                 a.setAttribute("onclick","localStorage.setItem('currentPost','" + pageName[1] + "'); navclick('knowledge/posts.php');")
                 a.appendChild(document.createTextNode(pageName[0]));
-                //document.onclick = hideMenu;
+                document.onclick = hideMenu;
                 if (admin) {
-                    a.oncontextmenu = rightClick(pageName[0]);
+                    a.oncontextmenu = rightClick(pageName[1]);
                 }
                 li.appendChild(a);
                 letterDiv.appendChild(li);
@@ -253,10 +253,10 @@ else {
     });
   }
 
-// function hideMenu() {
-//     document.getElementById(
-//         "contextMenu").style.display = "none";
-// }
+function hideMenu() {
+    document.getElementById(
+        "contextMenu").style.display = "none";
+}
 
 function rightClick(topicName) {
   return function(e) {
@@ -264,7 +264,7 @@ function rightClick(topicName) {
 
     if (document.getElementById(
         "contextMenu").style.display == "block") {
-        //hideMenu();
+        hideMenu();
       }
     else {
         var menu = document
@@ -279,19 +279,38 @@ function rightClick(topicName) {
 
 $("#deleteMenu").click(function(event){
   let topicName = document.getElementById('contextMenu').title;
-  $.ajax({
-      url:"knowledge/deleteTopic.php",
+  if (localStorage.getItem("posts") === '0') {
+    $.ajax({
+        url:"knowledge/deleteTopic.php",
+        type:"POST",
+        data: {topicName : topicName},
+        success: function(responseData){
+          location.reload();
+          hideMenu();
+        },
+        error: function(e){
+            window.alert("Error Occurred! Please refer to console.");
+            console.log(e.message);
+        }
+    });
+  }
+  else {
+    let postId = document.getElementById('contextMenu').title;
+    $.ajax({
+      url:"knowledge/deletePost.php",
       type:"POST",
-      data: {topicName : topicName},
+      data: {postId : postId},
       success: function(responseData){
+        console.log(responseData);
         location.reload();
-        //hideMenu();
+        hideMenu();
       },
       error: function(e){
           window.alert("Error Occurred! Please refer to console.");
           console.log(e.message);
       }
   });
+  }
 });
 
 function getPosts(ele) {

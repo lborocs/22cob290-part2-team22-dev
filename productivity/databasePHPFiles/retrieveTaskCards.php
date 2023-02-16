@@ -9,7 +9,7 @@ if (!$conn) {
 
 $projectID = $_POST['projectID'];
 
-$sql = "SELECT taskID, taskName, status FROM tasks WHERE projectID = '$projectID'";
+$sql = "SELECT tasks.taskID, taskName, status, COUNT(email) as assignees, expectedManHours FROM tasks LEFT JOIN taskToUserMapping ON (tasks.taskID = taskToUserMapping.taskID AND taskToUserMapping.projectID = tasks.projectID) WHERE tasks.projectID = '$projectID' GROUP BY tasks.taskID";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result)>0){
