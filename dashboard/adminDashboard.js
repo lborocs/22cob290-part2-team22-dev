@@ -31,9 +31,25 @@ function GrabProjects(){
 }
 
 function directToProject(projectID, projectName){
-    navclick('productivity/projects.php');
-    RefreshPage(projectID, projectName);
+    
+    
+    localStorage.setItem("chosenProjectName", projectName);
+    localStorage.setItem("chosenProject", projectID);
+    //localStorage.setItem("currentPage","projectStats.php");
+    navclick('dashboard/projectStats.php');
 }
+
+var quill = new Quill('#editor', {
+    modules: {
+        toolbar: [
+            [{ header: [1, 2, false] }],
+            ['bold', 'italic', 'underline'],
+            ['image', 'code-block']
+        ]
+    },
+    placeholder: '...',
+    theme: 'snow'
+});
 
 $(document).ready(function(){
     $("#CreateProjectForm").submit(function(event){
