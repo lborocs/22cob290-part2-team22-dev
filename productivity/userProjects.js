@@ -350,6 +350,59 @@ function RefreshPage(projectID, projectName=null, email){
         document.getElementById("progressBar").style = "display:inline;";
     }
 
+    $.ajax({
+        url: "productivity/databasePHPFiles/grabProjectDeadline.php",
+        type: "POST",
+        data: {projectID: projectID},
+        success: function(responseData){
+            let startDate = new Date(JSON.parse(responseData)[0]['startDate']);
+            let deadlineDate = new Date(JSON.parse(responseData)[0]['deadlineDate']);
+
+            let today = new Date();
+            
+            let deltaTime = today - startDate;
+
+            let perc = (deltaTime / (deadlineDate - startDate) *100);
+            document.getElementById("deadlineMeter").style="width:"+perc+"%;";
+            document.getElementById("deadlineMeter").ariaValueNow = perc;
+            document.getElementById("deadlineStats").style="display: inline;";
+
+            document.getElementById("deadline").innerHTML = "Deadline of Project: " + deadlineDate.getDate() + "/" + (deadlineDate.getMonth()+1) + "/" + deadlineDate.getFullYear();
+            
+            let secLeft = (deadlineDate - today)/1000;
+            if (secLeft > 0){
+                let daysLeft = Math.floor(secLeft / (60*60*24));
+                secLeft = secLeft - (daysLeft * (60*60*24));
+
+                let hoursLeft = Math.floor(secLeft/(60*60));
+                secLeft = secLeft - (hoursLeft * (60*60));
+
+                let minLeft = Math.floor(secLeft/(60));
+
+                document.getElementById("countdown").innerHTML = daysLeft + " days, " + hoursLeft + " hours, and " + minLeft + " min until Project Deadline";
+                document.getElementById("countdown").style = "";
+            } else {
+                secLeft = -secLeft;
+
+                let daysLeft = Math.floor(secLeft / (60*60*24));
+                secLeft = secLeft - (daysLeft * (60*60*24));
+
+                let hoursLeft = Math.floor(secLeft/(60*60));
+                secLeft = secLeft - (hoursLeft * (60*60));
+
+                let minLeft = Math.floor(secLeft/(60));
+
+                document.getElementById("countdown").innerHTML = daysLeft + " days, " + hoursLeft + " hours, and " + minLeft + " min past Project Deadline";
+                document.getElementById("countdown").style = "color: red;";
+            }
+
+        },
+        error: function(e){
+            window.alert("Error Occurred! Please refer to console.");
+            console.log(e.message);
+        }
+    });
+
     RefreshProgressBar();
 }
 
