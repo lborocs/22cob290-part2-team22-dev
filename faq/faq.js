@@ -1,4 +1,8 @@
-localStorage.setItem("currentPage", "faq/faq.php");
+$(function() {
+    localStorage.setItem("currentPage", "faq/faq.php");
+    (localStorage.getItem("technical") == 1) ? document.getElementById("wikiType").innerHTML = `<a href = '#' onclick = "navclick('knowledge/wiki.php'); localStorage.setItem('posts',0); location.reload(); localStorage.setItem('currentPage', 'knowledge/wiki.php');">Technical Wiki</a>` : document.getElementById("wikiType").innerHTML = `<a href = '#' onclick = "navclick('knowledge/wiki.php'); localStorage.setItem('posts',0); location.reload(); localStorage.setItem('currentPage', 'knowledge/wiki.php');">Non Technical Wiki</a>`;
+    document.getElementById("page").innerHTML = 'FAQ';
+});
 
 function searchFilter(x) {
     var posts = document.getElementsByClassName("questionAnswerWrapper");
@@ -87,8 +91,8 @@ $.ajax({
             qaWrapper.innerHTML += `
                 <h3><b>${question}</b></h3>
                 <br>
-                <p class="collapse" id=${id} aria-expanded="false">${answer}<br><img src="${img}"></p>
-                <a role="button" class="collapsed" data-toggle="collapse" href="#${id}" aria-expanded="false" aria-controls=${id}></a>`;
+                <p class="collapse" id=x${id} aria-expanded="false">${answer}<br><img src="${img}"></p>
+                <a role="button" class="collapsed" data-bs-toggle="collapse" href="#x${id}" aria-expanded="false" aria-controls=x${id}></a>`;
             container.appendChild(qaWrapper);
             first = false;
         }

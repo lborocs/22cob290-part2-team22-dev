@@ -17,7 +17,7 @@ session_start();
 
 <div class="w3-sidebar w3-bar-block" id = "contentBar">
   <h5><i>Contents</i></h5>
-  <hr>
+  <hr class = "hrline">
 </div>
 
 
@@ -31,7 +31,7 @@ session_start();
       <li class="breadcrumb-item active" aria-current="page" id = "page"></li>
     </ol>
   </nav>
-  <hr>
+  <hr class = "hrline">
 
   <h5 id = "main"></h5>
   <div class="row d-flex justify-content-center">
