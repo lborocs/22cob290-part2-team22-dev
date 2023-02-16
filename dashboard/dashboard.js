@@ -42,3 +42,15 @@ function directToProject(projectID, projectName, email){
     navclick('productivity/projects.php');
     RefreshPage(projectID, projectName, email);
 }
+
+var quill = new Quill('#userEditor', {
+    modules: {
+        toolbar: [
+            [{ header: [1, 2, false] }],
+            ['bold', 'italic', 'underline'],
+            ['image', 'code-block']
+        ]
+    },
+    placeholder: '...',
+    theme: 'snow'
+});
