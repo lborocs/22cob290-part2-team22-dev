@@ -7,7 +7,7 @@ function GrabProjects(userEmail){
             document.getElementById("userProjectOverview").innerHTML = "";
             let temp = JSON.parse(responseData);
             for (let project of temp){
-                let card = "<div class='card' style='width: 14rem; margin-left: 10px; margin-right: 10px;'>";
+                let card = "<div class='card' style='width: 23%; margin-left: 1%; margin-right: 1%;'>";
                 card += "<div class='card-body'>";
                 card += "<p class='card-title'>"+ project['projectName'] +"<p>";
                 card += "<p class='card-subtitle mb-2 text-muted'>Team Leader: " + project['teamLeader'] + "</p><hr class='my-1'>";
@@ -18,6 +18,25 @@ function GrabProjects(userEmail){
         }
     });
 }
+function grabProjectStats(){
+    let projectID = localStorage.getItem("projectID");
+    let projectName = localStorage.getItem("projectName");
+    $.ajax({
+        url:"../admin/grabProjectStats.php",
+        type:"POST",
+        data: {projectID : projectID},
+        success: function(responseData){
+            let temp = JSON.parse(responseData);
+            document.getElementById("ProjectName").innerHTML = projectName;
+            document.getElementById("ProjectID").innerHTML = projectID;
+            document.getElementById("ProjectTeamLeader").innerHTML = temp['teamLeader'];
+            document.getElementById("ProjectDeadline").innerHTML = temp['deadline'];
+            document.getElementById("ProjectStatus").innerHTML = temp['status'];
+        }
+    });
+}
+
+
 
 function directToProject(projectID, projectName, email){
     navclick('productivity/projects.php');

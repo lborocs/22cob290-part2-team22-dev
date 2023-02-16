@@ -1,0 +1,320 @@
+body {
+    position: absolute;
+    width: 100% !important;
+    overflow: auto;
+}
+
+.card-text {
+    font-size: 0.8rem !important;
+}
+
+.card-title {
+    font-size: 1rem !important;
+}
+
+.card-subtitle {
+    font-size: 0.8rem !important;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.card {
+    margin-bottom: 1vh !important;
+    border-radius: 5px !important;
+    box-shadow: 1.8px 3.5px 3.5px hsl(0deg 0% 0% / 0.45);
+    transition: 0.3s;
+    background-color: #F5F5F5 !important;
+    overflow-y: hidden;
+    max-height: 20vh;
+    width: 20%;
+    padding: 0;
+}
+
+.mainContainer {
+    height: 80vh;
+
+    margin: 2rem;
+    margin-inline: 3rem;
+    background-color: #e9ecef;
+    border-radius: .3rem;
+    overflow: hidden;
+    display: block;
+
+}
+
+.userContainer {
+
+    width: 30%;
+    height: 40%;
+    margin-inline: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    border-radius: 5px !important;
+    box-shadow: 1.8px 3.5px 3.5px hsl(0deg 0% 0% / 0.45);
+    transition: 0.3s;
+    background-color: #F5F5F5 !important;
+    margin-block: 1rem;
+
+}
+
+.deadlineContainer {
+
+    width: 30%;
+    height: 40%;
+    margin-inline: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 5px !important;
+    box-shadow: 1.8px 3.5px 3.5px hsl(0deg 0% 0% / 0.45);
+    transition: 0.3s;
+    background-color: #F5F5F5 !important;
+    margin-block: 1rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    width: 100%;
+    margin-bottom: 0;
+    text-align: center;
+    height: 10%;
+    margin-top: 0;
+
+}
+
+.filler {
+    width: 100%;
+    height: 1rem;
+}
+
+.boxContainer {
+    font-size: 1rem;
+    font-weight: lighter;
+    height: 90%;
+    margin-top: 0;
+    background-color: #e9ecef;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.usersOnline {
+    width: 80%;
+    height: 20%;
+    background-color: red;
+    margin-block: 0.5rem;
+}
+
+.usersAssigned {
+    width: 80%;
+    height: 70%;
+    margin-block: 0.5rem;
+    overflow: auto;
+}
+
+.statsContainer {
+
+    width: 90%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto;
+    margin-block: 1rem;
+
+}
+
+:root {
+    overflow: hidden;
+}
+
+progress {
+    margin-inline: 1.2rem;
+    border-radius: 1rem;
+    width: 25%;
+    height: 1rem;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    margin-block: 0;
+
+}
+
+progress::-webkit-progress-bar {
+    background-color: lightgray;
+    border-radius: 1rem;
+}
+
+progress::-webkit-progress-value {
+    border-radius: 1rem;
+}
+
+progress::-moz-progress-bar {
+    /* style rules */
+}
+
+progress::after {
+    font-size: small;
+    color: black;
+    font-weight: light;
+    position: relative;
+    top: -1.4rem;
+
+    content: attr(value);
+
+}
+
+
+#Bar0::-webkit-progress-value {
+    background-color: #FF0000;
+}
+
+#Bar1::-webkit-progress-value {
+    background-color: #FFA500;
+}
+
+#Bar2::-webkit-progress-value {
+    background-color: #FFFF00;
+}
+
+#Bar3::-webkit-progress-value {
+    background-color: #008000;
+}
+
+.afterBar {
+    padding: 0;
+    margin: 0;
+    font-size: small;
+    position: relative;
+    left: -2.3rem;
+    top: -12%;
+}
+
+.afterBar:hover {
+    color: #007bff;
+    cursor: pointer;
+}
+
+.user {
+    font-size: 0.7rem;
+    font-weight: lighter;
+
+    margin: 0;
+    overflow: hidden;
+}
+
+.progressContainer {
+    text-align: center;
+    height: 55%;
+    width: 25rem;
+    padding-top: 1%;
+    display: flex;
+    flex-direction: column;
+    margin-inline: 1rem;
+    margin-block: 1rem;
+    border-radius: 5px !important;
+    box-shadow: 1.8px 3.5px 3.5px hsl(0deg 0% 0% / 0.45);
+    transition: 0.3s;
+    background-color: #F5F5F5 !important;
+}
+
+.verticalTitle {
+    writing-mode: vertical-rl;
+    position: absolute;
+    margin-top: 2.3rem;
+}
+
+.miniTaskInfoContainer {
+    font-weight: light;
+    font-size: 1rem;
+    position: absolute;
+    text-align: center;
+    margin-left: 11.5rem;
+    margin-top: -0.4rem;
+    width: 20%;
+    height: 23%;
+
+
+}
+
+.miniTaskInfo {
+    position: relative;
+    font-weight: lighter;
+    font-size: 0.75rem;
+}
+
+.usersAssigned::-webkit-scrollbar {
+    width: 0.5rem;
+    /* width of the entire scrollbar */
+}
+
+
+.usersAssigned::-webkit-scrollbar-thumb {
+    background-color: #FFB800;
+    /* color of the scroll thumb */
+    border-radius: 20px;
+    /* roundness of the scroll thumb */
+    /* creates padding around scroll thumb */
+}
+
+#content {
+
+    border-radius: 15px;
+    float: left;
+    padding: 0;
+}
+
+.float-container {
+    border: 3px solid #fff;
+    margin: 0;
+
+}
+
+#projectContainer {
+    width: 70%;
+    float: left;
+    padding: 5px;
+    height: 70%;
+
+}
+
+#toDo {
+    width: 30%;
+    float: left;
+
+
+}
+
+.header {
+    border-radius: 15px;
+    margin: 0;
+}
+
+#createProjectBtn {
+    padding-inline: 46%;
+    background-color: #337ab7;
+    color:white;
+
+
+}
+
+#editor {
+    height: 375px;
+}
+
+.display-4 {
+    font-size: 2rem;
+    height: 1%;
+    margin-top: 0;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+@media screen and (max-width: 1080px) {
+    .card-subtitle {
+        display: none;
+    }
+}
