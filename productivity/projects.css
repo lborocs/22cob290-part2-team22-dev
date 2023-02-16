@@ -54,6 +54,10 @@
     display: none;
 }
 
+#deadlineStats {
+    display: none;
+}
+
 #deleteTask {
     color: red;
 }
@@ -86,4 +90,8 @@
 
 .d-grid > button {
     margin-top: 0.75em;
+}
+
+hr {
+    border-color: gray;
 }
