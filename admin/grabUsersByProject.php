@@ -12,25 +12,8 @@ if (!$conn) {
 
 $projectID = $_POST['projectID'];
 
-switch ($_POST['status']) {
-    case "TODO":
-        $status = 0;
-        break;
-    case "SELECTED":
-        $status = 1;
-        break;
-    case "IN PROGRESS":
-        $status = 2;
-        break;
-    case "COMPLETED":
-        $status = 3;
-        break;
-    default:
-        echo "false";
-        break;
-}
 
-$sql = "SELECT * FROM users WHERE projectID = '$projectID' AND status = '$status'";
+$sql = "SELECT DISTINCT email FROM taskToUserMapping WHERE projectID = '$projectID'";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result)>0){
