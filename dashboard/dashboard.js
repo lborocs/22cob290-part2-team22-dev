@@ -99,4 +99,4 @@ var quill = new Quill('#userEditor', {
     },
     placeholder: '...',
     theme: 'snow'
-});
+})});
