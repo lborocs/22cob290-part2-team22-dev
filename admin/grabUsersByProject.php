@@ -1,7 +1,10 @@
 <?php
 include("../DBCredentials.php");
 
+
+
 $conn = mysqli_connect($servername, $username, $password, $dbname);
+
 
 if (!$conn) {
 	die("Connection failed: " . mysqli_connect_error());
@@ -9,7 +12,8 @@ if (!$conn) {
 
 $projectID = $_POST['projectID'];
 
-$sql = "SELECT taskID, taskName, status FROM tasks WHERE projectID = '$projectID'";
+
+$sql = "SELECT DISTINCT email FROM taskToUserMapping WHERE projectID = '$projectID'";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result)>0){

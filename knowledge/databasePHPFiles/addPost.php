@@ -1,6 +1,6 @@
 <?php
 
-    include("../DBCredentials.php");
+    include("../../DBCredentials.php");
 
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -12,7 +12,7 @@
     $topicNames = $_POST["associatedTopics"];
     $pageName = $_POST["pageName"];
     $topicDescription = $_POST["topicDescription"];
-    $postDate = date("d/m/Y");
+    $postDate = date("Y/m/d");
     $author = $_POST["author"];
     $sql = "INSERT INTO posts VALUES ('$postID', '$pageName', '$topicDescription','$postDate','$author')";
     $result = mysqli_query($conn, $sql);

@@ -15,7 +15,27 @@
 }
 
 .tasks > .row {
-    margin: 2%;
+    margin-bottom: 2%;
+}
+
+.card {
+    height: 5.5em;
+    width: 15em; 
+    margin-right:1%;
+}
+
+.card-body {
+    text-align: left;
+    font-size: 0.75em;
+    color: black;
+}
+
+.taskDeadline {
+    color: green;
+}
+
+.cannotCalc {
+    color: red;
 }
 
 #displayTasks {
@@ -32,4 +52,46 @@
 
 #progressBar {
     display: none;
+}
+
+#deadlineStats {
+    display: none;
+}
+
+#deleteTask {
+    color: red;
+}
+
+#EditTaskForm > .form-group {
+    margin-bottom: 0.5em;
+}
+
+#EditTaskForm > .form-group > label{
+    margin-bottom: 0.25em;
+}
+
+#EditTaskForm > .list-group{
+    margin-top: 0.25em;
+    margin-bottom: 0.75em;
+}
+
+#ViewTaskBody .form-group {
+    margin-bottom: 0.5em;
+}
+
+#ViewTaskBody .form-group > label{
+    margin-bottom: 0.25em;
+}
+
+#ViewTaskBody .list-group{
+    margin-top: 0.25em;
+    margin-bottom: 0.75em;
+}
+
+.d-grid > button {
+    margin-top: 0.75em;
+}
+
+hr {
+    border-color: gray;
 }

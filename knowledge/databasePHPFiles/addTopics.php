@@ -1,14 +1,17 @@
 <?php
 
-include("../DBCredentials.php");
+include("../../DBCredentials.php");
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
 if (!$conn) {
 	die("Connection failed: " . mysqli_connect_error());
 }
-$topicName = $_POST['topicName'];
-$sql = "DELETE FROM topics WHERE topics.Name = '$topicName'";
+
+$topicID = generateAuthCode();
+$topicName = $_POST["topicName"];  
+$technical = $_POST["technical"];
+$sql = "INSERT INTO topics VALUES ('$topicID', '$topicName', '$technical')";
 $result = mysqli_query($conn, $sql);
 
 if ($result == false){
