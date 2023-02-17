@@ -7,10 +7,9 @@ function GrabProjects(userEmail){
             document.getElementById("userProjectOverview").innerHTML = "";
             let temp = JSON.parse(responseData);
             for (let project of temp){
-                let card = "<div class='card' id='projectCard' style='width: 23%; margin-left: 1%; margin-right: 1%;'>";
+                let card = "<div class='card' style='width: 23%; margin-left: 1%; margin-right: 1%;'>";
                 card += "<div class='card-body'>";
                 card += "<p class='card-title'>"+ project['projectName'] +"<p>";
-                card += "<button type='button' class='btn btn-danger' onclick='removeProject()'>X</button>";
                 card += "<p class='card-subtitle mb-2 text-muted'>Team Leader: " + project['teamLeader'] + "</p><hr class='my-1'>";
                 card += "<button type='button' onclick='directToProject(\""+project['projectID']+"\", \""+project['projectName']+"\", \""+userEmail+"\")' class='btn btn-primary'>Go to Project</button>";
                 card += "</div></div>";
@@ -53,12 +52,6 @@ function grabUsersByProject(projectID){
     });
 
 }
-
-function removeProject() {
-var element = document.getElementById('projectCard');
-element.classList.remove('card');
-}
-
 
 function directToProject(projectID, projectName, email){
     navclick('productivity/projects.php');
