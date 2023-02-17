@@ -1,8 +1,6 @@
 <?php
 include("../DBCredentials.php");
 
-
-
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
 if (!$conn) {
@@ -10,7 +8,6 @@ if (!$conn) {
 }
 
 $projectID = $_POST['projectID'];
-
 $sql = "SELECT COUNT(*) as status FROM tasks WHERE projectID = '$projectID' GROUP BY status";
 $result = mysqli_query($conn, $sql);
 
@@ -18,7 +15,6 @@ if (mysqli_num_rows($result)>0){
     $allDataArray = array();
     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
         $allDataArray[] = $row;
-        
     }
     echo json_encode($allDataArray);
 } else {

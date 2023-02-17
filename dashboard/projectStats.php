@@ -17,8 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js" integrity="sha512-vCUbejtS+HcWYtDHRF2T5B0BKwVG/CLeuew5uT2AiX4SJ2Wff52+kfgONvtdATqkqQMC9Ye5K+Td0OTaz+P7cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>document.title = localStorage.getItem("chosenProjectName")</script>
     <script>
         $(document).ready(function () {
@@ -51,14 +49,24 @@
                 <div class="overallDeadline"></div>
                 <div class="nextDeadline"></div>
             </div>
-           
-                <div class="chartContainer">
-                    <canvas id="myDoughnut"></canvas>
-                    <canvas id="myRadar"></canvas>
+            <div class="statsContainer">
+                Stats
+                <div class="progressContainer">
+                    <div class="verticalTitle">Tasks</div>
+                <progress id="Bar0" class="progressBar" value="0" max="100"></progress>
+                <span id="after0" class="afterBar">TODO</span>
+                <progress  id="Bar1" class="progressBar" value="0" max="100"></progress>
+                <span id="after1" class="afterBar">SELECTED</span>
+                <progress id="Bar2" class="progressBar" value="0" max="100"></progress>
+                <span id="after2" class="afterBar">IN PROGRESS</span>
+                <progress id="Bar3" class="progressBar" value="0" max="100"></progress>
+                <span id="after3" class="afterBar">COMPLETED</span>
+                <div id="taskinfo" class="miniTaskInfoContainer">
+
                 </div>
-                <script type="module" src="dashboard/graph.js"></script>
+
                 </div>
-           
+            </div>
         </div>
     </div>
 
