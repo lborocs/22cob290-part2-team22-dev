@@ -121,7 +121,7 @@ body {
 .statsContainer {
 
     width: 90%;
-    height: 60%;
+    height: 35% !important;
     display: flex;
     flex-direction: column;
     margin-inline: auto;
@@ -340,3 +340,13 @@ progress::after {
         display: none;
     }
 }
+.chartContainer{
+    display: flex;
+    width: 100% !important;
+    height: 50% !important;
+    align-items: space-between;
+    justify-content: center;
+    
+    
+}
+
