@@ -58,6 +58,10 @@
     display: none;
 }
 
+#teamLeader {
+    display: none;
+}
+
 #deleteTask {
     color: red;
 }
