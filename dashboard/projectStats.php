@@ -5,7 +5,9 @@
     <!--Bootstrap-->
     <link type="text/css" rel="stylesheet" href="/dashboard/dashboard.css" />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js" integrity="sha512-vCUbejtS+HcWYtDHRF2T5B0BKwVG/CLeuew5uT2AiX4SJ2Wff52+kfgONvtdATqkqQMC9Ye5K+Td0OTaz+P7cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js"
+        integrity="sha512-vCUbejtS+HcWYtDHRF2T5B0BKwVG/CLeuew5uT2AiX4SJ2Wff52+kfgONvtdATqkqQMC9Ye5K+Td0OTaz+P7cw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>document.title = localStorage.getItem("chosenProjectName")</script>
     <script>
         $(document).ready(function () {
@@ -13,46 +15,58 @@
         });
 
     </script>
-        <script src="dashboard/dashboard.js"></script>
-        
+    <script src="dashboard/dashboard.js"></script>
+
 
 </head>
 
 <body>
     <div class="mainContainer">
         <div class="title"></div>
+
         <div class="boxContainer">
-            <div class="userContainer">
-                Users
-                  <div id="usersAssigned"class="usersAssigned">
-                    
-                    
-                        
-                        
-                        
+
+            <div class="topContainer">
+                <div class="userContainer">
+                    Users
+                    <div id="usersAssigned" class="usersAssigned">
+
+
+
+
+
                     </div>
-                  </div>
-            
-            <div class="deadlineContainer">
-                Deadline
-                <div class="overallDeadline"></div>
-                <div class="nextDeadline"></div>
+                </div>
+                <div class="middleContainer">
+                <button class="backButton" onclick="navclick('/dashboard/adminDashboard.php')">Return to Dashboard</button>
+                <button class="projectButton" onclick="viewproject();">View Project</button>
+                </div>
+                <div class="deadlineContainer">
+                    Deadline
+                    <div class="overallDeadline"></div>
+                    <div class="nextDeadline"></div>
+                </div>
+
             </div>
-           
-                <div class="chartContainer">
-                    <canvas id="myDoughnut"></canvas>
-                    <canvas id="myRadar"></canvas>
-                </div>
-                <script type="module" src="dashboard/graph.js"></script>
-                </div>
-           
+            <div class="chartContainer">
+                <canvas id="myDoughnut"></canvas>
+                <canvas id="myRadar"></canvas>
+            </div>
+            <script type="module" src="dashboard/graph.js"></script>
         </div>
+
+    </div>
     </div>
 
 </body>
 <script>
-grabProjectStats();
-grabUsersByProject(localStorage.getItem("chosenProject"));
+    grabProjectStats();
+    grabUsersByProject(localStorage.getItem("chosenProject"));
+
+    function viewproject() {
+        
+        navclick("/productivity/projects.php");
+    }
 </script>
 
 
