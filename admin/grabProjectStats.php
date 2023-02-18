@@ -11,7 +11,7 @@ if (!$conn) {
 
 $projectID = $_POST['projectID'];
 
-$sql = "SELECT COUNT(*) as status FROM tasks WHERE projectID = '$projectID' GROUP BY status";
+$sql = "SELECT tasks.status FROM tasks WHERE projectID = '$projectID'";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result)>0){

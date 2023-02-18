@@ -1,3 +1,4 @@
+
 function GrabProjects(userEmail){
     $.ajax({
         url:"dashboard/grabProjectCards.php",
@@ -37,13 +38,13 @@ function grabProjectStats(){
 }
 
 function grabUsersByProject(projectID){
-    
     $.ajax({
         url:"../admin/grabUsersByProject.php",
         type:"POST",
         data: {projectID : projectID},
         success: function(responseData){
             let temp = JSON.parse(responseData);
+            console.log(temp);
             for(let user of temp){
                 document.getElementById("usersAssigned").innerHTML += "<div class='user'>" + user['email'] + "</div>";
             }

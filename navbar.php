@@ -49,7 +49,7 @@ session_start();
             <div class="offcanvas-body">
                 <ul class="nav flex-column" style = "font-size: 0.78rem">
                     <li class="nav-item " style="text-align:center;">
-                        <a id="dashboardlink" class="nav-link text-dark" onclick="<?php if ($_SESSION['isAdmin']==true) {echo "navclick('dashboard/adminDashboard.php')";} else {echo"navclick('dashboard/dashboard.php')";}?>">Dashboard</a>
+                        <a id="dashboardlink" class="nav-link text-dark" onclick="<?php if ($_SESSION['isAdmin']==true) {echo "navclick('dashboard/adminDashboard.php'); location.reload();";} else {echo"navclick('dashboard/dashboard.php'); location.reload();";}?>">Dashboard</a>
                     </li>
                     <hr class="my-2">
                     <li class="nav-item" style="text-align:center;">

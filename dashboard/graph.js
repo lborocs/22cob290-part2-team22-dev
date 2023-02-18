@@ -1,10 +1,4 @@
-
-
-
-
-  
-  
-
+var data;
 $(document).ready(function() {
   let projectID = localStorage.getItem("chosenProject");
   console.log(projectID);
@@ -15,22 +9,34 @@ $(document).ready(function() {
     data: {projectID : projectID},
     success: function(responseData){
       let temp = JSON.parse(responseData);
-      localStorage.setItem("0Count", temp[0]['status']);
-      localStorage.setItem("1Count", temp[1]['status']);
-      localStorage.setItem("2Count", temp[2]['status']);
-      localStorage.setItem("3Count", temp[3]['status']);
-      
+      console.log(temp);
+      localStorage.setItem(`0Count`,0)
+      localStorage.setItem(`1Count`,0)
+      localStorage.setItem(`2Count`,0)
+      localStorage.setItem(`3Count`,0)
+      temp.forEach((status) => {  
+        if (localStorage.getItem(`${status["status"]}Count`) == 0) {
+          localStorage.setItem(`${status["status"]}Count`,1)
+        }
+        else {
+          localStorage.setItem(`${status["status"]}Count`,parseInt(localStorage.getItem(`${status["status"]}Count`)) + 1)
+        }
+    });
+    data = [
+      {status: 'To Do', count: localStorage.getItem("0Count")},
+      {status: 'In Progress', count: localStorage.getItem("1Count")},
+      {status: 'Review', count: localStorage.getItem("2Count")},
+      {status: 'Done', count: localStorage.getItem("3Count")}
+    ];
       //console.log(data);
         }
     }
   );
-  var data = [
-    {status: 'To Do', count: localStorage.getItem("0Count")},
-    {status: 'In Progress', count: localStorage.getItem("1Count")},
-    {status: 'Review', count: localStorage.getItem("2Count")},
-    {status: 'Done', count: localStorage.getItem("3Count")}
-  ]
   console.log(data);
+
+$(document).ready(function(){
+  setTimeout( () =>                   
+  {
   new Chart(
     document.getElementById('myDoughnut'),
     {
@@ -80,5 +86,7 @@ $(document).ready(function() {
       }
     }
   );
+  }, 1000);
   });
+});
  
