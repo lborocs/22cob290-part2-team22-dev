@@ -38,13 +38,21 @@
                     </div>
                 </div>
                 <div class="middleContainer">
-                <button class="backButton" onclick="navclick('/dashboard/adminDashboard.php')">Return to Dashboard</button>
-                <button class="projectButton" onclick="viewproject();">View Project</button>
+                    <button class="backButton" onclick="navclick('/dashboard/adminDashboard.php')">Return to
+                        Dashboard</button>
+                    <button class="projectButton" onclick="viewproject();">View Project</button>
                 </div>
                 <div class="deadlineContainer">
                     Deadline
-                    <div class="overallDeadline"></div>
-                    <div class="nextDeadline"></div>
+                    <div id="statsdeadlineStats" >
+                        <h6 id="statsdeadline"></h6>
+                        <div class="progress" style="width:80%; margin-inline:auto; margin-block:0;">
+                            <div id="statsdeadlineMeter" class="progress-bar bg-danger" style="width: 100%"></div>
+                        </div>
+                       
+                        <h6 id="statscountdown"></h6>
+                       
+                    </div>
                 </div>
 
             </div>
@@ -63,8 +71,10 @@
     grabProjectStats();
     grabUsersByProject(localStorage.getItem("chosenProject"));
 
+    grabDeadline(localStorage.getItem("chosenProject"));
+
     function viewproject() {
-        
+
         navclick("/productivity/projects.php");
     }
 </script>
