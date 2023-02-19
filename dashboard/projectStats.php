@@ -51,8 +51,8 @@
 
 </body>
 <script>
-grabProjectStats();
 grabUsersByProject(localStorage.getItem("chosenProject"));
+grabProjectStats();
 </script>
 
 

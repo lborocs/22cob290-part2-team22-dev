@@ -50,10 +50,7 @@ function grabUsersByProject(projectID){
             }
         }
     });
-
 }
-
-
 
 
 function directToProject(projectID, projectName, email){

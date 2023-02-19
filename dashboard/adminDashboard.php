@@ -1,17 +1,6 @@
-<script src="dashboard/adminDashboard.js"></script>
-
 <link type="text/css" rel="stylesheet" href="/dashboard/dashboard.css" />
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-<script>
-     $(document).ready(function(){
-       
-            localStorage.setItem("currentPage", "dashboard/adminDashboard.php");
-        
-            
-        
-    });
-</script>
+
+<script src="dashboard/adminDashboard.js"></script>
 
 <main class="bd-content" id="content" role="main">
     <div class="float-container">
@@ -78,7 +67,9 @@
 </div>
 
 <script type="text/javascript">
-    changeSelected("dashboard");
-    GrabEmails();
-    GrabProjects();
+    $(document).ready(function() {
+        localStorage.setItem("currentPage", "dashboard/adminDashboard.php");
+        GrabEmails();
+        GrabProjects();
+    });
 </script>

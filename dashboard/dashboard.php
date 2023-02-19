@@ -1,16 +1,5 @@
-<?php
-session_start();
-
-?>
 <link type="text/css" rel="stylesheet" href="/dashboard/dashboard.css" />
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script src="dashboard/dashboard.js"></script>
-<script>
-    $(document).ready(function(){
-        localStorage.setItem("currentPage", "dashboard/dashboard.php");
-    });
-</script>
 <main class="bd-content" id="userContent" role="main">
     <div class="float-container">
         <div class="header">
@@ -42,5 +31,7 @@ session_start();
 </main>
 
 <script type="text/javascript">
-    changeSelected("dashboard");
+    $(document).ready(function() {
+        localStorage.setItem("currentPage", "dashboard/dashboard.php");
+    });
 </script>

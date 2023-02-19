@@ -34,7 +34,6 @@ $(document).ready(function() {
   );
   console.log(data);
 
-$(document).ready(function(){
   setTimeout( () =>                   
   {
   new Chart(
@@ -88,5 +87,4 @@ $(document).ready(function(){
   );
   }, 1000);
   });
-});
  
