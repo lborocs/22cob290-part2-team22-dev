@@ -293,6 +293,7 @@ function RefreshPage(projectID, projectName=null){
 
             }
             sessionStorage.setItem("chosenProject", projectID);
+            document.getElementById("addTaskButton").disabled = false;
         },
         error: function(e){
             window.alert("Error Occurred! Please refer to console.");
