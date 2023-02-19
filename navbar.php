@@ -33,7 +33,7 @@ session_start();
 <body style="width:100% !important;">
 <nav class="navbar navbar-dark" style="background-color: #FFB800; margin:0; border-radius:0;">
     <div class="container-fluid">
-        <a href="navbar.php" class="navbar-brand display-6 text-light">
+        <a onclick="navclick('dashboard/dashboard.php')" class="navbar-brand display-6 text-light" style="cursor:pointer;">
             Make-It-All
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"  aria-controls="offcanvasNavbar" onclick="toggleClicked()">

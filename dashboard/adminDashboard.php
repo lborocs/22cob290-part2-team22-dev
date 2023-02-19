@@ -1,14 +1,25 @@
-<link type="text/css" rel="stylesheet" href="/dashboard/dashboard.css" />
+<?php
+session_start();
+
+if ($_SESSION['isAdmin'] == 0) {
+    header("Location: /dashboard/dashboard.php");
+    
+}
+
+?>
 
 <script src="dashboard/adminDashboard.js"></script>
 
-<main class="bd-content" id="content" role="main">
-    <div class="float-container">
-        <div class="header">
+<link type="text/css" rel="stylesheet" href="/dashboard/dashboard.css" />
+
+
+<div class="header">
             <section class="jumbotron jumbotron-fluid" style="border-radius: 5px; padding: 5px;">
                 <h1 class="display-4" style="text-align: center;">Admin Dashboard</h1>
             </section>
         </div>
+    <div class="float-container">
+       
         <div class="float-child" id="projectContainer">
             <section class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
                 <h2 class="display-6" style="text-align: center;">Current Projects</h2>
@@ -18,9 +29,9 @@
 
                 <div class="row" id="AdminProjectOverview" style="overflow-x: hidden;">
                     <script>GrabProjects();</script>
+                    
                 </div>
-                <button type="button" id="createProjectBtn" class="btn btn-info" data-bs-toggle="modal"
-                    data-bs-target="#CreateProjectModal" aria-controls="CreateProjectModal">Create Project</button>
+                
             </section>
         </div>
         <div class="float-child" id="toDo">
@@ -36,7 +47,7 @@
     </div>
 
 
-</main>
+
 
 <div class="modal" id="CreateProjectModal" tabindex="-1" role="dialog" aria-labelledby="CreateProjectModalLabel"
     aria-hidden="true">

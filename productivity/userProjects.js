@@ -84,7 +84,7 @@ function GrabProjects(userEmail){
         success: function(responseData){
             let temp = JSON.parse(responseData);
             for(let project of temp){
-                document.getElementById("ProjectNameField").innerHTML += "<option value='" + project['projectID'] + "'>" + project['projectName'] + "</option>";
+                document.getElementById("ProjectNameField").innerHTML += "<option data-leader='"+project['teamLeader']+"' value='" + project['projectID'] + "'>" + project['projectName'] + "</option>";
             }
         }
     });
@@ -209,6 +209,7 @@ function RefreshProgressBar(){
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 }
 
+
 function RefreshPage(projectID, projectName=null, email){
     
     //Reset task view
@@ -223,112 +224,178 @@ function RefreshPage(projectID, projectName=null, email){
         document.getElementById("selectedProject").innerHTML = "Selected Project: " + projectName;
     }
     ////////////////////////////////////////
+
+    if (email === sessionStorage.getItem("teamLeader")){
+        document.getElementById("addTaskButton").disabled = false;
+        $.ajax({
+            url:"productivity/databasePHPFiles/retrieveTaskCards.php",
+            type:"POST",
+            data: {projectID:projectID},
+            success: function(responseData){
+                //If the Project has no tasks....
+                if (responseData === "false"){
+                    document.getElementById("noTasks").style = "margin-top: 27%;";
+                    document.getElementById("displayTasks").style = "display: none;";
+                    document.getElementById("progressBar").style = "display: none;";
+                //Else.....
+                } else {
+                    document.getElementById("noTasks").style = "display:none;";
+                    document.getElementById("displayTasks").style = "display:block;";
+                    document.getElementById("progressBar").style = "display:inline;";
+                    let temp = JSON.parse(responseData);
+                    for(let task of temp){
+                        let taskStatus = Number(task['status']);
     
-    //Grab tasks that the user is assigned to
-    $.ajax({
-        url:"productivity/databasePHPFiles/retrieveUserAssignedTaskCards.php",
-        type:"POST",
-        async:false,
-        data: {projectID:projectID, email:email},
-        success: function(responseData){
-
-            let temp = JSON.parse(responseData);
-            for(let task of temp) {
-                let taskStatus = Number(task['status']);
-
-                let newTaskCard = `<div id='`+task['taskID']+`' class='card shadow-none bg-white' onclick='OpenEditTaskPanel(\"`+task['taskID']+`\")' draggable='true' ondragstart='drag(event)' ondragend='dragEnd()'>
-                <div class='card-body'>
-                `+task['taskName'];
-
-                if (task['assignees'] == 0) {
-                    newTaskCard += `<div class="text-muted">Assigned to No One</div><div class="cannotCalc">Cannot Calculate Estimate Time</div></div></div>`;
-                } else {
-
-                    calcHours = Math.trunc(task['expectedManHours']/task['assignees']);
-                    calcMin = Math.round(((task['expectedManHours']/task['assignees']) - calcHours) * 60)
-                    let plural = "people";
-                    if (task['assignees'] == 1){
-                        plural = "person"
+                        let newTaskCard = `<div id='`+task['taskID']+`' class='card shadow-none bg-white' onclick='OpenEditTaskPanel(\"`+task['taskID']+`\")' draggable='true' ondragstart='drag(event)' ondragend='dragEnd()'>
+                        <div class='card-body'>
+                        `+task['taskName'];
+    
+                        if (task['assignees'] == 0) {
+                            newTaskCard += `<div class="text-muted">Assigned to No One</div><div class="cannotCalc">Cannot Calculate Estimate Time</div></div></div>`;
+                        } else {
+    
+                            calcHours = Math.trunc(task['expectedManHours']/task['assignees']);
+                            calcMin = Math.round(((task['expectedManHours']/task['assignees']) - calcHours) * 60)
+                            let plural = "people";
+                            if (task['assignees'] == 1){
+                                plural = "person"
+                            }
+                            newTaskCard += `<div class="text-muted">Assigned to `+ task['assignees'] +` `+plural+`</div><div class='taskDeadline'>Duration: ` + calcHours + ` Hour(s), `+ calcMin +` Min</div></div></div>`;
+                        }
+                        
+    
+                        switch (taskStatus){
+                            case 0:
+                                document.getElementById("toDo").innerHTML += newTaskCard;
+                                break;
+                            case 1:
+                                document.getElementById("dev").innerHTML += newTaskCard;
+                                break;
+                            case 2:
+                                document.getElementById("progress").innerHTML += newTaskCard;
+                                break;
+                            case 3:
+                                document.getElementById("done").innerHTML += newTaskCard;
+                                break;
+                        }
                     }
-                    newTaskCard += `<div class="text-muted">Assigned to `+ task['assignees'] +` `+plural+`</div><div class='taskDeadline'>Duration: ` + calcHours + ` Hour(s), `+ calcMin +` Min</div></div></div>`;
+    
                 }
-
-                switch (taskStatus){
-                    case 0:
-                        document.getElementById("toDo").innerHTML += newTaskCard;
-                        break;
-                    case 1:
-                        document.getElementById("dev").innerHTML += newTaskCard;
-                        break;
-                    case 2:
-                        document.getElementById("progress").innerHTML += newTaskCard;
-                        break;
-                    case 3:
-                        document.getElementById("done").innerHTML += newTaskCard;
-                        break;
-                }
+                sessionStorage.setItem("chosenProject", projectID);
+            },
+            error: function(e){
+                window.alert("Error Occurred! Please refer to console.");
+                console.log(e.message);
             }
-        },
-        error: function(e){
-            window.alert("Error Occurred! Please refer to console.");
-            console.log(e.message);
-        }
-    });
-    //////////////////////////////////////////
+        });
+    } else {
+        document.getElementById("addTaskButton").disabled = true;
+        //Grab tasks that the user is assigned to
+        $.ajax({
+            url:"productivity/databasePHPFiles/retrieveUserAssignedTaskCards.php",
+            type:"POST",
+            async:false,
+            data: {projectID:projectID, email:email},
+            success: function(responseData){
 
-    //Grab tasks that the User is not assigned to
-    $.ajax({
-        url:"productivity/databasePHPFiles/retrieveNonUserAssignedTaskCards.php",
-        type:"POST",
-        async:false,
-        data: {projectID:projectID, email:email},
-        success: function(responseData){
-            let temp = JSON.parse(responseData);
-            for(let task of temp){
-                let taskStatus = Number(task['status']);
+                let temp = JSON.parse(responseData);
+                for(let task of temp) {
+                    let taskStatus = Number(task['status']);
 
-                let newTaskCard = `<div id='`+task['taskID']+`' class='card shadow-none' onclick='OpenViewTaskPanel(\"`+task['taskID']+`\")' draggable='false' ondragstart='drag(event)' ondragend='dragEnd()'>
-                <div class='card-body'>
-                `+task['taskName'];
+                    let newTaskCard = `<div id='`+task['taskID']+`' class='card shadow-none bg-white' onclick='OpenEditTaskPanel(\"`+task['taskID']+`\")' draggable='true' ondragstart='drag(event)' ondragend='dragEnd()'>
+                    <div class='card-body'>
+                    `+task['taskName'];
 
-                if (task['assignees'] == 0) {
-                    newTaskCard += `<div class="text-muted">Assigned to No One</div><div class="cannotCalc">Cannot Calculate Estimate Time</div></div></div>`;
-                } else {
+                    if (task['assignees'] == 0) {
+                        newTaskCard += `<div class="text-muted">Assigned to No One</div><div class="cannotCalc">Cannot Calculate Estimate Time</div></div></div>`;
+                    } else {
 
-                    calcHours = Math.trunc(task['expectedManHours']/task['assignees']);
-                    calcMin = Math.round(((task['expectedManHours']/task['assignees']) - calcHours) * 60)
-                    let plural = "people";
-                    if (task['assignees'] == 1){
-                        plural = "person"
+                        calcHours = Math.trunc(task['expectedManHours']/task['assignees']);
+                        calcMin = Math.round(((task['expectedManHours']/task['assignees']) - calcHours) * 60)
+                        let plural = "people";
+                        if (task['assignees'] == 1){
+                            plural = "person"
+                        }
+                        newTaskCard += `<div class="text-muted">Assigned to `+ task['assignees'] +` `+plural+`</div><div class='taskDeadline'>Duration: ` + calcHours + ` Hour(s), `+ calcMin +` Min</div></div></div>`;
                     }
-                    newTaskCard += `<div class="text-muted">Assigned to `+ task['assignees'] +` `+plural+`</div><div class='taskDeadline'>Duration: ` + calcHours + ` Hour(s), `+ calcMin +` Min</div></div></div>`;
-                }
 
-                switch (taskStatus){
-                    case 0:
-                        document.getElementById("toDo").innerHTML += newTaskCard;
-                        break;
-                    case 1:
-                        document.getElementById("dev").innerHTML += newTaskCard;
-                        break;
-                    case 2:
-                        document.getElementById("progress").innerHTML += newTaskCard;
-                        break;
-                    case 3:
-                        document.getElementById("done").innerHTML += newTaskCard;
-                        break;
+                    switch (taskStatus){
+                        case 0:
+                            document.getElementById("toDo").innerHTML += newTaskCard;
+                            break;
+                        case 1:
+                            document.getElementById("dev").innerHTML += newTaskCard;
+                            break;
+                        case 2:
+                            document.getElementById("progress").innerHTML += newTaskCard;
+                            break;
+                        case 3:
+                            document.getElementById("done").innerHTML += newTaskCard;
+                            break;
+                    }
                 }
+            },
+            error: function(e){
+                window.alert("Error Occurred! Please refer to console.");
+                console.log(e.message);
             }
+        });
+        //////////////////////////////////////////
 
-            sessionStorage.setItem("chosenProject", projectID);
+        //Grab tasks that the User is not assigned to
+        $.ajax({
+            url:"productivity/databasePHPFiles/retrieveNonUserAssignedTaskCards.php",
+            type:"POST",
+            async:false,
+            data: {projectID:projectID, email:email},
+            success: function(responseData){
+                let temp = JSON.parse(responseData);
+                for(let task of temp){
+                    let taskStatus = Number(task['status']);
 
-        },
-        error: function(e){
-            window.alert("Error Occurred! Please refer to console.");
-            console.log(e.message);
-        }
-    });
-    /////////////////////////////////////////
+                    let newTaskCard = `<div id='`+task['taskID']+`' class='card shadow-none' onclick='OpenViewTaskPanel(\"`+task['taskID']+`\")' draggable='false' ondragstart='drag(event)' ondragend='dragEnd()'>
+                    <div class='card-body'>
+                    `+task['taskName'];
+
+                    if (task['assignees'] == 0) {
+                        newTaskCard += `<div class="text-muted">Assigned to No One</div><div class="cannotCalc">Cannot Calculate Estimate Time</div></div></div>`;
+                    } else {
+
+                        calcHours = Math.trunc(task['expectedManHours']/task['assignees']);
+                        calcMin = Math.round(((task['expectedManHours']/task['assignees']) - calcHours) * 60)
+                        let plural = "people";
+                        if (task['assignees'] == 1){
+                            plural = "person"
+                        }
+                        newTaskCard += `<div class="text-muted">Assigned to `+ task['assignees'] +` `+plural+`</div><div class='taskDeadline'>Duration: ` + calcHours + ` Hour(s), `+ calcMin +` Min</div></div></div>`;
+                    }
+
+                    switch (taskStatus){
+                        case 0:
+                            document.getElementById("toDo").innerHTML += newTaskCard;
+                            break;
+                        case 1:
+                            document.getElementById("dev").innerHTML += newTaskCard;
+                            break;
+                        case 2:
+                            document.getElementById("progress").innerHTML += newTaskCard;
+                            break;
+                        case 3:
+                            document.getElementById("done").innerHTML += newTaskCard;
+                            break;
+                    }
+                }
+
+                sessionStorage.setItem("chosenProject", projectID);
+
+            },
+            error: function(e){
+                window.alert("Error Occurred! Please refer to console.");
+                console.log(e.message);
+            }
+        });
+        /////////////////////////////////////////
+    }
 
     //Count the tasks in each category
     let toDoCount = document.getElementById("toDo").childElementCount;
@@ -493,6 +560,9 @@ $(document).ready(function(){
     $("#changeProjectModal").submit(function(event){
         let projectID = $("#ProjectNameField").val();
         document.getElementById("selectedProject").innerHTML = "Selected Project: " + $("#ProjectNameField option:selected").text();
+        document.getElementById("teamLeader").innerHTML = "Team Leader: " + $("#ProjectNameField option:selected").data().leader;
+        document.getElementById("teamLeader").style="display:inline";
+        sessionStorage.setItem("teamLeader", $("#ProjectNameField option:selected").data().leader);
 
         RefreshPage(projectID,null,sessionStorage.getItem("email"));
 
@@ -506,38 +576,40 @@ $(document).ready(function(){
 
     //Add Task Form
     $("#addTaskModal").submit(function(event){
-                
-        // let projectID = sessionStorage.getItem("chosenProject");
+        if (sessionStorage.getItem("email") === sessionStorage.getItem("teamLeader")){
+            let projectID = sessionStorage.getItem("chosenProject");
 
-        // if (projectID == null){
-        //     window.alert("A project must be selected first");
-        //     event.preventDefault();
-        //     return;
-        // }
+            if (projectID == null){
+                window.alert("A project must be selected first");
+                event.preventDefault();
+                return;
+            }
 
-        // let taskName = $("#taskName").val();
-        // let taskStatus = $("#taskStatus option:selected").val();
-        // let description = $("#descriptionTextArea").val();
-        // let manHours = $("#manHoursInput").val();
-        // let assignee = $("#assignee").val();
+            let taskName = $("#taskName").val();
+            let taskStatus = $("#taskStatus option:selected").val();
+            let description = $("#descriptionTextArea").val();
+            let manHours = $("#manHoursInput").val();
+            let assignee = $("#assignee").val();
 
-        // $.ajax({
-        //     url:"productivity/databasePHPFiles/processAddTaskForm.php",
-        //     type:"POST",
-        //     data: {projectID: projectID, taskName: taskName, taskStatus: taskStatus, description:description, manHours: manHours, assignee:assignee},
-        //     success: function(){
-        //         $('#addTaskModal').modal('hide');
-        //         $('body').removeClass('modal-open');
-        //         $('.modal-backdrop').remove();
-        //         RefreshPage(sessionStorage.getItem("chosenProject"));
-        //     },
-        //     error: function(e){
-        //         window.alert("Error Occurred! Please refer to console.");
-        //         console.log(e.message);
-        //     }
-        // });
-
-        window.alert("This function will get added once team leaders are implemented");
+            $.ajax({
+                url:"productivity/databasePHPFiles/processAddTaskForm.php",
+                type:"POST",
+                data: {projectID: projectID, taskName: taskName, taskStatus: taskStatus, description:description, manHours: manHours, assignee:assignee},
+                success: function(){
+                    $('#addTaskModal').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    RefreshPage(sessionStorage.getItem("chosenProject"));
+                },
+                error: function(e){
+                    window.alert("Error Occurred! Please refer to console.");
+                    console.log(e.message);
+                }
+            });
+        } else {
+            window.alert("You are not authorised to do this");
+        }
+        
 
         event.preventDefault();
     });

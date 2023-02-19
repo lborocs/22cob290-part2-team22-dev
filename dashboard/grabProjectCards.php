@@ -9,7 +9,7 @@ if (!$conn) {
 
 $email = $_POST['email'];
 
-$sql = "SELECT * FROM `projects` WHERE EXISTS (SELECT projectID FROM `taskToUserMapping` WHERE email = '$email' AND projects.projectID = taskToUserMapping.projectID)";
+$sql = "SELECT DISTINCT * FROM `projects` WHERE EXISTS (SELECT projectID FROM `taskToUserMapping` WHERE email = '$email' AND projects.projectID = taskToUserMapping.projectID) OR teamLeader = '$email'";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result)>0){

@@ -1,12 +1,22 @@
+<?php
+session_start();
+
+if ($_SESSION['isAdmin'] == 1) {
+    header("Location: /dashboard/adminDashboard.php");
+    
+}
+
+?>
 <link type="text/css" rel="stylesheet" href="/dashboard/dashboard.css" />
 <script src="dashboard/dashboard.js"></script>
-<main class="bd-content" id="userContent" role="main">
-    <div class="float-container">
-        <div class="header">
+
+<div class="header">
             <section class="jumbotron jumbotron-fluid" style="border-radius: 5px; padding: 5px;">
                 <h1 class="display-4" style="text-align: center;">Dashboard</h1>
             </section>
         </div>
+    <div class="float-container">
+        
         <div class="float-child" id="userProjectContainer">
             <section class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
                 <h2 class="display-6" style="text-align: center;">Current Assigned Projects:</h2>
@@ -28,7 +38,7 @@
             </section>
         </div>
     </div> 
-</main>
+
 
 <script type="text/javascript">
     $(document).ready(function() {
