@@ -7,6 +7,9 @@ function GrabProjects(userEmail){
         success: function(responseData){
             document.getElementById("userProjectOverview").innerHTML = "";
             let temp = JSON.parse(responseData);
+            if (temp == false) {
+                document.getElementById("userProjectOverview").innerHTML = `<p style = 'text-align: center;'><br><br><i>No projects have been assigned to you</i></p>`;
+            }
             for (let project of temp){
                 let card = "<div class='card' style='width: 23%; margin-left: 1%; margin-right: 1%;'>";
                 card += "<div class='card-body'>";

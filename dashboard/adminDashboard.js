@@ -16,6 +16,9 @@ function GrabProjects(){
         success: function(responseData){
             document.getElementById("AdminProjectOverview").innerHTML = "";
             let temp = JSON.parse(responseData);
+            if (temp == false) {
+                document.getElementById("AdminProjectOverview").innerHTML = `<p style = 'text-align: center;'><br><br><i>There are no current projects</i></p>`;
+            }
             for (let project of temp){
                 let card = "<div class='card' style='width: 14rem; margin-left: 10px; margin-right: 10px;'>";
                 card += "<div class='card-body'>";
@@ -27,7 +30,7 @@ function GrabProjects(){
                 document.getElementById("AdminProjectOverview").innerHTML += card;
 
             }
-            document.getElementById("AdminProjectOverview").innerHTML += "<button type='button' id='createProjectBtn' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#CreateProjectModal' aria-controls='CreateProjectModal'><i class='bi bi-plus'></i></button>";
+            document.getElementById("AdminProjectOverview").innerHTML += "<button type='button' id='createProjectBtn' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#CreateProjectModal' aria-controls='CreateProjectModal'>+</button>";
         }
     });
 }
