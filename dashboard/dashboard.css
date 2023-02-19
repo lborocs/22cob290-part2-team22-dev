@@ -295,6 +295,12 @@ progress::after {
 .float-container {
     border: 3px solid #fff;
     margin: 0;
+    width:100%;
+
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
 
 }
 
@@ -303,6 +309,7 @@ progress::after {
     float: left;
     padding: 5px;
     height: 70%;
+    text-align: center;
 
 }
 #userProjectContainer{
@@ -315,11 +322,11 @@ progress::after {
 
 #toDo {
     width: 30%;
-    float: left;
+    align-self: flex-end !important;
 }
 #userToDo{
     width: 30%;
-    float: left;
+    float: right;
     
 }
 
@@ -330,9 +337,14 @@ progress::after {
 }
 
 #createProjectBtn {
-    padding-inline: 46%;
-    background-color: #337ab7;
-    color:white;
+   width:50px !important;
+    height:50px !important;
+    text-align: center;
+    margin-inline: 0; 
+    margin-block:auto ;
+
+   
+    border-radius: 50% !important;
 
 
 }

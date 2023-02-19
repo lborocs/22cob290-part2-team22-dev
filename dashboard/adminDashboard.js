@@ -25,7 +25,9 @@ function GrabProjects(){
                 card += "</div></div>";
 
                 document.getElementById("AdminProjectOverview").innerHTML += card;
+
             }
+            document.getElementById("AdminProjectOverview").innerHTML += "<button type='button' id='createProjectBtn' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#CreateProjectModal' aria-controls='CreateProjectModal'><i class='bi bi-plus'></i></button>";
         }
     });
 }

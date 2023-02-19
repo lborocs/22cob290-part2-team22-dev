@@ -13,6 +13,7 @@ if ($_SESSION['isAdmin'] == 0) {
 <link type="text/css" rel="stylesheet" href="/dashboard/dashboard.css" />
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <script>
      $(document).ready(function(){
        
@@ -23,13 +24,14 @@ if ($_SESSION['isAdmin'] == 0) {
     });
 </script>
 
-<main class="bd-content" id="content" role="main">
-    <div class="float-container">
-        <div class="header">
+
+<div class="header">
             <section class="jumbotron jumbotron-fluid" style="border-radius: 5px; padding: 5px;">
                 <h1 class="display-4" style="text-align: center;">Admin Dashboard</h1>
             </section>
         </div>
+    <div class="float-container">
+       
         <div class="float-child" id="projectContainer">
             <section class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
                 <h2 class="display-6" style="text-align: center;">Current Projects</h2>
@@ -39,9 +41,9 @@ if ($_SESSION['isAdmin'] == 0) {
 
                 <div class="row" id="AdminProjectOverview" style="overflow-x: hidden;">
                     <script>GrabProjects();</script>
+                    
                 </div>
-                <button type="button" id="createProjectBtn" class="btn btn-info" data-bs-toggle="modal"
-                    data-bs-target="#CreateProjectModal" aria-controls="CreateProjectModal">Create Project</button>
+                
             </section>
         </div>
         <div class="float-child" id="toDo">
@@ -57,7 +59,7 @@ if ($_SESSION['isAdmin'] == 0) {
     </div>
 
 
-</main>
+
 
 <div class="modal" id="CreateProjectModal" tabindex="-1" role="dialog" aria-labelledby="CreateProjectModalLabel"
     aria-hidden="true">
