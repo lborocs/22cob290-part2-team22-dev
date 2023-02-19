@@ -10,6 +10,9 @@ $(document).ready(function() {
     success: function(responseData){
       let temp = JSON.parse(responseData);
       console.log(temp);
+      if (temp == false) {
+        document.getElementById('chart').innerHTML = `<p><i>Add tasks to see charts</i></p>`;
+      }
       localStorage.setItem(`0Count`,0)
       localStorage.setItem(`1Count`,0)
       localStorage.setItem(`2Count`,0)

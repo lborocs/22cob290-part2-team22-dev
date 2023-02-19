@@ -56,7 +56,7 @@
                 </div>
 
             </div>
-            <div class="chartContainer">
+            <div id = "chart" class="chartContainer">
                 <canvas id="myDoughnut"></canvas>
                 <canvas id="myRadar"></canvas>
             </div>

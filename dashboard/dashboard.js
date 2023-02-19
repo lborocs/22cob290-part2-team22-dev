@@ -44,8 +44,11 @@ function grabUsersByProject(projectID){
         data: {projectID : projectID},
         success: function(responseData){
             let temp = JSON.parse(responseData);
-            console.log(temp);
+            if (temp == false) {
+                document.getElementById("usersAssigned").innerHTML += `<p><i>No tasks yet</i></p>`;
+            }
             for(let user of temp){
+                found = true;
                 document.getElementById("usersAssigned").innerHTML += "<div class='user'>" + user['email'] + "</div>";
             }
         }
