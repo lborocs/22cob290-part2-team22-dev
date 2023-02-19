@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="middleContainer">
-                    <button class="backButton" onclick="navclick('/dashboard/adminDashboard.php')">Return to
+                    <button class="backButton" onclick="navclick('/dashboard/adminDashboard.php'); location.reload();">Return to
                         Dashboard</button>
                     <button class="projectButton" onclick="viewproject();">View Project</button>
                 </div>

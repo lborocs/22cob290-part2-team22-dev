@@ -93,6 +93,7 @@ $(document).ready(function(){
             success: function(responseData){
                 if (responseData === "true"){
                     window.alert("Project Created!");
+                    location.reload();
                 } else {
                     window.alert("Error!");
                 }
