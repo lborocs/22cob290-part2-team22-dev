@@ -21,6 +21,7 @@
 <div id="main" class="row">
     <div class="col-sm-1 full-height" id="options">
         <h6 id="selectedProject">No Project Selected.</h6>
+        <h6 id="teamLeader"></h6>
 
         <hr class="my-3">
 
@@ -45,7 +46,7 @@
         </div>
 
         <button class="btn btn-primary" id="changeProjectButton" type="button" data-bs-toggle="modal" data-bs-target="#changeProjectModal" aria-controls="changeProjectModal">Change Selected Project</button>
-        <button class="btn btn-success" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTaskModal" aria-controls="addTaskModal">Add Task</button>
+        <button class="btn btn-success" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTaskModal" aria-controls="addTaskModal" disabled>Add Task</button>
         <button class="btn btn-primary bg-info border-info" id='filterTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#filterTaskModal" aria-controls="filterTaskModal">Filter Tasks</button>
     </div>
 
