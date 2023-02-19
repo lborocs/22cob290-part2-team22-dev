@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if ($_SESSION['isAdmin'] == 1) {
+    header("Location: /dashboard/adminDashboard.php");
+    
+}
+
 ?>
 <link type="text/css" rel="stylesheet" href="/dashboard/dashboard.css" />
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">

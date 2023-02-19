@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if ($_SESSION['isAdmin'] == 0) {
+    header("Location: /dashboard/dashboard.php");
+    
+}
+
+?>
+
 <script src="dashboard/adminDashboard.js"></script>
 
 <link type="text/css" rel="stylesheet" href="/dashboard/dashboard.css" />
