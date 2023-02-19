@@ -99,3 +99,13 @@
 hr {
     border-color: gray;
 }
+
+.btn-danger{
+    width: 100% !important;
+    border-radius: 20px !important;
+}
+
+.btn-secondary{
+    width: 100% !important;
+    border-radius: 20px !important;
+}

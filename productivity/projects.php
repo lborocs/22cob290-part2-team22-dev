@@ -42,7 +42,8 @@
 
         <button class="btn btn-primary" id="changeProjectButton" type="button" data-bs-toggle="modal" data-bs-target="#changeProjectModal" aria-controls="changeProjectModal">Change Selected Project</button>
         <button class="btn btn-success" id='addTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#addTaskModal" aria-controls="addTaskModal" disabled>Add Task</button>
-        <button class="btn btn-primary bg-info border-info" id='filterTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#filterTaskModal" aria-controls="filterTaskModal">Filter Tasks</button>
+        <button class="btn btn-secondary" id='filterTaskButton' type="button" data-bs-toggle="modal" data-bs-target="#filterTaskModal" aria-controls="filterTaskModal">Filter Tasks</button>
+        <button class="btn btn-danger" id='deleteProjectButton' type ='button' onclick='deleteProject()' disabled>Delete Project</button>
     </div>
 
     <div class="col-sm full-height p-2">

@@ -76,6 +76,7 @@ $("#done").on("dragleave", function(){
 //////////////////////////////
 
 function GrabProjects(){
+    document.getElementById("ProjectNameField").innerHTML = "";
     $.ajax({
         url: "admin/grabProjectCards.php",
         success: function(responseData){
@@ -353,6 +354,8 @@ function RefreshPage(projectID, projectName=null){
             console.log(e.message);
         }
     });
+
+    document.getElementById("deleteProjectButton").disabled=false;
 }
 
 function addAssignee(){
@@ -381,6 +384,37 @@ function addAssignee(){
             console.log(e.message);
         }
     });
+}
+
+function deleteProject(){
+    if (window.confirm("Are you sure you wish to delete this project?")){
+        let projectID = sessionStorage.getItem("chosenProject");
+
+        $.ajax({
+            url:"productivity/databasePHPFiles/deleteProject.php",
+            type:"POST",
+            data:{projectID:projectID},
+            success:function(){
+                document.getElementById("noTasks").style = "margin-top: 27%;";
+                document.getElementById("displayTasks").style = "display: none;";
+                document.getElementById("progressBar").style = "display: none;";
+                document.getElementById("deadlineStats").style="display: none;";
+
+                sessionStorage.removeItem("chosenProject");
+                
+                document.getElementById("addTaskButton").disabled = true;
+                document.getElementById("deleteProjectButton").disabled = true;
+
+                document.getElementById("selectedProject").innerHTML = "No Project Selected."
+
+                GrabProjects();
+            },
+            error: function(e){
+                window.alert("Error Occurred! Please refer to console.");
+                console.log(e.message);
+            }
+        });
+    }
 }
 
 $(document).ready(function(){
