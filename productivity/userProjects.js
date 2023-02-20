@@ -77,6 +77,7 @@ $("#done").on("dragleave", function(){
 
 
 function GrabProjects(userEmail){
+    document.getElementById("ProjectNameField").innerHTML = "";
     $.ajax({
         url: "dashboard/grabProjectCards.php",
         type:"POST",
