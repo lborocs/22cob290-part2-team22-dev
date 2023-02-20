@@ -7,7 +7,9 @@ if (!$conn) {
 	die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "SELECT users.email, isAdmin, COUNT(taskToUserMapping.email) as tasks FROM users LEFT JOIN taskToUserMapping ON users.email = taskToUserMapping.email GROUP BY users.email";
+$email = $_POST['email'];
+
+$sql = "SELECT projects.projectID as ID, projectName, COUNT(email) as tasks FROM projects, taskToUserMapping WHERE projects.projectID = taskToUserMapping.projectID AND email = '$email' GROUP BY projectName";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result)>0){
@@ -20,3 +22,4 @@ if (mysqli_num_rows($result)>0){
     echo "false";
 }
 ?>
+
