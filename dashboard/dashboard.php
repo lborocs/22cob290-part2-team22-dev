@@ -35,7 +35,7 @@ if ($_SESSION['isAdmin'] == 1) {
                 <hr class="my-4">
 
                 <div id="userEditor"></div>
-                <button id = "save" value = <?php echo $_SESSION['email'] ?>>Save</button>
+                <button style="margin-top: 1em;" class="btn btn-primary" id = "save" value = <?php echo $_SESSION['email'] ?>>Save</button>
             </section>
         </div>
     </div> 
