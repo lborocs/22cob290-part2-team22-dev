@@ -69,9 +69,47 @@ var quill = new Quill('#userEditor', {
         toolbar: [
             [{ header: [1, 2, false] }],
             ['bold', 'italic', 'underline'],
-            ['image', 'code-block']
+            ['image', 'code-block'],
+            [{ list:  "ordered" }, { list:  "bullet" }],
         ]
     },
     placeholder: '...',
     theme: 'snow'
 });
+
+
+$(document).ready(function() {
+    let user = document.getElementById("save").value;
+    $.ajax({
+        url:"dashboard/getToDo.php",
+        type:"POST",                   
+        data: {user : user},  
+        success: function(responseData){
+            let temp = JSON.parse(responseData);
+            document.getElementById("userEditor").innerHTML = temp[0]['task'];
+        },
+        error: function(e){
+            window.alert("Error Occurred! Please refer to console.");
+            console.log(e.message);
+        }
+    });
+});
+
+
+$("#save").click(function(event){
+    let user = document.getElementById("save").value;
+    let task = document.getElementById("userEditor").innerHTML;
+    $.ajax({
+        url:"dashboard/setToDo.php",
+        type:"POST",
+        data: {user : user,task :task},                      
+        success: function(responseData){
+            console.log(responseData);
+        },
+        error: function(e){
+            window.alert("Error Occurred! Please refer to console.");
+            console.log(e.message);
+        }
+    });
+});
+
