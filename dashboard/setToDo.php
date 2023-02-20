@@ -19,7 +19,7 @@
             echo "false";  
         }
         else {
-            echo $result;
+            echo "true";
         }
     } else {
         echo "true";

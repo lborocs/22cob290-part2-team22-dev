@@ -58,12 +58,6 @@ var quill = new Quill('#editor', {
     theme: 'snow'
 });
 
-quill.setContents(JSON.parse(localStorage.getItem('storedText')) || { ops: [] });
-// Store accumulated changes
-var change = new Delta();
-quill.on('text-change', function(delta, oldDelta, source) {
-    change=change.compose(delta);
-  });
 
 // Save periodically
 setInterval(function() {
@@ -164,3 +158,41 @@ function grabDeadline(projectID){
         }
     });
 }
+
+
+$(document).ready(function() {
+    let user = document.getElementById("save").value;
+    $.ajax({
+        url:"dashboard/getToDo.php",
+        type:"POST",                   
+        data: {user : user},  
+        success: function(responseData){
+            let temp = JSON.parse(responseData);
+            console.log(temp);
+            document.getElementById("editor").innerHTML = temp[0]['task'];
+        },
+        error: function(e){
+            window.alert("Error Occurred! Please refer to console.");
+            console.log(e.message);
+        }
+    });
+});
+
+
+$("#save").click(function(event){
+    console.log('test');
+    let user = document.getElementById("save").value;
+    let task = document.getElementById("editor").innerHTML;
+    $.ajax({
+        url:"dashboard/setToDo.php",
+        type:"POST",
+        data: {user : user,task :task},                      
+        success: function(responseData){
+            console.log(responseData);
+        },
+        error: function(e){
+            window.alert("Error Occurred! Please refer to console.");
+            console.log(e.message);
+        }
+    });
+});
