@@ -1,25 +1,25 @@
+<?php
+session_start();
+
+if ($_SESSION['isAdmin'] == 0) {
+    header("Location: /dashboard/dashboard.php");
+    
+}
+
+?>
+
 <script src="dashboard/adminDashboard.js"></script>
 
 <link type="text/css" rel="stylesheet" href="/dashboard/dashboard.css" />
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-<script>
-     $(document).ready(function(){
-       
-            localStorage.setItem("currentPage", "dashboard/adminDashboard.php");
-        
-            
-        
-    });
-</script>
 
-<main class="bd-content" id="content" role="main">
-    <div class="float-container">
-        <div class="header">
+
+<div class="header">
             <section class="jumbotron jumbotron-fluid" style="border-radius: 5px; padding: 5px;">
                 <h1 class="display-4" style="text-align: center;">Admin Dashboard</h1>
             </section>
         </div>
+    <div class="float-container">
+       
         <div class="float-child" id="projectContainer">
             <section class="jumbotron jumbotron-fluid" style="border-radius: 15px; padding: 20px;">
                 <h2 class="display-6" style="text-align: center;">Current Projects</h2>
@@ -29,9 +29,9 @@
 
                 <div class="row" id="AdminProjectOverview" style="overflow-x: hidden;">
                     <script>GrabProjects();</script>
+                    
                 </div>
-                <button type="button" id="createProjectBtn" class="btn btn-info" data-bs-toggle="modal"
-                    data-bs-target="#CreateProjectModal" aria-controls="CreateProjectModal">Create Project</button>
+                
             </section>
         </div>
         <div class="float-child" id="toDo">
@@ -41,13 +41,14 @@
                 <hr class="my-4">
 
                 <div id="editor"></div>
+                <button id = "save" value = <?php echo $_SESSION['email'] ?>>Save</button>
 
             </section>
         </div>
     </div>
 
 
-</main>
+
 
 <div class="modal" id="CreateProjectModal" tabindex="-1" role="dialog" aria-labelledby="CreateProjectModalLabel"
     aria-hidden="true">
@@ -78,7 +79,9 @@
 </div>
 
 <script type="text/javascript">
-    changeSelected("dashboard");
-    GrabEmails();
-    GrabProjects();
+    $(document).ready(function() {
+        localStorage.setItem("currentPage", "dashboard/adminDashboard.php");
+        GrabEmails();
+        GrabProjects();
+    });
 </script>

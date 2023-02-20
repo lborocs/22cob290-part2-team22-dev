@@ -155,15 +155,20 @@ else {
             success: function(responseData){
                 let technical = localStorage.getItem("technical");
                 let temp = JSON.parse(responseData);
+                let found = false;
                 const letterToTopic = new Map();
                 var posts = document.getElementsByClassName("letter");
                 temp.forEach((topic) => {
                   if (topic.technical === technical) {
+                    found = true;
                     var letter = topic.name.charAt(0).toUpperCase();
                     letterToTopic.has(letter) ? letterToTopic.get(letter).push(topic.name.charAt(0).toUpperCase() + topic.name.slice(1)) : letterToTopic.set(letter,[topic.name.charAt(0).toUpperCase() + topic.name.slice(1)]);
                 }
               });     // Getting hashmap of the form [letter -> li beginning with letter]
-
+              if (found == false) {
+                document.getElementsByClassName("container")[0].style.display = 'None';
+                document.getElementById("notFound").innerHTML = 'No topics have been added yet!';
+              }
             document.getElementsByClassName("container")[0].innerHTML = '';
             const sortedLetterToTopic = new Map([...letterToTopic].sort());
             sortedLetterToTopic.forEach((value, key) => {

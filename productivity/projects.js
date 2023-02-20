@@ -385,6 +385,7 @@ function addAssignee(){
         }
     });
 }
+var projectID;
 
 function deleteProject(){
     if (window.confirm("Are you sure you wish to delete this project?")){
@@ -419,8 +420,13 @@ function deleteProject(){
 
 $(document).ready(function(){
     //Change Project Form
+    if(localStorage.getItem("chosenProject") != null){
+        projectID = localStorage.getItem("chosenProject");
+        document.getElementById("selectedProject").innerHTML = "Selected Project: " + $("#ProjectNameField option:selected").text();
+        RefreshPage(projectID,localStorage.getItem("chosenProjectName"));
+    }
     $("#changeProjectModal").submit(function(event){
-        let projectID = $("#ProjectNameField").val();
+        projectID = $("#ProjectNameField").val();
         document.getElementById("selectedProject").innerHTML = "Selected Project: " + $("#ProjectNameField option:selected").text();
 
         RefreshPage(projectID);
@@ -523,6 +529,7 @@ $(document).ready(function(){
 
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
 
 sessionStorage.removeItem("chosenProject");
 GrabAssignees();

@@ -7,6 +7,11 @@
     
         localStorage.setItem("currentPage", "/productivity/projects.php");
         sessionStorage.setItem("email", "<?php echo $_SESSION['email']?>");
+        if (localStorage.getItem("chosenProject") != null){
+            sessionStorage.setItem("chosenProject", localStorage.getItem("chosenProject"));
+            
+        }
+       
     
     });
 </script>
