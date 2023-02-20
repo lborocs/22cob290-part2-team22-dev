@@ -1,37 +1,41 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <script>
-            $.ajax({
-                url: "admin/grabUserCards.php",
-                success: function(responseData){
-                    let temp = JSON.parse(responseData);
-                    for(let user of temp){
-                        if (user['isAdmin'] === "1"){
-                            document.getElementById("tableBody").innerHTML += "<tr><th scope='row'>Admin:</th><td>"+user['email']+"</td></tr>";
-                        } else {
-                            document.getElementById("tableBody").innerHTML += "<tr><th scope='row'>User:</th><td>"+user['email']+"</td></tr>";
-                        }
-                    }
-                }
-            });
-        </script>
-        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
-    </head>
-    <body style="width:100% !important;">
-        <div class = "table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Type</th>
-                        <th scope="col">Email</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                </tbody>
-            </table>
-        </div>
-    </body>
-</html>
+<script src="admin/viewUsers.js"></script>
+<div class = "table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Type</th>
+                <th scope="col">Email</th>
+                <th scope="col">Amount of Tasks Assigned</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+      </div>
+      <div class="modal-body">
+        <table class="table table-hover" id="modalTable">
+            <thead>
+                <tr>
+                    <th scope="col">Project Name</th>
+                    <th scope="col">Amount of Tasks Assigned</th>
+                    <th scope="col">Options</th>
+                </tr>
+            </thead>
+            <tbody id="modalTableBody">
+            </tbody>
+        </table>
+        <h6 id="noProjects">This User is Not Assigned to any Projects</h6>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
