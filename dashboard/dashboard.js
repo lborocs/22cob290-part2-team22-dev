@@ -69,7 +69,7 @@ var quill = new Quill('#userEditor', {
         toolbar: [
             [{ header: [1, 2, false] }],
             ['bold', 'italic', 'underline'],
-            ['image', 'code-block'],
+            ['code-block'],
             [{ list:  "ordered" }, { list:  "bullet" }],
         ]
     },

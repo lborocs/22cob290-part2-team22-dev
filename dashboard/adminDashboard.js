@@ -51,7 +51,8 @@ var quill = new Quill('#editor', {
         toolbar: [
             [{ header: [1, 2, false] }],
             ['bold', 'italic', 'underline'],
-            ['image', 'code-block']
+            ['code-block'],
+            [{ list:  "ordered" }, { list:  "bullet" }],
         ]
     },
     placeholder: '...',
@@ -162,6 +163,7 @@ function grabDeadline(projectID){
 
 $(document).ready(function() {
     let user = document.getElementById("save").value;
+    console.log(user);
     $.ajax({
         url:"dashboard/getToDo.php",
         type:"POST",                   

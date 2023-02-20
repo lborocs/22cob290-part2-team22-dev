@@ -10,19 +10,7 @@
 
     $user = $_POST["user"];
     $task = $_POST["task"];
-    $sql = "UPDATE toDo SET task = '$task' WHERE user = '$user'";
+    $sql = "INSERT INTO toDo (user,task) VALUES ('$user','$task') ON DUPLICATE KEY UPDATE task = '$task'";
     $result = mysqli_query($conn, $sql);
-    if ($result == false){
-        $sql = "INSERT INTO toDo VALUES ('$user','$task')";
-        $result = mysqli_query($conn, $sql);
-        if ($result == false){
-            echo "false";  
-        }
-        else {
-            echo "true";
-        }
-    } else {
-        echo "true";
-    }
     mysqli_close($conn);
 ?>
